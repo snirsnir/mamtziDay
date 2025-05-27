@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIZARD שיווק מוצר - הממציא הצעיר 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .step-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .step-container.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-title {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .key-points {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .key-point {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .key-point h3 {
+            color: #2d3436;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .sentence-builder {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #667eea;
+        }
+
+        .sentence-builder h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .sentence-parts {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 1.2em;
+        }
+
+        .sentence-input {
+            min-width: 150px;
+            padding: 8px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .color-picker-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .color-option {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 4px solid transparent;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.selected {
+            border-color: #333;
+            transform: scale(1.2);
+        }
+
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .selection-card {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .selection-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .selection-card.selected {
+            border-color: #667eea;
+            background: #e8f0fe;
+        }
+
+        .summary-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #667eea;
+        }
+
+        .summary-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border-right: 4px solid #667eea;
+        }
+
+        .summary-item strong {
+            color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #00b894, #00a085);
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, #e17055, #d63031);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .tools-section {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tool-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .tool-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .navigation {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .key-points {
+                grid-template-columns: 1fr;
+            }
+            
+            .sentence-parts {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .color-picker-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀  שיווק מוצר בהאקתון הממציא.ה הצעיר.ה</h1>
+            <p>הממציא הצעיר 2025 - מדריך אישי לבניית אסטרטגיה שיווקית</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- שלב 1: עקרונות מרכזיים -->
+        <div class="step-container active" id="step1">
+            <div class="step-title">🎯 עקרונות מרכזיים לפרסומת מנצחת</div>
+            <div class="key-points">
+                <div class="key-point">
+                    <h3>🎯 המטרה</h3>
+                    <p>ליצור פרסומת שגורמת לאנשים לרצות את המוצר שלכם!</p>
+                </div>
+                <div class="key-point">
+                    <h3>⭐ איכות</h3>
+                    <p>התוצר צריך להיות מקצועי - משהו שתוכלו להתגאות בו ולהציג לשופטים</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn" onclick="nextStep()">בואו נתחיל! 🚀</button>
+            </div>
+        </div>
+
+        <!-- שלב 2: מי הלקוח -->
+        <div class="step-container" id="step2">
+            <div class="step-title">👥 מי הלקוח שלכם?</div>
+            
+            <p style="background: #f0f8ff; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #333; border-right: 4px solid #667eea;">
+                💡 <strong>זכרו:</strong> בעיית עומסים בכבישים יכולה להשפיע על נהגים, רשויות ואפילו הולכי רגל...
+            </p>
+            
+            <div class="form-group">
+                <label>מי הלקוח שלכם?</label>
+                <select id="customerType">
+                    <option value="">בחרו סוג לקוח...</option>
+                    <option value="רשויות">רשויות (משרד התחבורה, עיריות)</option>
+                    <option value="נהגים">נהגים פרטיים</option>
+                    <option value="נוסעים">נוסעים בתחבורה ציבורית</option>
+                    <option value="חברות תחבורה">חברות תחבורה</option>
+                    <option value="הולכי רגל">הולכי רגל</option>
+                    <option value="אחר">אחר, נמקו למטה</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>מה הבעיה הכי גדולה של הלקוח?</label>
+                <textarea id="customerProblem" rows="3" placeholder="למשל: עצבנות, איחורים לעבודה, בזבוז זמן, זיהום אוויר..."></textarea>
+            </div>
+
+            <div class="sentence-builder">
+                <h3>🔧 בואו נבנה את המשפט שלכם:</h3>
+                <div class="sentence-parts">
+                    <span>הלקוח שלנו הוא</span>
+                    <input type="text" class="sentence-input" id="customer1" placeholder="מי?">
+                    <span>שמתמודד עם</span>
+                    <input type="text" class="sentence-input" id="customer2" placeholder="איזו בעיה?">
+                </div>
+                <div id="customerSentence" style="margin-top: 15px; font-weight: bold; color: #667eea; font-size: 1.2em;"></div>
+                <div style="margin-top: 10px; font-size: 0.9em; color: #888; font-style: italic;">
+                    💡 לדוגמא: הלקוחות שלנו הן רשויות שמתמודדות עם מחסור בעובדים לצורך טיפול תמידי בכבישים משובשים שגורמים להאטת התנועה
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn" onclick="prevStep()">חזור</button>
+                <button class="btn" onclick="nextStep()">המשך למסר השיווקי 📢</button>
+            </div>
+        </div>
+
+        <!-- שלב 3: המסר השיווקי -->
+        <div class="step-container" id="step3">
+            <div class="step-title">📢 בואו נבנה את המסר השיווקי</div>
+            
+            <div class="form-group">
+                <label>איך המוצר שלכם פותר את הבעיה של הלקוח?</label>
+                <textarea id="solution" rows="3" placeholder="תארו בקצרה איך המוצר שלכם עוזר..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>שם המוצר:</label>
+                <input type="text" id="productName" placeholder="איך תקראו למוצר שלכם?">
+                <small style="color: #666;">💡 טיפ: בחרו שם קל להגייה ושיהיה קל לזכור אותו</small>
+            </div>
+
+            <div class="form-group">
+                <label>סיסמה (Slogan):</label>
+                <input type="text" id="slogan" placeholder="משפט קצר שנתקע בראש...">
+                <small style="color: #666;">💡 טיפ: צריך להיות קליט וקצר, כמו שיר ש"נתקע" בראש</small>
+            </div>
+
+            <div class="form-group">
+                <label>בחרו צבע עיצוב:</label>
+                <div class="color-picker-container">
+                    <div class="color-option" style="background: #e74c3c;" data-color="#e74c3c" onclick="selectColor(this)">אדום</div>
+                    <div class="color-option" style="background: #3498db;" data-color="#3498db" onclick="selectColor(this)">כחול</div>
+                    <div class="color-option" style="background: #2ecc71;" data-color="#2ecc71" onclick="selectColor(this)">ירוק</div>
+                    <div class="color-option" style="background: #f39c12;" data-color="#f39c12" onclick="selectColor(this)">כתום</div>
+                    <div class="color-option" style="background: #9b59b6;" data-color="#9b59b6" onclick="selectColor(this)">סגול</div>
+                    <div class="color-option" style="background: #1abc9c;" data-color="#1abc9c" onclick="selectColor(this)">טורקיז</div>
+                    <div class="color-option" style="background: #e67e22;" data-color="#e67e22" onclick="selectColor(this)">חום</div>
+                    <div class="color-option" style="background: #34495e;" data-color="#34495e" onclick="selectColor(this)">אפור</div>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn" onclick="prevStep()">חזור</button>
+                <button class="btn" onclick="nextStep()">בואו נתכנן! 📋</button>
+            </div>
+        </div>
+
+        <!-- שלב 4: תכנון -->
+        <div class="step-container" id="step4">
+            <div class="step-title">📋 בואו נתכנן את הפרסומת</div>
+            
+            <div class="form-group">
+                <label>איזה סוג פרסומת אתם רוצים ליצור? (ניתן לבחור יותר מאחד)</label>
+                <div class="selection-grid">
+                    <div class="selection-card" data-type="שיר" onclick="selectMultipleAdType(this)">
+                        <h4>🎵 שיר פרסומי</h4>
+                        <p>שיר מקורי שיזכיר את המוצר</p>
+                    </div>
+                    <div class="selection-card" data-type="כרזה" onclick="selectMultipleAdType(this)">
+                        <h4>🎨 כרזה עיצובית</h4>
+                        <p>פוסטר ויזואלי מרשים</p>
+                    </div>
+                    <div class="selection-card" data-type="סרטון" onclick="selectMultipleAdType(this)">
+                        <h4>🎬 סרטון פרסומת</h4>
+                        <p>סרטון קצר ומשכנע</p>
+                    </div>
+                    <div class="selection-card" data-type="לוגו וחוברת" onclick="selectMultipleAdType(this)">
+                        <h4>📄 לוגו וחוברת</h4>
+                        <p>זהות ויזואלית מקצועית</p>
+                    </div>
+                    <div class="selection-card" data-type="אחר" onclick="selectMultipleAdType(this)">
+                        <h4>💡 רעיון אחר</h4>
+                        <p>משהו יצירתי ומקורי</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>מה המסר המרכזי? (במשפט אחד)</label>
+                <input type="text" id="mainMessage" placeholder="המסר הכי חשוב שאתם רוצים להעביר...">
+            </div>
+
+            <div class="form-group">
+                <label>איזה כלים תשתמשו? (ניתן לבחור יותר מאחד)</label>
+                <div class="selection-grid">
+                    <div class="selection-card" data-tool="SUNO" onclick="selectMultipleTool(this)">
+                        <h4>🎵 SUNO</h4>
+                        <p>יצירת שירים מטקסט</p>
+                    </div>
+                    <div class="selection-card" data-tool="Leonardo AI" onclick="selectMultipleTool(this)">
+                        <h4>🎨 Leonardo AI</h4>
+                        <p>יצירת תמונות מטקסט</p>
+                    </div>
+                    <div class="selection-card" data-tool="Napkin AI" onclick="selectMultipleTool(this)">
+                        <h4>📊 Napkin AI</h4>
+                        <p>ייצוגים ויזואליים</p>
+                    </div>
+                    <div class="selection-card" data-tool="Canva" onclick="selectMultipleTool(this)">
+                        <h4>🖼️ Canva</h4>
+                        <p>עיצוב כרזות ופוסטרים</p>
+                    </div>
+                    <div class="selection-card" data-tool="יוצר לוגו" onclick="selectMultipleTool(this)">
+                        <h4>🏷️ יוצר לוגו</h4>
+                        <p>לוגואים מקצועיים</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>איך זה ייראה? (סקיצה מהירה במילים)</label>
+                <textarea id="visualDescription" rows="3" placeholder="תארו איך הפרסומת תיראה..."></textarea>
+            </div>
+
+            <div class="navigation">
+                <button class="btn" onclick="prevStep()">חזור</button>
+                <button class="btn" onclick="nextStep()">בואו נסכם! 📝</button>
+            </div>
+        </div>
+
+        <!-- שלב 5: סיכום -->
+        <div class="step-container" id="step5">
+            <div class="step-title">📝 סיכום האסטרטגיה השיווקית שלכם</div>
+            
+            <div class="summary-section" id="summaryContent">
+                <!-- התוכן יתמלא באופן דינמי -->
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-download" onclick="downloadAndPrintSummary()">📋 הורידו סיכום וקראו למדריך/ה שידפיס לכם</button>
+                <div style="margin-top: 10px;">
+                    <button class="btn" onclick="nextStep()">המשיכו לכלי העבודה! 🛠️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- שלב 6: כלי עבודה -->
+        <div class="step-container" id="step6">
+            <div class="tools-section">
+                <h2>🛠️ הכרת הכלים והנחיות טכניות</h2>
+                <h3>⏰ זה הזמן שלכם להתחיל במלאכה!</h3>
+                
+                <p style="margin: 20px 0; font-size: 1.2em;">
+                    <strong>הזמן שלכם:</strong> 45 דקות ליצירת פרסומת מקצועית!
+                </p>
+
+                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <h4>📹 סרטון הדרכה על הפלטפורמות:</h4>
+                    <p>לחצו על הקישור לצפייה בהדרכה המלאה:</p>
+                    <a href="https://drive.google.com/file/d/1aGTZxDZYltW87RioRR0oyjo9wO9FgrGh/view?usp=sharing" 
+                       target="_blank" style="color: #ffeaa7; text-decoration: underline; font-weight: bold;">
+                       🎬 צפו בסרטון ההדרכה כאן
+                    </a>
+                </div>
+
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="window.open('https://suno.com', '_blank')">
+                        <h4>🎵 SUNO</h4>
+                        <p>יצירת שירים מטקסט בעברית - מושלם לפרסומות מוזיקליות</p>
+                    </div>
+                    <div class="tool-card" onclick="window.open('https://app.leonardo.ai/', '_blank')">
+                        <h4>🎨 Leonardo AI / Pixlr</h4>
+                        <p>יצירת תמונות מטקסט והוספת עיצובים מקצועיים</p>
+                    </div>
+                    <div class="tool-card" onclick="window.open('https://www.napkin.ai/', '_blank')">
+                        <h4>📊 Napkin AI</h4>
+                        <p>יצירת ייצוגים ויזואליים ותרשימים</p>
+                    </div>
+                    <div class="tool-card" onclick="window.open('https://www.design.com/s/logo?var=ai-logo-generator-dcom&code=25OFFSEM&utm_medium=cpc&utm_source=google&utm_campaign=middleeast_generic_logo&utm_adgroup=ai_logos&utm_content=724781087656&utm_keyword=ai+logo+maker&utm_network=g&gad_source=1&gad_campaignid=20838923223&gbraid=0AAAAADwF9LADCHekhV24PncFHIFga8CGL&gclid=Cj0KCQjwxdXBBhDEARIsAAUkP6iNiOuM_AlQ_eCjAiEj8W91pgQN_ft6Ri0EXiqOJUMabet0pGD6FlsaAgyPEALw_wcB', '_blank')">
+                        <h4>🏷️ יוצר לוגו מטקסט</h4>
+                        <p>יצירת לוגואים מקצועיים באמצעות AI</p>
+                    </div>
+                    <div class="tool-card" onclick="window.open('https://canva.com', '_blank')">
+                        <h4>🖼️ Canva</h4>
+                        <p>עיצוב כרזות ופוסטרים דרך הדפדפן</p>
+                    </div>
+                    <div class="tool-card" onclick="window.open('https://workspace.google.com/products/slides/', '_blank')">
+                        <h4>📄 PowerPoint/Google Slides</h4>
+                        <p>מצגות ועיצובים פשוטים ומהירים</p>
+                    </div>
+                </div>
+
+                <div style="background: rgba(255,0,0,0.1); padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #ff6b6b;">
+                    <h4>⚠️ הנחיה חשובה:</h4>
+                    <p><strong>לצורך הדפסת התוצרים המדהימים שלכם - חובה לשמור את כל התוצרים בכונן G במחשב!</strong></p>
+                    <p><strong>צריכים עזרה? פנו למדריך/ה</strong></p>
+                </div>
+
+                <div style="background: rgba(0,255,0,0.1); padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #00b894;">
+                    <h4>🖨️ אפשרויות הדפסה:</h4>
+                    <p>• ניתן להדפיס על בריסטול/קאפה</p>
+                    <p>• מומלץ לתכנן בגודל A4 או A3</p>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn" style="background: linear-gradient(135deg, #00b894, #00a085); font-size: 1.3em; padding: 20px 40px;">
+                        🚀 בואו ניצור פרסומת מנצחת!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const maxSteps = 6;
+        let selectedColor = '';
+        let selectedAdTypes = [];
+        let selectedTools = [];
+
+        function updateProgress() {
+            const progress = (currentStep / maxSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function nextStep() {
+            if (currentStep < maxSteps) {
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                currentStep++;
+                
+                if (currentStep === 5) {
+                    generateSummary();
+                }
+                
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                updateProgress();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                currentStep--;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                updateProgress();
+            }
+        }
+
+        function selectColor(element) {
+            document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedColor = element.getAttribute('data-color');
+        }
+
+        function selectMultipleAdType(element) {
+            element.classList.toggle('selected');
+            const adType = element.getAttribute('data-type');
+            
+            if (selectedAdTypes.includes(adType)) {
+                selectedAdTypes = selectedAdTypes.filter(type => type !== adType);
+            } else {
+                selectedAdTypes.push(adType);
+            }
+        }
+
+        function selectMultipleTool(element) {
+            element.classList.toggle('selected');
+            const tool = element.getAttribute('data-tool');
+            
+            if (selectedTools.includes(tool)) {
+                selectedTools = selectedTools.filter(t => t !== tool);
+            } else {
+                selectedTools.push(tool);
+            }
+        }
+
+        // עדכון המשפט בזמן אמת
+        document.addEventListener('DOMContentLoaded', function() {
+            const customer1 = document.getElementById('customer1');
+            const customer2 = document.getElementById('customer2');
+            const customerSentence = document.getElementById('customerSentence');
+
+            function updateSentence() {
+                const text1 = customer1.value || '[מי?]';
+                const text2 = customer2.value || '[איזו בעיה?]';
+                customerSentence.textContent = `הלקוח שלנו הוא ${text1} שמתמודד עם ${text2}`;
+            }
+
+            customer1.addEventListener('input', updateSentence);
+            customer2.addEventListener('input', updateSentence);
+            updateSentence();
+        });
+
+        function generateSummary() {
+            const customerType = document.getElementById('customerType').value;
+            const customerProblem = document.getElementById('customerProblem').value;
+            const customer1 = document.getElementById('customer1').value;
+            const customer2 = document.getElementById('customer2').value;
+            const solution = document.getElementById('solution').value;
+            const productName = document.getElementById('productName').value;
+            const slogan = document.getElementById('slogan').value;
+            const mainMessage = document.getElementById('mainMessage').value;
+            const visualDescription = document.getElementById('visualDescription').value;
+
+            const summaryContent = document.getElementById('summaryContent');
+            summaryContent.innerHTML = `
+                <h3 style="color: #667eea; margin-bottom: 20px;">📋 התוכנית השיווקית שלכם מוכנה!</h3>
+                
+                <div class="summary-item">
+                    <strong>👥 הלקוח שלכם:</strong> ${customerType || 'לא צוין'}
+                </div>
+                
+                <div class="summary-item">
+                    <strong>😣 הבעיה שלהם:</strong> ${customerProblem || 'לא צוין'}
+                </div>
+                
+                <div class="summary-item">
+                    <strong>💡 המשפט שלכם:</strong> 
+                    <br>"הלקוח שלנו הוא ${customer1 || '[מי?]'} שמתמודד עם ${customer2 || '[איזו בעיה?]'}"
+                </div>
+                
+                <div class="summary-item">
+                    <strong>🔧 הפתרון שלכם:</strong> ${solution || 'לא צוין'}
+                </div>
+                
+                <div class="summary-item">
+                    <strong>🏷️ שם המוצר:</strong> ${productName || 'לא צוין'}
+                </div>
+                
+                <div class="summary-item">
+                    <strong>📢 הסיסמה:</strong> "${slogan || 'לא צוין'}"
+                </div>
+                
+                <div class="summary-item">
+                    <strong>🎨 הצבע שבחרתם:</strong> 
+                    <span style="display: inline-block; width: 20px; height: 20px; background-color: ${selectedColor}; border-radius: 50%; margin-left: 10px;"></span>
+                    ${selectedColor || 'לא נבחר'}
+                </div>
+                
+                <div class="summary-item">
+                    <strong>📺 סוגי הפרסומת:</strong> ${selectedAdTypes.length > 0 ? selectedAdTypes.join(', ') : 'לא נבחרו'}
+                </div>
+                
+                <div class="summary-item">
+                    <strong>🛠️ הכלים שתשתמשו:</strong> ${selectedTools.length > 0 ? selectedTools.join(', ') : 'לא נבחרו'}
+                </div>
+                
+                <div class="summary-item">
+                    <strong>🎯 המסר המרכזי:</strong> ${mainMessage || 'לא צוין'}
+                </div>
+                
+                <div class="summary-item">
+                    <strong>👁️ איך זה ייראה:</strong> ${visualDescription || 'לא צוין'}
+                </div>
+            `;
+        }
+
+        function downloadAndPrintSummary() {
+            const summaryData = {
+                customerType: document.getElementById('customerType').value,
+                customerProblem: document.getElementById('customerProblem').value,
+                customer1: document.getElementById('customer1').value,
+                customer2: document.getElementById('customer2').value,
+                solution: document.getElementById('solution').value,
+                productName: document.getElementById('productName').value,
+                slogan: document.getElementById('slogan').value,
+                selectedColor: selectedColor,
+                selectedAdTypes: selectedAdTypes,
+                selectedTools: selectedTools,
+                mainMessage: document.getElementById('mainMessage').value,
+                visualDescription: document.getElementById('visualDescription').value
+            };
+
+            const summaryText = `
+אסטרטגיה שיווקית - הממציא הצעיר 2025
+=======================================
+
+👥 הלקוח שלכם: ${summaryData.customerType || 'לא צוין'}
+
+😣 הבעיה שלהם: ${summaryData.customerProblem || 'לא צוין'}
+
+💡 המשפט שלכם: 
+"הלקוח שלנו הוא ${summaryData.customer1 || '[מי?]'} שמתמודד עם ${summaryData.customer2 || '[איזו בעיה?]'}"
+
+🔧 הפתרון שלכם: ${summaryData.solution || 'לא צוין'}
+
+🏷️ שם המוצר: ${summaryData.productName || 'לא צוין'}
+
+📢 הסיסמה: "${summaryData.slogan || 'לא צוין'}"
+
+🎨 הצבע שבחרתם: ${summaryData.selectedColor || 'לא נבחר'}
+
+📺 סוגי הפרסומת: ${summaryData.selectedAdTypes.length > 0 ? summaryData.selectedAdTypes.join(', ') : 'לא נבחרו'}
+
+🛠️ הכלים שתשתמשו: ${summaryData.selectedTools.length > 0 ? summaryData.selectedTools.join(', ') : 'לא נבחرו'}
+
+🎯 המסר המרכזי: ${summaryData.mainMessage || 'לא צוין'}
+
+👁️ איך זה ייראה: ${summaryData.visualDescription || 'לא צוין'}
+
+---
+נוצר באמצעות WIZARD שיווק מוצר
+הממציא הצעיר 2025
+            `;
+
+            const blob = new Blob([summaryText], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'אסטרטגיה_שיווקית.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('הקובץ נשמר! כעת קראו למדריך/ה שידפיס לכם את הסיכום 📋');
+            
+        }
+
+        // אתחול
+        updateProgress();
+    </script>
+</body>
+</html>
