@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>כרטיסיות שם - האקתון הממציא הצעיר 2025</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .print-info {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .print-info h1 {
+            color: #8B5CF6;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .print-info p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .print-btn {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .name-tags-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(9cm, 1fr));
+            gap: 5mm;
+            max-width: 100%;
+        }
+
+        .name-tag {
+            width: 9cm;
+            height: 6cm;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            page-break-inside: avoid;
+            break-inside: avoid;
+            margin: 0 auto;
+        }
+
+        .geometric-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(255, 255, 255, 0.5) 3px,
+                    rgba(255, 255, 255, 0.5) 4px
+                ),
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(255, 255, 255, 0.3) 3px,
+                    rgba(255, 255, 255, 0.3) 4px
+                );
+        }
+
+        .header {
+            text-align: center;
+            padding: 8px 15px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .event-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .organizer {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: calc(100% - 50px);
+            padding: 6px 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .name-section {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .name-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            margin-bottom: 2px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .name-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            padding: 3px 10px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            border: 2px dashed rgba(255, 255, 255, 0.7);
+            min-height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .school-section {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 4px;
+        }
+
+        .school-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            margin-bottom: 2px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .school-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            padding: 2px 8px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            text-shadow: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .team-section {
+            text-align: center;
+            width: 100%;
+        }
+
+        .team-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            margin-bottom: 1px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .team-value {
+            font-size: 10px;
+            font-weight: 500;
+            color: #444;
+            padding: 2px 6px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            text-shadow: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .footer-logos {
+            position: absolute;
+            bottom: 5px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .logo {
+            height: 18px;
+            max-width: 50px;
+            object-fit: contain;
+            opacity: 0.9;
+            filter: brightness(1.1) drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+        }
+
+        /* צבעי בתי ספר */
+        .school-0 { background: linear-gradient(135deg, #ff6b6b, #ff8e8e); }
+        .school-1 { background: linear-gradient(135deg, #4ecdc4, #7dd3d8); }
+        .school-2 { background: linear-gradient(135deg, #45b7d1, #74c5dc); }
+        .school-3 { background: linear-gradient(135deg, #96ceb4, #b8dcc5); }
+        .school-4 { background: linear-gradient(135deg, #feca57, #fed976); }
+        .school-5 { background: linear-gradient(135deg, #ff9ff3, #fbb6ff); }
+        .school-6 { background: linear-gradient(135deg, #54a0ff, #7fb3ff); }
+        .school-7 { background: linear-gradient(135deg, #5f27cd, #7c4ddb); }
+        .school-8 { background: linear-gradient(135deg, #00d2d3, #26dedf); }
+        .school-9 { background: linear-gradient(135deg, #ff9f43, #ffb366); }
+        .school-10 { background: linear-gradient(135deg, #ee5a6f, #f07788); }
+        .school-11 { background: linear-gradient(135deg, #0abde3, #2ed5f7); }
+        .school-12 { background: linear-gradient(135deg, #10ac84, #2ed5a5); }
+        .school-13 { background: linear-gradient(135deg, #fd79a8, #fe9bc2); }
+        .school-14 { background: linear-gradient(135deg, #fdcb6e, #fed788); }
+        .school-15 { background: linear-gradient(135deg, #6c5ce7, #8b7ced); }
+        .school-16 { background: linear-gradient(135deg, #a29bfe, #b8b5ff); }
+        .school-17 { background: linear-gradient(135deg, #fd79a8, #fe9bc2); }
+        .school-18 { background: linear-gradient(135deg, #00b894, #26d0b0); }
+        .school-19 { background: linear-gradient(135deg, #e17055, #e88e77); }
+        .school-20 { background: linear-gradient(135deg, #81ecec, #a7f0f0); }
+        .school-21 { background: linear-gradient(135deg, #fab1a0, #fdc4b6); }
+        .school-22 { background: linear-gradient(135deg, #74b9ff, #92c5ff); }
+        .school-23 { background: linear-gradient(135deg, #55a3ff, #7bb8ff); }
+        .school-24 { background: linear-gradient(135deg, #fd79a8, #fe9bc2); }
+        .school-25 { background: linear-gradient(135deg, #fdcb6e, #fed788); }
+
+        /* הגדרות הדפסה */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .print-info,
+            .controls {
+                display: none;
+            }
+
+            .name-tags-container {
+                grid-template-columns: repeat(2, 9cm);
+                gap: 3mm;
+                justify-content: center;
+                margin: 0;
+            }
+
+            .name-tag {
+                margin: 0;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+        }
+
+        /* עיצוב רספונסיבי */
+        @media screen and (max-width: 768px) {
+            .name-tags-container {
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-info">
+        <h1>כרטיסיות שם - האקתון הממציא הצעיר 2025</h1>
+        <p>255 כרטיסיות אישיות עם שמות הקבוצות • גודל: 9×6 ס"מ • 26 בתי ספר</p>
+    </div>
+
+    <div class="controls">
+        <button class="print-btn" onclick="window.print()">
+            🖨️ הדפס כרטיסיות
+        </button>
+    </div>
+
+    <div class="name-tags-container" id="nameTagsContainer">
+        <!-- הכרטיסיות ייווצרו כאן באמצעות JavaScript -->
+    </div>
+
+    <script>
+        // נתוני המשתתפים עם שמות הקבוצות
+        const participants = [
+            { name: "ניב גולאברי", school: "אור לטף", team: "כיתה ד'1" },
+            { name: "איתמר סלונימסקי", school: "אור לטף", team: "כיתה ד'1" },
+            { name: "עמרי פישר", school: "אור לטף", team: "כיתה ד'1" },
+            { name: "נדב אלפסי", school: "אור לטף", team: "כיתה ד'1" },
+            { name: "ינאי בצרי", school: "אור לטף", team: "כיתה ו'1" },
+            { name: "איתי שטיוי", school: "אור לטף", team: "כיתה ו'1" },
+            { name: "ליאן קון", school: "אור לטף", team: "כיתה ו'1" },
+            { name: "אריאל חן", school: "אור לטף", team: "כיתה ד'2" },
+            { name: "דניאל קורן", school: "אור לטף", team: "כיתה ד'2" },
+            { name: "אגם סימן טוב", school: "ארלוזורוב", team: "ו׳1 ארלוזורוב האלופים" },
+            { name: "יאיר בני", school: "ארלוזורוב", team: "ו׳1 ארלוזורוב האלופים" },
+            { name: "איתי דהן", school: "ארלוזורוב", team: "ו׳1 ארלוזורוב האלופים" },
+            { name: "מאור לוי", school: "ארלוזורוב", team: "ו׳1 ארלוזורוב האלופים" },
+            { name: "איתן שגב", school: "ארלוזורוב", team: "ו׳3 ארלוזורוב" },
+            { name: "שני שטנגל", school: "ארלוזורוב", team: "ו׳3 ארלוזורוב" },
+            { name: "מאור גבאי", school: "ארלוזורוב", team: "ו׳3 ארלוזורוב" },
+            { name: "שחר ברדוגו", school: "ארלוזורוב", team: "ו׳3 ארלוזורוב" },
+            { name: "עילאי יהב", school: "ארלוזורוב", team: "ו׳2 ארלוזורוב" },
+            { name: "אלה לביא", school: "ארלוזורוב", team: "ו׳2 ארלוזורוב" },
+            { name: "אביגיל שביט", school: "ארלוזורוב", team: "ו׳2 ארלוזורוב" },
+            { name: "יקיר דונביץ", school: "ארלוזורוב", team: "ו׳2 ארלוזורוב" },
+            { name: "אורי קינן", school: "בית חינוך יצחק נבון", team: "קבוצה א נבון" },
+            { name: "אלון לוין", school: "בית חינוך יצחק נבון", team: "קבוצה א נבון" },
+            { name: "אור בדש", school: "בית חינוך יצחק נבון", team: "קבוצה א נבון" },
+            { name: "איתי שגיב", school: "בית חינוך יצחק נבון", team: "קבוצה א נבון" },
+            { name: "שקד יקיר", school: "בית חינוך יצחק נבון", team: "קבוצה ב יצחק נבון" },
+            { name: "גאיה קישילב", school: "בית חינוך יצחק נבון", team: "קבוצה ב יצחק נבון" },
+            { name: "אגם רותם", school: "בית חינוך יצחק נבון", team: "קבוצה ב יצחק נבון" },
+            { name: "רומי בלינטשטיין", school: "בית חינוך יצחק נבון", team: "קבוצה ב יצחק נבון" },
+            { name: "עילי בן שיטרית", school: "בית חינוך יצחק נבון", team: "קבוצה ב יצחק נבון" },
+            { name: "נועם צרור", school: "בירב", team: "בירב" },
+            { name: "אליאב מלכה", school: "בירב", team: "בירב" },
+            { name: "אודל בוחניק", school: "בירב", team: "בירב" },
+            { name: "רום אללו", school: "בירב", team: "בירב" },
+            { name: "אריאל זיסמן", school: "בירב", team: "בירב ד" },
+            { name: "הראל מלול", school: "בירב", team: "בירב ד" },
+            { name: "עילאי ביטון", school: "בירב", team: "בירב ד" },
+            { name: "הדר", school: "בירב", team: "בירב ד" },
+            { name: "מוריה", school: "בירב", team: "בירב ו" },
+            { name: "נועה", school: "בירב", team: "בירב ו" },
+            { name: "הראל יתאח", school: "בירב", team: "בירב ו" },
+            { name: "אוראל שועאי", school: "בירב", team: "בירב ו" },
+            { name: "פלג טימסית", school: "בראשית+הנדיב", team: "נפתלי" },
+            { name: "תמר לנץ", school: "בראשית+הנדיב", team: "נפתלי" },
+            { name: "ליאור גרובר", school: "בראשית+הנדיב", team: "נפתלי" },
+            { name: "נעם ליפו", school: "בראשית+הנדיב", team: "נפתלי" },
+            { name: "שון יוסופוב", school: "גוונים", team: "הייטקיסטים" },
+            { name: "אדל פרטוק", school: "גוונים", team: "הייטקיסטים" },
+            { name: "יאיר רקח", school: "גוונים", team: "הייטקיסטים" },
+            { name: "מעוז דסטה", school: "גוונים", team: "הייטקיסטים" },
+            { name: "ארז דסטה", school: "גוונים", team: "D.N.A-E" },
+            { name: "אריאל קיומוב", school: "גוונים", team: "D.N.A-E" },
+            { name: "אנסטסיה קציף", school: "גוונים", team: "D.N.A-E" },
+            { name: "דיאנה קיסליצין", school: "גוונים", team: "D.N.A-E" },
+            { name: "שחר אבי טל", school: "דרך ע\"ש רונה רמון", team: "קבוצה 1 מנצחים בדרך" },
+            { name: "אנה נחום", school: "דרך ע\"ש רונה רמון", team: "קבוצה 1 מנצחים בדרך" },
+            { name: "יובל גרשוב", school: "דרך ע\"ש רונה רמון", team: "קבוצה 1 מנצחים בדרך" },
+            { name: "עידו לוין", school: "דרך ע\"ש רונה רמון", team: "קבוצה 1 מנצחים בדרך" },
+            { name: "שחר אוחיון", school: "דרך ע\"ש רונה רמון", team: "קבוצה 2 המעופפות בדרך" },
+            { name: "אוריין תייר", school: "דרך ע\"ש רונה רמון", team: "קבוצה 2 המעופפות בדרך" },
+            { name: "נופר כהן", school: "דרך ע\"ש רונה רמון", team: "קבוצה 2 המעופפות בדרך" },
+            { name: "חושן בראונשטיין", school: "דרך ע\"ש רונה רמון", team: "קבוצה 2 המעופפות בדרך" },
+            { name: "גיא יופה", school: "דרך ע\"ש רונה רמון", team: "קבוצה 3 הווינרים בדרך" },
+            { name: "גיא שפירא ציפורי", school: "דרך ע\"ש רונה רמון", team: "קבוצה 3 הווינרים בדרך" },
+            { name: "איתי קפלן", school: "דרך ע\"ש רונה רמון", team: "קבוצה 3 הווינרים בדרך" },
+            { name: "יוגב ענתבי", school: "דרך ע\"ש רונה רמון", team: "קבוצה 3 הווינרים בדרך" },
+            { name: "אורי נגרין", school: "דרך ע\"ש רונה רמון", team: "קבוצה 3 הווינרים בדרך" },
+            { name: "אור חיים לייבוביץ", school: "הנדיב", team: "האיינשטיינים" },
+            { name: "הוד שטרן", school: "הנדיב", team: "האיינשטיינים" },
+            { name: "אוריה זיו", school: "הנדיב", team: "האיינשטיינים" },
+            { name: "אדל יוסף", school: "הנדיב", team: "האיינשטיינים" },
+            { name: "אבישג לדני", school: "הנדיב", team: "הגאונים מהנדיב" },
+            { name: "איילה קופל", school: "הנדיב", team: "הגאונים מהנדיב" },
+            { name: "נויה פארן", school: "הנדיב", team: "הגאונים מהנדיב" },
+            { name: "דרור מקובר", school: "הנדיב", team: "הגאונים מהנדיב" },
+            { name: "יותם שמעון", school: "החיטה", team: "החיטה פותרים בעיה" },
+            { name: "לביא ליפשיץ", school: "החיטה", team: "החיטה פותרים בעיה" },
+            { name: "גיל צורי", school: "החיטה", team: "החיטה פותרים בעיה" },
+            { name: "שילה פידלמן", school: "החיטה", team: "החיטה פותרים בעיה" },
+            { name: "רבקה קרץ", school: "חבד", team: "חבד נוף הגליל" },
+            { name: "אסתר גרוסמן", school: "חבד", team: "חבד נוף הגליל" },
+            { name: "חנה דישון", school: "חבד", team: "חבד נוף הגליל" },
+            { name: "שיינא אביטן / שטערנא שארף", school: "חבד", team: "חבד נוף הגליל" },
+            { name: "רונה אטיאס", school: "חופים", team: "כיתה ה3" },
+            { name: "זוהר גולדשטיין", school: "חופים", team: "כיתה ה3" },
+            { name: "יונתן בראל", school: "חופים", team: "כיתה ה3" },
+            { name: "בן שרעבי", school: "חופים", team: "כיתה ה3" },
+            { name: "אביתר יריב", school: "חופים", team: "כיתה ה1" },
+            { name: "סתיו אברמוב", school: "חופים", team: "כיתה ה1" },
+            { name: "גאיה אדיניהו", school: "חופים", team: "כיתה ה1" },
+            { name: "טליה בר חיים", school: "חופים", team: "כיתה ה1" },
+            { name: "אורי אברמוב", school: "חופים", team: "ה2 חופים" },
+            { name: "קרין עשת", school: "חופים", team: "ה2 חופים" },
+            { name: "ינאי פרוכסאד", school: "חופים", team: "ה2 חופים" },
+            { name: "ליבי חי", school: "חופים", team: "ה2 חופים" },
+            { name: "פאטמה גואמיס", school: "יסודי זרזיר", team: "יסודי זרזיר" },
+            { name: "יוסף מזאריב", school: "יסודי זרזיר", team: "יסודי זרזיר" },
+            { name: "עומר עיאדה", school: "יסודי זרזיר", team: "יסודי זרזיר" },
+            { name: "אסיל גואמיס", school: "יסודי זרזיר", team: "יסודי זרזיר" },
+            { name: "אלון כגן", school: "יסודי עמק חרוד", team: "שמש" },
+            { name: "דניאל לב", school: "יסודי עמק חרוד", team: "שמש" },
+            { name: "אסף בניהו", school: "יסודי עמק חרוד", team: "שמש" },
+            { name: "אסיה אופק", school: "יסודי עמק חרוד", team: "שמש" },
+            { name: "שחר לוי", school: "יסודי עמק חרוד", team: "ירח" },
+            { name: "גאיה וייסמן", school: "יסודי עמק חרוד", team: "ירח" },
+            { name: "ליאור אביר", school: "יסודי עמק חרוד", team: "ירח" },
+            { name: "נועם גור צמח", school: "יסודי עמק חרוד", team: "ירח" },
+            { name: "שי אורן", school: "יסודי עמק חרוד", team: "כוכבים" },
+            { name: "נעמה ויגמיסטר", school: "יסודי עמק חרוד", team: "כוכבים" },
+            { name: "אושר אליהו ביטון", school: "ישורון", team: "הניוטונים מישורון" },
+            { name: "הדר כהן", school: "ישורון", team: "הניוטונים מישורון" },
+            { name: "זוהר אסתר חן", school: "ישורון", team: "הניוטונים מישורון" },
+            { name: "הדר אהרן", school: "ישורון", team: "הניוטונים מישורון" },
+            { name: "נועם ימיני", school: "ישורון", team: "הדרדסונים של הדור הבא" },
+            { name: "אליה אנקווא", school: "ישורון", team: "הדרדסונים של הדור הבא" },
+            { name: "עדיאל גבאי", school: "ישורון", team: "הדרדסונים של הדור הבא" },
+            { name: "ליאם פרץ", school: "ישורון", team: "הדרדסונים של הדור הבא" },
+            { name: "נועם יהודה מרקס", school: "מימון", team: "שלושת המוסקטרים" },
+            { name: "אוהד בצלאל", school: "מימון", team: "שלושת המוסקטרים" },
+            { name: "אליהב מלול", school: "מימון", team: "שלושת המוסקטרים" },
+            { name: "נועם יהודה מרקס", school: "מימון, שובו", team: "יכעחרכנ" },
+            { name: "אליהב מלול", school: "מימון, שובו", team: "יכעחרכנ" },
+            { name: "נהוראי", school: "מימון, שובו", team: "יכעחרכנ" },
+            { name: "מאיה יזוב", school: "נחמיה תמרי", team: "המדעניות של תמרי ה1" },
+            { name: "לאון נפתלייב", school: "נחמיה תמרי", team: "המדעניות של תמרי ה1" },
+            { name: "יבסניה קלימוביץ", school: "נחמיה תמרי", team: "המדעניות של תמרי ה1" },
+            { name: "טאיה גולדשטיין", school: "נחמיה תמרי", team: "המדעניות של תמרי ה1" },
+            { name: "אורי אלקובי", school: "נחמיה תמרי", team: "ממציאי המחר" },
+            { name: "אמה חיימוב", school: "נחמיה תמרי", team: "ממציאי המחר" },
+            { name: "לינוי שמאילוב", school: "נחמיה תמרי", team: "ממציאי המחר" },
+            { name: "עמית גרשמן", school: "נחמיה תמרי", team: "ממציאי המחר" },
+            { name: "ליאל בגים", school: "נחמיה תמרי", team: "ממציאות צעירות" },
+            { name: "דניאל מיכאלי", school: "נחמיה תמרי", team: "ממציאות צעירות" },
+            { name: "אדל שלמה", school: "נחמיה תמרי", team: "ממציאות צעירות" },
+            { name: "אדלינה חנוכוב", school: "נחמיה תמרי", team: "ממציאות צעירות" },
+            { name: "אורן שחר", school: "נחמיה תמרי", team: "שימי" },
+            { name: "אושר עואד", school: "נחמיה תמרי", team: "שימי" },
+            { name: "עילי ארטוניאן", school: "נחמיה תמרי", team: "שימי" },
+            { name: "נועם חיים שמאייב", school: "נחמיה תמרי", team: "שימי" },
+            { name: "לוטם חוסטילוב", school: "נחמיה תמרי", team: "הבנות של חופית" },
+            { name: "סיון בן חורין", school: "נחמיה תמרי", team: "הבנות של חופית" },
+            { name: "בר עבו", school: "נחמיה תמרי", team: "הבנות של חופית" },
+            { name: "אלינוי אליגוייב", school: "נחמיה תמרי", team: "הבנות של חופית" },
+            { name: "ליה אברגיל", school: "נחמיה תמרי", team: "המלכות" },
+            { name: "אורי אגיבייב", school: "נחמיה תמרי", team: "המלכות" },
+            { name: "נועה בן לולו", school: "נחמיה תמרי", team: "המלכות" },
+            { name: "טליה קחלון", school: "נחמיה תמרי", team: "המלכות" },
+            { name: "אמי סבייב", school: "נחמיה תמרי", team: "קבוצת ביוטי" },
+            { name: "לורן וזיף", school: "נחמיה תמרי", team: "קבוצת ביוטי" },
+            { name: "אגם בקשייב", school: "נחמיה תמרי", team: "קבוצת ביוטי" },
+            { name: "מאי אברמוב", school: "נחמיה תמרי", team: "קבוצת ביוטי" },
+            { name: "מאיה שמחה אוחיון", school: "נחמיה תמרי", team: "הנסיכות" },
+            { name: "אופיר ארביב", school: "נחמיה תמרי", team: "הנסיכות" },
+            { name: "אדווה כהן", school: "נחמיה תמרי", team: "הנסיכות" },
+            { name: "יהלי נתנוב", school: "נחמיה תמרי", team: "הנסיכות" },
+            { name: "גיא פאר", school: "ניצני השרון", team: "קבוצה 1" },
+            { name: "עילי אסיף", school: "ניצני השרון", team: "קבוצה 1" },
+            { name: "איתן אוסדון", school: "ניצני השרון", team: "קבוצה 1" },
+            { name: "הראל בונוביצקי", school: "ניצני השרון", team: "קבוצה 1" },
+            { name: "יאיר חקשורי", school: "ניצני השרון", team: "קבוצה 2" },
+            { name: "אליעם אנקווה", school: "ניצני השרון", team: "קבוצה 2" },
+            { name: "עידו ששי", school: "ניצני השרון", team: "קבוצה 2" },
+            { name: "עומר דולגין", school: "ניצני השרון", team: "קבוצה 2" },
+            { name: "לוטם שוורצמן", school: "ניצני השרון", team: "קבוצה 3" },
+            { name: "אוריה אטיאס", school: "ניצני השרון", team: "קבוצה 3" },
+            { name: "שחר בן יוסף", school: "ניצני השרון", team: "קבוצה 3" },
+            { name: "איתי חץ", school: "עמק יזרעאל", team: "עמק יזרעאל" },
+            { name: "מתן גרינולד", school: "עמק יזרעאל", team: "עמק יזרעאל" },
+            { name: "ליהי אופק", school: "עמק יזרעאל", team: "עמק יזרעאל" },
+            { name: "יערה קלנר", school: "עמק יזרעאל", team: "עמק יזרעאל" },
+            { name: "מור זפרן", school: "עמק יזרעאל", team: "עמק יזרעאל 2" },
+            { name: "עמרי פינקלשטיין", school: "עמק יזרעאל", team: "עמק יזרעאל 2" },
+            { name: "גיא יחיאלי", school: "עמק יזרעאל", team: "עמק יזרעאל 2" },
+            { name: "אריאל כנות", school: "עמק יזרעאל", team: "עמק יזרעאל 2" },
+            { name: "יונתן בן ארי", school: "צליל", team: "צליל מכוון" },
+            { name: "יהלי הספל", school: "קדם", team: "כיתה ה בית ספר קדם" },
+            { name: "ראם ברוידא", school: "קדם", team: "כיתה ה בית ספר קדם" },
+            { name: "בארי לוי", school: "קדם", team: "כיתה ה בית ספר קדם" },
+            { name: "מיכאל בן ארי", school: "קדם", team: "כיתה ה בית ספר קדם" },
+            { name: "יהונתן ביהילה", school: "קדם", team: "כיתה ה קדם" },
+            { name: "עידו בורבה", school: "קדם", team: "כיתה ה קדם" },
+            { name: "יהב בן", school: "קדם", team: "כיתה ה קדם" },
+            { name: "עמית אוחנה", school: "קדם", team: "כיתה ה קדם" },
+            { name: "הילה האובן", school: "שדות", team: "קבוצה 1 שדות" },
+            { name: "אלעד תורגמן", school: "שדות", team: "קבוצה 1 שדות" },
+            { name: "שקד קוגוקרו", school: "שדות", team: "קבוצה 1 שדות" },
+            { name: "נוגה אלמוג", school: "שדות", team: "קבוצה 1 שדות" },
+            { name: "אלון רובינסון", school: "שדות", team: "קבוצה 2 שדות" },
+            { name: "ענבר שטרית", school: "שדות", team: "קבוצה 2 שדות" },
+            { name: "אייל לבנה", school: "שדות", team: "קבוצה 2 שדות" },
+            { name: "זיו גזית", school: "שדות", team: "קבוצה 2 שדות" },
+            { name: "ענבר לביד", school: "שדות", team: "שדות טכנודע" },
+            { name: "אורי יקירה", school: "שדות", team: "שדות טכנודע" },
+            { name: "דניאל רן", school: "שדות", team: "שדות טכנודע" },
+            { name: "יובל פינסקי", school: "שדות", team: "שדות טכנודע" },
+            { name: "נהטי אליהו", school: "שרת", team: "שרת- פתרון אתגרים" },
+            { name: "נועה גרינברג", school: "שרת", team: "שרת- פתרון אתגרים" },
+            { name: "נועם זיו", school: "שרת", team: "שרת- פתרון אתגרים" },
+            { name: "נדב רבקין", school: "שרת", team: "שרת- פתרון אתגרים" },
+            { name: "אלמה בראון", school: "שרת", team: "שרת - ממציאים פתרונות" },
+            { name: "אליה טמין", school: "שרת", team: "שרת - ממציאים פתרונות" },
+            { name: "סמיון קורגרוב", school: "שרת", team: "שרת - ממציאים פתרונות" },
+            { name: "מיכאל סעדיה", school: "שרת", team: "שרת - ממציאים פתרונות" },
+            { name: "יערה כהנא", school: "טכנודע", team: "מצוינות 1" },
+            { name: "קמה גנות", school: "טכנודע", team: "מצוינות 1" },
+            { name: "נוגה בורשטיין", school: "טכנודע", team: "מצוינות 1" },
+            { name: "מאיה גאווי", school: "טכנודע", team: "מצוינות 1" },
+            { name: "רעי אסף לוי", school: "טכנודע", team: "מצוינות 2" },
+            { name: "יאיר חפץ", school: "טכנודע", team: "מצוינות 2" },
+            { name: "ליאו דנן", school: "טכנודע", team: "מצוינות 2" },
+            { name: "יואב אפלשטיין", school: "טכנודע", team: "מצוינות 2" },
+            { name: "עמית חי", school: "טכנודע", team: "מצוינות 3" },
+            { name: "רון סאסי", school: "טכנודע", team: "מצוינות 3" },
+            { name: "מיכאלה מוגרבי", school: "טכנודע", team: "מצוינות 3" },
+            { name: "אריאל מורגן", school: "טכנודע", team: "מצוינות 3" },
+            { name: "בקי פרידמן", school: "טכנודע", team: "מצוינות 4" },
+            { name: "הדס חממי", school: "טכנודע", team: "מצוינות 4" },
+            { name: "נועה חממי", school: "טכנודע", team: "מצוינות 4" },
+            { name: "אודליה ביאליק", school: "טכנודע", team: "מצוינות 4" },
+            { name: "גילי דגן", school: "טכנודע", team: "מצוינות 5" },
+            { name: "אוריה סרוסי", school: "טכנודע", team: "מצוינות 5" },
+            { name: "עלמה שגב", school: "טכנודע", team: "מצוינות 5" },
+            { name: "דוראני אחיה", school: "טכנודע", team: "מצוינות 5" },
+            { name: "נועם איינאו", school: "תלמי רון", team: "תלמי רון 1" },
+            { name: "שגיא דניאל כהן", school: "תלמי רון", team: "תלמי רון 1" },
+            { name: "איתמר סולר", school: "תלמי רון", team: "תלמי רון 1" },
+            { name: "שלו ארביב", school: "תלמי רון", team: "תלמי רון 1" },
+            { name: "מיה חיונידי", school: "תלמי רון", team: "תלמי רון 2" },
+            { name: "ליה טפסאי", school: "תלמי רון", team: "תלמי רון 2" },
+            { name: "רגינה מורוז", school: "תלמי רון", team: "תלמי רון 2" },
+            { name: "ירדן כהן", school: "תלמי רון", team: "תלמי רון 2" },
+            { name: "שחף אמסלם", school: "תלמי רון", team: "תלמי רון 3" },
+            { name: "שחר סולומון", school: "תלמי רון", team: "תלמי רון 3" },
+            { name: "כפיר דב אלמז", school: "תלמי רון", team: "תלמי רון 3" },
+            { name: "איתי עוזרי", school: "תלמי רון", team: "תלמי רון 3" },
+            { name: "נעם מליאנקר", school: "תלמי רון", team: "תלמי רון 4" },
+            { name: "אורי עייש", school: "תלמי רון", team: "תלמי רון 4" },
+            { name: "יואב אלון פישר", school: "תלמי רון", team: "תלמי רון 4" },
+            { name: "אייל שרון", school: "תלמי רון", team: "תלמי רון 4" },
+            { name: "גלי מצרי", school: "תלמי רון", team: "תלמי רון 5" },
+            { name: "מיה רוזנטול", school: "תלמי רון", team: "תלמי רון 5" },
+            { name: "מילאנה קיסליוב", school: "תלמי רון", team: "תלמי רון 5" },
+            { name: "אדם וישניצקי", school: "תלמי רון", team: "תלמי רון 5" },
+            { name: "איתן בן סימון", school: "תלמי רון", team: "תלמי רון 6" },
+            { name: "רותם ויינשטיין", school: "תלמי רון", team: "תלמי רון 6" },
+            { name: "איתי ששון", school: "תלמי רון", team: "תלמי רון 6" },
+            { name: "יונתן דניאלוב", school: "תלמי רון", team: "תלמי רון 6" }
+        ];
+
+        // בתי ספר ייחודיים
+        const uniqueSchools = [...new Set(participants.map(p => p.school))];
+        
+        // יצירת מפת צבעים לבתי ספר
+        const schoolColorMap = {};
+        uniqueSchools.forEach((school, index) => {
+            schoolColorMap[school] = index;
+        });
+
+        // יצירת כרטיסיות
+        function createNameTags() {
+            const container = document.getElementById('nameTagsContainer');
+            
+            participants.forEach(participant => {
+                const schoolColorIndex = schoolColorMap[participant.school];
+                
+                const nameTag = document.createElement('div');
+                nameTag.className = `name-tag school-${schoolColorIndex}`;
+                
+                nameTag.innerHTML = `
+                    <div class="geometric-pattern"></div>
+                    <div class="header">
+                        <div class="event-title">האקתון הממציא הצעיר 2025</div>
+                        <div class="organizer">ע"ש הנווט סרן ירון יונתח ז"ל</div>
+                    </div>
+                    <div class="content">
+                        <div class="name-section">
+                            <div class="name-label">שם:</div>
+                            <div class="name-value">${participant.name}</div>
+                        </div>
+                        <div class="school-section">
+                            <div class="school-label">מבית הספר:</div>
+                            <div class="school-value">${participant.school}</div>
+                        </div>
+                        <div class="team-section">
+                            <div class="team-label">שם הקבוצה:</div>
+                            <div class="team-value">${participant.team}</div>
+                        </div>
+                    </div>
+                    <div class="footer-logos">
+                        <img src="logot.png" alt="טכנודע" class="logo">
+                        <img src="logol.png" alt="Lockheed Martin" class="logo">
+                    </div>
+                `;
+                
+                container.appendChild(nameTag);
+            });
+        }
+
+        // יצירת הכרטיסיות בטעינת הדף
+        document.addEventListener('DOMContentLoaded', createNameTags);
+    </script>
+</body>
+</html>
