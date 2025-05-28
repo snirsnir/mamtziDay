@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>המצאפדיה - SmartFlow</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .book-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .page {
+            padding: 40px;
+            min-height: 500px;
+            border-bottom: 3px solid #eee;
+            page-break-after: always;
+        }
+
+        .page:last-child {
+            border-bottom: none;
+        }
+
+        .cover-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cover-page h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .cover-page .subtitle {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .cover-page .info {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .chapter-title {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .content {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-right: 5px solid #e17055;
+            font-weight: bold;
+        }
+
+        .parts-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .parts-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .parts-list li {
+            background: white;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border-right: 4px solid #667eea;
+        }
+
+        .drawing-area {
+            background: #f8f9fa;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .simple-drawing {
+            width: 300px;
+            height: 200px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            font-size: 14px;
+            color: #666;
+            position: relative;
+        }
+
+        .traffic-light {
+            width: 30px;
+            height: 80px;
+            background: #333;
+            border-radius: 15px;
+            margin: 10px;
+            position: relative;
+        }
+
+        .light {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin: 5px auto;
+        }
+
+        .red { background: #e74c3c; }
+        .yellow { background: #f39c12; }
+        .green { background: #2ecc71; }
+
+        .car-icon {
+            width: 40px;
+            height: 20px;
+            background: #3498db;
+            border-radius: 5px;
+            margin: 5px;
+            position: relative;
+        }
+
+        .future-box {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .navigation {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media print {
+            .navigation { display: none; }
+            .page { page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+    <div class="book-container">
+        <!-- דף שער -->
+        <div class="page cover-page" id="page0">
+            <h1>המצאפדיה</h1>
+            <div class="subtitle">המדריך הסודי של כל ממציא צעיר</div>
+            <div class="info">
+                <h2>SmartFlow - זרימה חכמה</h2>
+                <p><strong>שמות הממציאים:</strong> נועה כהן, איתמר לוי, מיכל אבו</p>
+                <p><strong>תאריך ההמצאה:</strong> 28.05.2025</p>
+                <p><strong>פתרון יצירתי לבעיית עומסי תנועה</strong></p>
+                <p>הממציא הצעיר 2025</p>
+            </div>
+        </div>
+
+        <!-- פרק 1 -->
+        <div class="page" id="page1">
+            <h2 class="chapter-title">פרק 1: מה ההמצאה שלנו?</h2>
+            
+            <div class="highlight-box">
+                SmartFlow - מערכת רמזורים חכמה שמזהה כמה רכבים יש בכל נתיב ומתאימה את זמני הירוק והאדום בהתאם!
+            </div>
+
+            <div class="content">
+                <h3>מה היא עושה?</h3>
+                <p>המערכת שלנו הופכת כל רמזור לחכם! היא ספרה כמה מכוניות ממתינות בכל כיוון ומחליטה איך לחלק את הזמן בצורה הכי יעילה. אם יש 10 מכוניות מצד אחד ו-3 מהצד השני, הרמזור ייתן יותר זמן ירוק לצד העמוס.</p>
+
+                <h3>איך זה עוזר לנהגים?</h3>
+                <p>במקום לחכות ברמזור אדום כשאין אף מכונית מהצד השני, הנהגים יקבלו ירוק מהר יותר. זה אומר:</p>
+                <ul>
+                    <li>פחות זמן המתנה בפקקים</li>
+                    <li>פחות זיהום אוויר (מכוניות לא רועשות בחינם)</li>
+                    <li>פחות עצבים ומתח</li>
+                    <li>חיסכון בדלק</li>
+                </ul>
+
+                <p><strong>בקיצור:</strong> זה כמו שהרמזור הופך להיות נהג חכם שיודע איך לנהל את התנועה בצורה הכי טובה!</p>
+            </div>
+            <div class="page-number">עמוד 1</div>
+        </div>
+
+        <!-- פרק 2 -->
+        <div class="page" id="page2">
+            <h2 class="chapter-title">פרק 2: ממה ההמצאה בנויה?</h2>
+            
+            <div class="parts-list">
+                <h3>החלקים העיקריים:</h3>
+                <ul>
+                    <li><strong>חיישני תנועה:</strong> מזהים כמה רכבים ממתינים בכל נתיב</li>
+                    <li><strong>מצלמה חכמה:</strong> רואה את התנועה ומעבדת את המידע</li>
+                    <li><strong>מחשב מיני:</strong> מחליט על זמני הרמזור</li>
+                    <li><strong>רמזור מודרני:</strong> יכול לשנות זמנים בזמן אמת</li>
+                    <li><strong>רשת תקשורת:</strong> מחברת את כל הרמזורים באזור</li>
+                    <li><strong>סוללת גיבוי:</strong> למקרה של הפסקת חשמל</li>
+                </ul>
+            </div>
+
+            <div class="content">
+                <h3>החומרים שנבחרו:</h3>
+                <p><strong>מתכת עמידה לחוץ:</strong> בשביל הבסיס של הרמזור</p>
+                <p><strong>זכוכית מחוסמת:</strong> עבור העדשות</p>
+                <p><strong>חומר פלסטיק ממוחזר:</strong> לקופסת המחשב</p>
+                <p><strong>לדים חסכוניים:</strong> לאורות הרמזור</p>
+
+                <h3>הרכיב הסודי שלנו:</h3>
+                <div class="highlight-box">
+                    אלגוריתם חכם שלומד את דפוסי התנועה במקום! אחרי שבוע הוא כבר יודע מתי יש יותר תנועה ומתכונן מראש.
+                </div>
+            </div>
+            <div class="page-number">עמוד 2</div>
+        </div>
+
+        <!-- פרק 3 -->
+        <div class="page" id="page3">
+            <h2 class="chapter-title">פרק 3: איך הגענו לרעיון?</h2>
+            
+            <div class="content">
+                <h3>הסיפור שהתחיל הכל:</h3>
+                <p>זה התחיל כשנועה נסעה עם אבא שלה לקניות ביום שישי בבוקר. הם חיכו 5 דקות ברמזור אדום, וכל הזמן הזה לא עברה אף מכונית אחת מהצד השני!</p>
+
+                <p>אבא שלה אמר: "איזה בזבוז זמן! הרמזור הזה לא רואה שאין פה אף אחד?"</p>
+
+                <div class="highlight-box">
+                    ואז נועה חשבה: "רגע, אבל למה הרמזור לא יכול לראות? יש מצלמות בכל מקום!"
+                </div>
+
+                <h3>איך המשכנו לחקור:</h3>
+                <p>חזרנו הביתה וחקרנו באינטרנט. גילינו שרמזורים רגילים עובדים עם זמנים קבועים - לא משנה אם יש תנועה או לא.</p>
+
+                <p>איתמר שאל את אבא שלו שעובד במשרד התחבורה, והוא אמר שזה באמת בעיה גדולה. "פקקים נוצרים כי רמזורים לא יעילים", הוא הסביר.</p>
+
+                <p>מיכל הוסיפה רעיון: "אם יש אפליקציות שרואות כמה אנשים יש בחנות, למה לא ברמזור?"</p>
+
+                <div class="highlight-box">
+                    ואז הגיע הרגע הקסום: "בואו נעשה רמזור שחכם כמו האפליקציות שלנו!"
+                </div>
+            </div>
+            <div class="page-number">עמוד 3</div>
+        </div>
+
+        <!-- פרק 4 -->
+        <div class="page" id="page4">
+            <h2 class="chapter-title">פרק 4: איך זה נראה?</h2>
+            
+            <div class="drawing-area">
+                <h3>הרמזור החכם SmartFlow:</h3>
+                <div class="simple-drawing">
+                    <div style="display: flex; align-items: center; justify-content: space-around; width: 100%;">
+                        <!-- רמזור -->
+                        <div>
+                            <div class="traffic-light">
+                                <div class="light red"></div>
+                                <div class="light yellow"></div>
+                                <div class="light green"></div>
+                            </div>
+                            <p style="margin: 5px 0; font-size: 12px;">רמזור חכם</p>
+                        </div>
+                        
+                        <!-- מצלמה -->
+                        <div style="text-align: center;">
+                            <div style="width: 30px; height: 20px; background: #333; border-radius: 5px; margin: 0 auto;"></div>
+                            <p style="margin: 5px 0; font-size: 12px;">מצלמה</p>
+                        </div>
+                        
+                        <!-- מכוניות -->
+                        <div>
+                            <div class="car-icon" style="background: #e74c3c;"></div>
+                            <div class="car-icon" style="background: #3498db;"></div>
+                            <div class="car-icon" style="background: #2ecc71;"></div>
+                            <p style="margin: 5px 0; font-size: 12px;">3 מכוניות</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 15px; color: #666;">ציור מס' 1: המצלמה רואה 3 מכוניות ומתאימה את זמן הירוק</p>
+            </div>
+
+            <div class="content">
+                <h3>איך זה עובד בפועל:</h3>
+                <p><strong>שלב 1:</strong> המצלמה סורקת את הדרך כל שנייה</p>
+                <p><strong>שלב 2:</strong> המחשב סופר כמה רכבים יש בכל כיוון</p>
+                <p><strong>שלב 3:</strong> האלגוריתם מחליט על החלוקה הטובה ביותר</p>
+                <p><strong>שלב 4:</strong> הרמזור מתעדכן בזמן אמת</p>
+
+                <div class="highlight-box">
+                    דוגמא: אם יש 8 מכוניות מצפון ו-2 מדרום, הרמזור ייתן 40 שניות ירוק לצפון ו-10 שניות לדרום
+                </div>
+            </div>
+            <div class="page-number">עמוד 4</div>
+        </div>
+
+        <!-- פרק 5 -->
+        <div class="page" id="page5">
+            <h2 class="chapter-title">פרק 5: מה מיוחד בהמצאה שלנו?</h2>
+            
+            <div class="content">
+                <h3>מה שונה בזה מכל דבר אחר?</h3>
+                
+                <div class="highlight-box">
+                    רמזורים רגילים = טיימר מטומטם שעובד אותו דבר כל הזמן<br>
+                    SmartFlow = מערכת חכמה שמסתכלת ומחליטה בזמן אמת!
+                </div>
+
+                <h3>השוואה למה שקיים היום:</h3>
+                <p><strong>רמזורים רגילים:</strong> עובדים עם זמנים קבועים (למשל: 60 שניות ירוק, 30 שניות אדום) בלי קשר למה שקורה בדרך.</p>
+                
+                <p><strong>רמזורים "חכמים" קיימים:</strong> יש כאלה שמזהים אם יש מכונית, אבל הם לא יודעים כמה יש ולא מתאימים את הזמנים.</p>
+
+                <p><strong>SmartFlow שלנו:</strong> לא רק רואה אלא גם חושב! הוא יודע לספור, להשוות ולהחליט על החלוקה הטובה ביותר.</p>
+
+                <h3>הדבר הכי מיוחד:</h3>
+                <div class="highlight-box">
+                    המערכת שלנו לומדת! אחרי שבוע היא כבר יודעת שבשעה 8:00 בבוקר יש יותר תנועה מכיוון מסוים ומתכוננת מראש.
+                </div>
+
+                <h3>למה זה מהפכני?</h3>
+                <ul>
+                    <li>זה הרמזור הראשון שחכם באמת</li>
+                    <li>הוא חוסך זמן לכולם, לא רק לאחדים</li>
+                    <li>הוא ידידותי לסביבה</li>
+                    <li>הוא זול להתקין ברמזורים קיימים</li>
+                </ul>
+            </div>
+            <div class="page-number">עמוד 5</div>
+        </div>
+
+        <!-- פרק 6 -->
+        <div class="page" id="page6">
+            <h2 class="chapter-title">פרק 6: מחשבות לעתיד</h2>
+            
+            <div class="future-box">
+                <h3>החלומות שלנו - מה נוסיף אם הייתה לנו שנה נוספת ותקציב ענק:</h3>
+            </div>
+
+            <div class="content">
+                <h3>שדרוגים טכניים:</h3>
+                <ul>
+                    <li><strong>זיהוי סוג הרכב:</strong> להבדיל בין אוטובוס למכונית פרטית</li>
+                    <li><strong>קשר עם GPS:</strong> לדעת מראש שמישהו מתקרב לרמזור</li>
+                    <li><strong>זיהוי מזג אוויר:</strong> לתת יותר זמן בימים גשומים</li>
+                    <li><strong>אפליקציה לנהגים:</strong> להראות כמה זמן נשאר לירוק</li>
+                </ul>
+
+                <h3>רשת של רמזורים חכמים:</h3>
+                <p>במקום רמזור בודד, רשת שלמה של רמזורים שמתקשרים ביניהם! אם יש פקק ברחוב אחד, הרמזורים באזור יכוונו את התנועה לרחובות אחרים.</p>
+
+                <h3>אינטליגנציה מלאכותית מתקדמת:</h3>
+                <div class="highlight-box">
+                    רמזור שיכול לחזות עתידות! הוא ידע שביום חמישי בשעה 16:00 תמיד יש יותר תנועה, אז יתכונן מראש.
+                </div>
+
+                <h3>הרחבה לעולם:</h3>
+                <p>אנחנו חולמים לראות את SmartFlow בכל רמזור בעולם! בתל אביב, בלונדון, בטוקיו - בכל מקום שאנשים עומדים בפקקים ומתעצבנים.</p>
+
+                <h3>המטרה הגדולה:</h3>
+                <div class="future-box">
+                    עולם בלי פקקים מיותרים! מקום שבו נהגים מגיעים מהר יותר הביתה ויש להם יותר זמן עם המשפחה. 🚗💚
+                </div>
+            </div>
+            <div class="page-number">עמוד 6</div>
+        </div>
+
+        <!-- עמוד אחרון -->
+        <div class="page" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+            <h2 style="font-size: 2.5em; margin-bottom: 30px;">🎉 סיימנו! 🎉</h2>
+            <p style="font-size: 1.3em; margin-bottom: 20px;">זה הספר הראשון שלנו כממציאים!</p>
+            <p style="font-size: 1.1em; opacity: 0.9;">SmartFlow - לא רק רמזור, אלא פתרון חכם לבעיה אמיתית</p>
+            <div style="margin-top: 40px; font-size: 0.9em; opacity: 0.8;">
+                <p>נוצר במסגרת האקתון הממציא הצעיר 2025</p>
+                <p>בזכות הרבה דמיון, קצת מדע, והרבה תקווה לעולם טוב יותר</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="btn" onclick="window.print()">🖨️ הדפס דוגמא</button>
+        <button class="btn" onclick="alert('זוהי דוגמא מושלמת להראות לתלמידים!')">💡 טיפ למדריך</button>
+    </div>
+
+    <script>
+        // הוספת מספור עמודים אוטומטי
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('דוגמא לספר פרויקט מוכנה לשימוש!');
+        });
+    </script>
+</body>
+</html>
