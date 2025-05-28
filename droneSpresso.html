@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>המצאפדיה - DroneSpresso</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #F4A460 100%);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .book-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .page {
+            padding: 40px;
+            min-height: 500px;
+            border-bottom: 3px solid #eee;
+            page-break-after: always;
+        }
+
+        .page:last-child {
+            border-bottom: none;
+        }
+
+        .cover-page {
+            background: linear-gradient(135deg, #8B4513 0%, #CD853F 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .cover-page::before {
+            content: "☕";
+            font-size: 8em;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            opacity: 0.3;
+        }
+
+        .cover-page h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+        }
+
+        .cover-page .subtitle {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .cover-page .info {
+            background: rgba(255,255,255,0.15);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .chapter-title {
+            color: #8B4513;
+            font-size: 2.3em;
+            margin-bottom: 25px;
+            border-bottom: 4px solid #D2691E;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .content {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #FFE4B5, #DEB887);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-right: 6px solid #8B4513;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .highlight-box::before {
+            content: "💡";
+            font-size: 2em;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        .highlight-box-content {
+            margin-right: 50px;
+        }
+
+        .parts-list {
+            background: #F5F5DC;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 3px solid #D2691E;
+        }
+
+        .parts-list h3 {
+            color: #8B4513;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .parts-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .parts-list li {
+            background: white;
+            margin: 12px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 5px solid #CD853F;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .parts-list li::before {
+            content: "🔧";
+            font-size: 1.2em;
+        }
+
+        .drawing-area {
+            background: #FFFAF0;
+            border: 3px dashed #D2691E;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin: 25px 0;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .drone-illustration {
+            width: 350px;
+            height: 200px;
+            background: linear-gradient(135deg, #87CEEB, #4682B4);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 20px 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .drone-body {
+            width: 80px;
+            height: 60px;
+            background: #FF6347;
+            border-radius: 10px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .propeller {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #333;
+            border-radius: 50%;
+            position: absolute;
+            background: rgba(255,255,255,0.3);
+        }
+
+        .propeller.top-left { top: -20px; left: -20px; }
+        .propeller.top-right { top: -20px; right: -20px; }
+        .propeller.bottom-left { bottom: -20px; left: -20px; }
+        .propeller.bottom-right { bottom: -20px; right: -20px; }
+
+        .coffee-cup {
+            width: 30px;
+            height: 35px;
+            background: #8B4513;
+            border-radius: 0 0 15px 15px;
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .coffee-cup::before {
+            content: "☕";
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .car-scene {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .car {
+            width: 60px;
+            height: 30px;
+            background: #FF6B6B;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .car::before {
+            content: "🚗";
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5em;
+        }
+
+        .future-box {
+            background: linear-gradient(135deg, #FFB347, #FF8C00);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .story-box {
+            background: linear-gradient(135deg, #98FB98, #90EE90);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-right: 6px solid #228B22;
+            position: relative;
+        }
+
+        .story-box::before {
+            content: "📖";
+            font-size: 2em;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        .story-content {
+            margin-right: 50px;
+        }
+
+        .navigation {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #8B4513, #CD853F);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #8B4513;
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        .emoji-title::before {
+            margin-left: 10px;
+        }
+
+        @media print {
+            .navigation { display: none; }
+            .page { page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+    <div class="book-container">
+        <!-- דף שער -->
+        <div class="page cover-page" id="page0">
+            <h1>המצאפדיה</h1>
+            <div class="subtitle">"המדריך הסודי של כל ממציא צעיר"</div>
+            <div class="info">
+                <h2>🚁 DroneSpresso ☕</h2>
+                <h3>רחפן קטן שמחלק קפה לנהגים עייפים</h3>
+                <p><strong>שמות הממציאים:</strong> קרן אולאברי, שניר דואני</p>
+                <p><strong>תאריך ההמצאה:</strong> 14.05.2025</p>
+                <p><strong>פתרון יצירתי לבעיית עומסי תנועה</strong></p>
+                <p>הממציא הצעיר 2025</p>
+            </div>
+        </div>
+
+        <!-- פרק 1 -->
+        <div class="page" id="page1">
+            <h2 class="chapter-title emoji-title">☕ פרק 1: מה ההמצאה שלנו?</h2>
+            
+            <div class="highlight-box">
+                <div class="highlight-box-content">
+                    DroneSpresso - רחפן קטן וחכם שמביא קפה חם וטעים לנהגים עייפים ישירות לרכב, באמצע הנסיעה!
+                </div>
+            </div>
+
+            <div class="content">
+                <h3>🎯 מה היא עושה?</h3>
+                <p>הרחפן שלנו הוא כמו מלצר מעופף! הוא מזהה נהגים עייפים (דרך קמרות חכמות שרואות שהם מתבטלים או נרדמים), מכין להם קפה טרי בתוך הרחפן, ומביא אותו ישירות לחלון הרכב.</p>
+
+                <h3>🚗 איך זה עוזר לנהגים?</h3>
+                <p>במקום שנהג עייף יצטרך לחפש תחנת דלק או בית קפה (ואולי לגרום לתאונה), הקפה מגיע אליו! זה אומר:</p>
+                <ul>
+                    <li><strong>בטיחות מקסימלית:</strong> נהגים לא ייפלו בשינה</li>
+                    <li><strong>חיסכון בזמן:</strong> לא צריך לעצור ולחפש קפה</li>
+                    <li><strong>פחות פקקים:</strong> כי פחות אנשים עוצרים לנוח</li>
+                    <li><strong>שירות מהיר:</strong> הקפה מגיע תוך 3 דקות!</li>
+                </ul>
+
+                <p><strong>בקיצור:</strong> זה כמו שיש לכל נהג עייף בישראל מלצר אישי שדואג לו במהלך הנסיעה!</p>
+
+                <div class="story-box">
+                    <div class="story-content">
+                        <strong>סיפור אמיתי:</strong> דודה של קרן נרדמה בזמן נהיגה וכמעט גרמה לתאונה. היא אמרה: "הייתי מוכנה לשלם הכל בשביל כוס קפה באותו רגע!"
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">עמוד 1</div>
+        </div>
+
+        <!-- פרק 2 -->
+        <div class="page" id="page2">
+            <h2 class="chapter-title emoji-title">🔧 פרק 2: ממה ההמצאה בנויה?</h2>
+            
+            <div class="parts-list">
+                <h3>החלקים העיקריים:</h3>
+                <ul>
+                    <li><strong>רחפן מתקדם:</strong> מנועים שקטים ויציבות מושלמת</li>
+                    <li><strong>תרמוס מבודד:</strong> שומר על הקפה חם במשך שעה</li>
+                    <li><strong>תופסן רך לכוס:</strong> מחזיק את הכוס בבטחה</li>
+                    <li><strong>מנחת רך להנחה:</strong> מניח את הקפה בעדינות בחלון</li>
+                    <li><strong>מצלמת GPS-AI:</strong> מזהה נהגים עייפים ומתקרבת אליהם</li>
+                    <li><strong>סוללה חכמה:</strong> טעינה מהירה ועמידות של 4 שעות טיסה</li>
+                    <li><strong>מכונת אספרסו מיני:</strong> מכינה קפה טרי בתוך הרחפן!</li>
+                </ul>
+            </div>
+
+            <div class="content">
+                <h3>🏗️ החומרים הנבחרים:</h3>
+                <p><strong>פלסטיק קל ועמיד:</strong> כדי שהרחפן לא יהיה כבד</p>
+                <p><strong>קרמיקה מיוחדת:</strong> לתרמוס שישמור על החום</p>
+                <p><strong>סיליקון רך:</strong> למנחת שלא ישרט את הרכב</p>
+                <p><strong>זכוכית מחוסמת:</strong> לכוסות הקפה</p>
+
+                <h3>🤫 הרכיב הסודי שלנו:</h3>
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        <strong>מערכת זיהוי עייפות מתקדמת!</strong><br>
+                        המצלמה יודעת לזהות אם נהג מתבטל, עוצם עיניים, או נוהג בזיגזג. ברגע שהיא מזהה סימני עייפות - הרחפן ממריא!
+                    </div>
+                </div>
+
+                <h3>☕ סוגי הקפה:</h3>
+                <p>אספרסו, אמריקנו, קפוצ'ינו ואפילו משקה חם ללא קפאין לילדים!</p>
+            </div>
+            <div class="page-number">עמוד 2</div>
+        </div>
+
+        <!-- פרק 3 -->
+        <div class="page" id="page3">
+            <h2 class="chapter-title emoji-title">💭 פרק 3: איך הגענו לרעיון?</h2>
+            
+            <div class="content">
+                <h3>📅 הסיפור שהתחיל הכל:</h3>
+                <p>זה קרה בנסיעה לאילת עם המשפחה בחופש פסח. אבא של שניר נהג כבר 3 שעות רצוף ופתאום התחיל "לרקוד" עם ההגה - סימן ברור שהוא עייף!</p>
+
+                <div class="story-box">
+                    <div class="story-content">
+                        <strong>הרגע הקסום:</strong><br>
+                        אמא צעקה: "תעצור לקפה!" אבל הוא ענה: "אין פה שום דבר במשך 30 קילומטר!"<br>
+                        ואז קרן אמרה: "איזה חבל שאין רחפן שמביא קפה..."<br>
+                        שניר הוסיף: "רגע, למה שלא יהיה?!"
+                    </div>
+                </div>
+
+                <h3>🔍 איך המשכנו לחקור:</h3>
+                <p>חזרנו הביתה וחקרנו כמה תאונות קורות בגלל עייפות. התוצאות היו מפחידות! אבא של קרן, שעובד במדא, אמר שזה אחד הגורמים העיקריים לתאונות דרכים.</p>
+
+                <p>שניר שאל את סבא שלו שהיה טייס: "האם אפשר לבנות רחפן שמחזיק קפה?" סבא אמר: "בוודאי! היום הטכנולוגיה מאפשרת הכל!"</p>
+
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        אז גילינו שרחפנים כבר מחלקים פיצה ותרופות, אז למה לא קפה לנהגים עייפים?
+                    </div>
+                </div>
+
+                <h3>🚀 הרגע של ההחלטה:</h3>
+                <p>קרן אמרה: "זה יכול להציל חיים!" ושניר הוסיף: "וגם לעשות את הנסיעות הרבה יותר נעימות!"</p>
+
+                <p><strong>ככה נולד DroneSpresso - מתוך רצון אמיתי לעזור לנהגים ולהציל חיים.</strong></p>
+            </div>
+            <div class="page-number">עמוד 3</div>
+        </div>
+
+        <!-- פרק 4 -->
+        <div class="page" id="page4">
+            <h2 class="chapter-title emoji-title">🎨 פרק 4: איך זה נראה?</h2>
+            
+            <div class="drawing-area">
+                <h3>הרחפן DroneSpresso בפעולה:</h3>
+                <div class="drone-illustration">
+                    <div class="drone-body">
+                        ☕
+                        <div class="propeller top-left"></div>
+                        <div class="propeller top-right"></div>
+                        <div class="propeller bottom-left"></div>
+                        <div class="propeller bottom-right"></div>
+                        <div class="coffee-cup"></div>
+                    </div>
+                </div>
+                <div class="car-scene">
+                    <div style="text-align: center;">
+                        <div class="car"></div>
+                        <p style="margin: 5px 0; font-size: 14px;">נהג עייף</p>
+                    </div>
+                    <div style="font-size: 2em;">➡️</div>
+                    <div style="text-align: center;">
+                        <div style="width: 40px; height: 40px; background: #FFD700; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">☕</div>
+                        <p style="margin: 5px 0; font-size: 14px;">קפה מוכן!</p>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; color: #8B4513; font-weight: bold;">ציור מס' 1: הרחפן מזהה נהג עייף ומביא לו קפה תוך 3 דקות</p>
+            </div>
+
+            <div class="content">
+                <h3>🔄 איך זה עובד בפועל:</h3>
+                <p><strong>שלב 1:</strong> המצלמה סורקת את הכבישים ומזהה נהגים עייפים</p>
+                <p><strong>שלב 2:</strong> הרחפן הקרוב ביותר מקבל התראה ממריא</p>
+                <p><strong>שלב 3:</strong> תוך כדי טיסה, מכונת הקפה מכינה אספרסו טרי</p>
+                <p><strong>שלב 4:</strong> הרחפן מתקרב לחלון הנהג ומניח את הקפה בעדינות</p>
+                <p><strong>שלב 5:</strong> הנהג מקבל התראה ב-SMS על הקפה שמחכה לו</p>
+
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        <strong>זמן מקסימלי:</strong> 3 דקות מזיהוי העייפות עד הגעת הקפה!<br>
+                        <strong>מחיר:</strong> רק 15 שקל לכוס (זול מבית קפה!)
+                    </div>
+                </div>
+
+                <h3>🌍 איך זה משתלב בכבישים:</h3>
+                <p>הרחפנים יהיו מוצבים בנקודות אסטרטגיות לאורך הכבישים הראשיים, עם עמדות טעינה ומילוי קפה כל 20 קילומטר.</p>
+            </div>
+            <div class="page-number">עמוד 4</div>
+        </div>
+
+        <!-- פרק 5 -->
+        <div class="page" id="page5">
+            <h2 class="chapter-title emoji-title">⭐ פרק 5: מה מיוחד בהמצאה שלנו?</h2>
+            
+            <div class="content">
+                <h3>🆚 מה שונה בזה מכל דבר אחר?</h3>
+                
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        <strong>רחפני משלוחים רגילים</strong> = מביאים רק למקום קבוע<br>
+                        <strong>DroneSpresso שלנו</strong> = מביא לרכב נוסע בכביש!
+                    </div>
+                </div>
+
+                <h3>📊 השוואה למה שקיים היום:</h3>
+                <p><strong>תחנות דלק עם קפה:</strong> נהג צריך לעצור, לחנות, לחכות בתור, לשלם, לחזור לרכב (15 דקות מינימום)</p>
+                
+                <p><strong>בתי קפה ברחובים:</strong> לא קיימים בכבישים מהירים, לא תמיד פתוחים, ויקרים</p>
+
+                <p><strong>DroneSpresso שלנו:</strong> מגיע ישירות לרכב תוך 3 דקות, בכל שעה, ובמחיר הוגן!</p>
+
+                <h3>🎯 הדבר הכי מיוחד:</h3>
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        <strong>זיהוי עייפות אוטומטי!</strong><br>
+                        אנחנו לא מחכים שהנהג יבקש קפה - אנחנו מבינים שהוא צריך עוד לפני שהוא מבין!
+                    </div>
+                </div>
+
+                <h3>🌟 למה זה מהפכני?</h3>
+                <ul>
+                    <li><strong>הציל חיים:</strong> מונע תאונות מעייפות</li>
+                    <li><strong>שירות ייחודי:</strong> האור בעולם שמביא קפה לרכב נוסע</li>
+                    <li><strong>טכנולוגיה מתקדמת:</strong> שילוב של AI, רחפנים ומכונת קפה</li>
+                    <li><strong>נגיש לכולם:</strong> זול ומהיר</li>
+                    <li><strong>ידידותי לסביבה:</strong> רחפן חשמלי במקום נסיעה לתחנת דלק</li>
+                </ul>
+
+                <div class="story-box">
+                    <div class="story-content">
+                        <strong>חלום גדול:</strong> לראות DroneSpresso בכל כביש בישראל, שומר על נהגים ומציל חיים כל יום!
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">עמוד 5</div>
+        </div>
+
+        <!-- פרק 6 -->
+        <div class="page" id="page6">
+            <h2 class="chapter-title emoji-title">🚀 פרק 6: מחשבות לעתיד</h2>
+            
+            <div class="future-box">
+                <h3>החלומות שלנו - מה נוסיף עם תקציב ענק ושנה נוספת:</h3>
+            </div>
+
+            <div class="content">
+                <h3>🔧 שדרוגים טכניים:</h3>
+                <ul>
+                    <li><strong>זיהוי מצב רוח:</strong> לדעת אם נהג עצוב ולהביא לו קפה עם עוגיה</li>
+                    <li><strong>קפה מותאם אישית:</strong> המערכת תזכור איך כל נהג אוהב את הקפה שלו</li>
+                    <li><strong>חיישני מזג אוויר:</strong> לקפה חם בחורף וקר קפוא בקיץ</li>
+                    <li><strong>מערכת הזמנות:</strong> אפליקציה שנהגים יכולים להזמין מראש</li>
+                    <li><strong>רחפנים גדולים יותר:</strong> שיוכלו לשאת 10 כוסות בו זמנית</li>
+                </ul>
+
+                <h3>🌐 רשת עולמית של DroneSpresso:</h3>
+                <p>במקום רחפן בודד, רשת של אלפי רחפנים שמכסה את כל המדינה! הם יתקשרו ביניהם ויעבירו מידע על נהגים עייפים.</p>
+
+                <h3>🤖 בינה מלאכותית מתקדמת:</h3>
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        DroneSpresso שילמד להכיר נהגים! הוא ידע שדני תמיד נוהג לעבודה בשעה 7:00 ואוהב קפה שחור, אז יהיה מוכן מראש.
+                    </div>
+                </div>
+
+                <h3>☕ הרחבת התפריט:</h3>
+                <ul>
+                    <li>משקאות קרים לקיץ (אייס קפה, לימונדה)</li>
+                    <li>חטיפי אנרגיה בריאים</li>
+                    <li>משקאות חמים ללא קפאין לנהגים צעירים</li>
+                    <li>ויטמינים ותוספי תזונה לנסיעות ארוכות</li>
+                </ul>
+
+                <h3>🌍 הרחבה לעולם:</h3>
+                <p>החלום הגדול שלנו: לראות DroneSpresso בכל מדינה! בגרמניה באוטובאן, בארה"ב בין הערים, וביפן בכבישים ההרריים. כל נהג עייף בעולם יקבל קפה תוך 3 דקות!</p>
+
+                <h3>🏥 שותפויות מיוחדות:</h3>
+                <div class="future-box">
+                    <strong>עם משטרת ישראל:</strong> DroneSpresso יזהה נהגים מסוכנים וייתן התראה למשטרה<br>
+                    <strong>עם מגן דוד אדום:</strong> במקרה חירום, הרחפן יוכל להביא עזרה ראשונה<br>
+                    <strong>עם חברות ביטוח:</strong> נהגים שמשתמשים בשירות יקבלו הנחה בביטוח
+                </div>
+
+                <h3>🎯 המטרה הסופית:</h3>
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        <strong>אפס תאונות מעייפות!</strong><br>
+                        עולם שבו אף נהג לא נרדם בהגה כי תמיד יש מי שדואג לו ומביא לו את מה שהוא צריך.
+                    </div>
+                </div>
+
+                <p><strong>זה לא רק רחפן שמביא קפה - זה שומר מלאך לכל נהג בדרכים! 👼☕</strong></p>
+            </div>
+            <div class="page-number">עמוד 6</div>
+        </div>
+
+        <!-- עמוד אחרון -->
+        <div class="page" style="background: linear-gradient(135deg, #8B4513 0%, #CD853F 100%); color: white; text-align: center; display: flex; flex-direction: column; justify-content: center; position: relative;">
+            <div style="font-size: 10em; opacity: 0.1; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">☕</div>
+            <h2 style="font-size: 3em; margin-bottom: 30px; position: relative; z-index: 2;">🎉 DroneSpresso מוכן להמראה! 🚁</h2>
+            <p style="font-size: 1.4em; margin-bottom: 20px; position: relative; z-index: 2;">הספר הראשון שלנו כממציאים מוכן!</p>
+            <p style="font-size: 1.2em; opacity: 0.9; position: relative; z-index: 2;">מרעיון פשוט במכונית למהפכה שתציל חיים</p>
+            
+            <div style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 15px; position: relative; z-index: 2;">
+                <h3 style="margin-bottom: 15px;">📊 הסטטיסטיקה שתשכנע אתכם:</h3>
+                <p>✅ 25% פחות תאונות מעייפות</p>
+                <p>✅ 15 דקות חיסכון בזמן לכל נהג</p>
+                <p>✅ 100% שביעות רצון מנהגים</p>
+                <p>✅ 0% פליטת זיהום (רחפן חשמלי)</p>
+            </div>
+            
+            <div style="margin-top: 30px; font-size: 0.9em; opacity: 0.8; position: relative; z-index: 2;">
+                <p>נוצר במסגרת האקתון הממציא הצעיר 2025</p>
+                <p>💝 בזכות אהבה לקפה, דאגה לנהגים, והרבה דמיון</p>
+                <p><strong>"לפעמים הרעיונות הכי פשוטים הם הכי גאוניים"</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="btn" onclick="window.print()">🖨️ הדפס דוגמא</button>
+        <button class="btn" onclick="alert('דוגמא מושלמת לספר פרויקט על DroneSpresso!')">☕ טיפ למדריך</button>
+    </div>
+
+    <script>
+        // אנימציה פשוטה לעמוד השער
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DroneSpresso - המצאפדיה מוכנה לשימוש!');
+            
+            // הוספת אפקט הובר לכפתורים
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.05)';
+                });
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
