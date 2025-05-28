@@ -183,21 +183,11 @@
     </div>
 
     <div class="certificates-container" id="certificatesContainer">
-        <!-- תעודות דוגמה -->
-        <div class="certificate">
-            <div class="student-name">ניב גולאברי</div>
-            <div class="school-name">אור לטף</div>
-        </div>
-
-        <div class="certificate">
-            <div class="student-name">איתמר סלונימסקי</div>
-            <div class="school-name">אור לטף</div>
-        </div>
+        <!-- כל התעודות ייווצרו כאן אוטומטית -->
     </div>
 
     <script>
-        // נתוני המשתתפים (רק חלק לדוגמה)
-
+        // נתוני כל המשתתפים
         const allParticipants = [
             { name: "ניב גולאברי", school: "אור לטף" },
             { name: "איתמר סלונימסקי", school: "אור לטף" },
@@ -462,8 +452,12 @@
                 container.appendChild(certificate);
             });
             
-            alert('נוצרו תעודות עבור כל המשתתפים!');
+            // עדכון מידע בכותרת
+            document.querySelector('.print-info p').textContent = `${allParticipants.length} תעודות אישיות למשתתפים • גודל A4`;
         }
+
+        // יצירת כל התעודות מיד בטעינת הדף
+        document.addEventListener('DOMContentLoaded', generateAllCertificates);
     </script>
 </body>
 </html>
