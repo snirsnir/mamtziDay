@@ -11,16 +11,20 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            direction: rtl;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 2px;
-            width: 319px;
-            height: 636px;
-            overflow: hidden;
-            font-size: 7px;
-        }
+body {
+    font-family: Arial, sans-serif;
+    direction: rtl;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 2px;
+    width: 319px;
+    height: 636px;
+    overflow: hidden;
+    font-size: 7px;
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);  /* ממרכז אנכית */
+}
 
         .table-container {
             width: 100%;
