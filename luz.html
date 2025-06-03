@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לוחות זמנים לקבוצות</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .group-selector {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        select {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            min-width: 200px;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .schedule-page {
+            background: white;
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto 30px auto;
+            padding: 20mm;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .schedule-page.active {
+            display: block;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+        
+        .page-header h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .page-header .group-name {
+            font-size: 1.5rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        
+        .schedule-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .schedule-table th:first-child {
+            border-top-right-radius: 10px;
+        }
+        
+        .schedule-table th:last-child {
+            border-top-left-radius: 10px;
+        }
+        
+        .schedule-table td {
+            padding: 20px 15px;
+            text-align: center;
+            border: 2px solid #f0f0f0;
+            background: #fafafa;
+            font-weight: 500;
+            color: #333;
+            vertical-align: middle;
+        }
+        
+        .schedule-table tr:nth-child(even) td {
+            background: #f8f9ff;
+        }
+        
+        .schedule-table tr:hover td {
+            background: #e6ecff;
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+        }
+        
+        .time-slot {
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2) !important;
+            color: white !important;
+            font-size: 18px;
+        }
+        
+        .activity {
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                max-width: none;
+            }
+            
+            .header,
+            .controls {
+                display: none;
+            }
+            
+            .schedule-page {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 15mm;
+                box-shadow: none;
+                border-radius: 0;
+                page-break-after: always;
+            }
+            
+            .schedule-page:last-child {
+                page-break-after: avoid;
+            }
+        }
+        
+        .print-all {
+            margin-right: 15px;
+        }
+        
+        @media screen {
+            .print-mode .schedule-page {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 מערכת לוחות זמנים</h1>
+            <p>בחר קבוצה להצגה או הדפס את כל הלוחות</p>
+        </div>
+        
+        <div class="controls">
+            <div class="group-selector">
+                <label for="groupSelect" style="font-weight: bold; color: #333;">בחר קבוצה:</label>
+                <select id="groupSelect">
+                    <option value="">-- בחר קבוצה --</option>
+                </select>
+                <button class="btn print-all" onclick="printAll()">🖨️ הדפס הכל</button>
+                <button class="btn" onclick="printCurrent()">🖨️ הדפס קבוצה נוכחית</button>
+            </div>
+        </div>
+        
+        <div id="schedules"></div>
+    </div>
+
+    <script>
+        const scheduleData = [
+            { group: "ארלוזורוב האלופים - אגם", slot1: "ספר פרויקט - מעבדה 1", slot2: "בניית אב-טיפוס - מעבדה 4", slot3: "שיווק המוצר - טכנולוגיה" },
+            { group: "ארלוזורוב ו׳3 - איתן", slot1: "ספר פרויקט - מעבדה 1", slot2: "בניית אב-טיפוס - מעבדה 4", slot3: "שיווק המוצר - טכנולוגיה" },
+            { group: "קבוצה א נבון - אורי", slot1: "ספר פרויקט - מעבדה 1", slot2: "בניית אב-טיפוס - מעבדה 4", slot3: "שיווק המוצר - טכנולוגיה" },
+            { group: "קבוצה ב נבון - שקד", slot1: "ספר פרויקט - מעבדה 1", slot2: "בניית אב-טיפוס - מעבדה 4", slot3: "שיווק המוצר - טכנולוגיה" },
+            { group: "בירב - נועם", slot1: "ספר פרויקט - מעבדה 2", slot2: "בניית אב-טיפוס - מעבדה 3", slot3: "שיווק המוצר - אלקטרוניקה" },
+            { group: "בירב ו - מוריה", slot1: "ספר פרויקט - מעבדה 2", slot2: "בניית אב-טיפוס - מעבדה 3", slot3: "שיווק המוצר - אלקטרוניקה" },
+            { group: "נפתלי - פלג", slot1: "ספר פרויקט - מעבדה 2", slot2: "בניית אב-טיפוס - מעבדה 3", slot3: "שיווק המוצר - אלקטרוניקה" },
+            { group: "הייטקיסטים - שון", slot1: "ספר פרויקט - מעבדה 2", slot2: "בניית אב-טיפוס - מעבדה 3", slot3: "שיווק המוצר - אלקטרוניקה" },
+            { group: "D.N.A-E - ארז", slot1: "בניית אב-טיפוס - מעבדה 3", slot2: "ספר פרויקט - מעבדה 1", slot3: "שיווק המוצר - מחשבים 1" },
+            { group: "מנצחים בדרך - שחר", slot1: "בניית אב-טיפוס - מעבדה 3", slot2: "ספר פרויקט - מעבדה 1", slot3: "שיווק המוצר - מחשבים 1" },
+            { group: "המעופפות בדרך - שחר", slot1: "בניית אב-טיפוס - מעבדה 3", slot2: "ספר פרויקט - מעבדה 1", slot3: "שיווק המוצר - מחשבים 1" },
+            { group: "הווינרים בדרך - גיא", slot1: "בניית אב-טיפוס - מעבדה 3", slot2: "ספר פרויקט - מעבדה 1", slot3: "שיווק המוצר - מחשבים 1" },
+            { group: "האיינשטנים - אור", slot1: "בניית אב-טיפוס - מעבדה 4", slot2: "ספר פרויקט - מעבדה 2", slot3: "שיווק המוצר - מחשבים 2" },
+            { group: "הגאונים מהנדיב - אבישג", slot1: "בניית אב-טיפוס - מעבדה 4", slot2: "ספר פרויקט - מעבדה 2", slot3: "שיווק המוצר - מחשבים 2" },
+            { group: "החיטה פותרים - יותם", slot1: "בניית אב-טיפוס - מעבדה 4", slot2: "ספר פרויקט - מעבדה 2", slot3: "שיווק המוצר - מחשבים 2" },
+            { group: "הניוטונים - אושר", slot1: "בניית אב-טיפוס - מעבדה 4", slot2: "ספר פרויקט - מעבדה 2", slot3: "שיווק המוצר - מחשבים 2" },
+            { group: "הדרדסונים - נועם", slot1: "בניית אב-טיפוס - מעבדה 5", slot2: "שיווק המוצר - טכנולוגיה", slot3: "ספר פרויקט - יחידה רפואית א'" },
+            { group: "מדענים תמרי - מאיה", slot1: "בניית אב-טיפוס - מעבדה 5", slot2: "שיווק המוצר - טכנולוגיה", slot3: "ספר פרויקט - יחידה רפואית א'" },
+            { group: "ממציאי המחר - אורי", slot1: "בניית אב-טיפוס - מעבדה 5", slot2: "שיווק המוצר - טכנולוגיה", slot3: "ספר פרויקט - יחידה רפואית א'" },
+            { group: "ממציאות צעירות - ליאל", slot1: "בניית אב-טיפוס - מעבדה 5", slot2: "שיווק המוצר - טכנולוגיה", slot3: "ספר פרויקט - יחידה רפואית א'" },
+            { group: "הבנות חופית - לוטם", slot1: "בניית אב-טיפוס - מעבדה 6", slot2: "שיווק המוצר - אלקטרוניקה", slot3: "ספר פרויקט - יחידה רפואית ב'" },
+            { group: "קבוצת ביוטי - אמי", slot1: "בניית אב-טיפוס - מעבדה 6", slot2: "שיווק המוצר - אלקטרוניקה", slot3: "ספר פרויקט - יחידה רפואית ב'" },
+            { group: "הנסיכות - מאיה", slot1: "בניית אב-טיפוס - מעבדה 6", slot2: "שיווק המוצר - אלקטרוניקה", slot3: "ספר פרויקט - יחידה רפואית ב'" },
+            { group: "קבוצה 1 ניצני - גיא", slot1: "בניית אב-טיפוס - מעבדה 6", slot2: "שיווק המוצר - אלקטרוניקה", slot3: "ספר פרויקט - יחידה רפואית ב'" },
+            { group: "קבוצה 2 ניצני - יאיר", slot1: "שיווק המוצר - מחשבים 1", slot2: "ספר פרויקט - יחידה רפואית א'", slot3: "בניית אב-טיפוס - מעבדה 3" },
+            { group: "קבוצה 3 ניצני - לוטם", slot1: "שיווק המוצר - מחשבים 1", slot2: "ספר פרויקט - יחידה רפואית א'", slot3: "בניית אב-טיפוס - מעבדה 3" },
+            { group: "עמק יזרעאל - איתי", slot1: "שיווק המוצר - מחשבים 1", slot2: "ספר פרויקט - יחידה רפואית א'", slot3: "בניית אב-טיפוס - מעבדה 3" },
+            { group: "קדם ה׳1 - יהלי", slot1: "שיווק המוצר - מחשבים 2", slot2: "ספר פרויקט - יחידה רפואית ב'", slot3: "בניית אב-טיפוס - מעבדה 4" },
+            { group: "קדם ה׳2 - יהונתן", slot1: "שיווק המוצר - מחשבים 2", slot2: "ספר פרויקט - יחידה רפואית ב'", slot3: "בניית אב-טיפוס - מעבדה 4" },
+            { group: "שדות 1 - הילה", slot1: "שיווק המוצר - מחשבים 2", slot2: "ספר פרויקט - יחידה רפואית ב'", slot3: "בניית אב-טיפוס - מעבדה 4" },
+            { group: "שדות 4 - עידו", slot1: "ספר פרויקט - יחידה רפואית א'", slot2: "שיווק המוצר - אלקטרוניקה", slot3: "בניית אב-טיפוס - מעבדה 6" },
+            { group: "שדות טכנודע - ענבר", slot1: "ספר פרויקט - יחידה רפואית א'", slot2: "שיווק המוצר - אלקטרוניקה", slot3: "בניית אב-טיפוס - מעבדה 6" },
+            { group: "שרת פתרונים - נהטי", slot1: "ספר פרויקט - יחידה רפואית א'", slot2: "שיווק המוצר - אלקטרוניקה", slot3: "בניית אב-טיפוס - מעבדה 6" },
+            { group: "שרת ממציאים - אלמה", slot1: "ספר פרויקט - יחידה רפואית ב'", slot2: "שיווק המוצר - טכנולוגיה", slot3: "בניית אב-טיפוס - מעבדה 5" },
+            { group: "תלמי רון 1 - נועם", slot1: "ספר פרויקט - יחידה רפואית ב'", slot2: "שיווק המוצר - טכנולוגיה", slot3: "בניית אב-טיפוס - מעבדה 5" },
+            { group: "תלמי רון 2 - מיה", slot1: "ספר פרויקט - יחידה רפואית ב'", slot2: "שיווק המוצר - טכנולוגיה", slot3: "בניית אב-טיפוס - מעבדה 5" },
+            { group: "תלמי רון 3 - שחף", slot1: "שיווק המוצר - אלקטרוניקה", slot2: "בניית אב-טיפוס - מעבדה 5", slot3: "ספר פרויקט - מעבדה 1" },
+            { group: "תלמי רון 4 - נעם", slot1: "שיווק המוצר - אלקטרוניקה", slot2: "בניית אב-טיפוס - מעבדה 5", slot3: "ספר פרויקט - מעבדה 1" },
+            { group: "תלמי רון 5 - גלי", slot1: "שיווק המוצר - אלקטרוניקה", slot2: "בניית אב-טיפוס - מעבדה 5", slot3: "ספר פרויקט - מעבדה 1" },
+            { group: "תלמי רון 6 - איתן", slot1: "שיווק המוצר - טכנולוגיה", slot2: "בניית אב-טיפוס - מעבדה 6", slot3: "ספר פרויקט - מעבדה 2" },
+            { group: "עמק יזרעאל 2 - מור", slot1: "שיווק המוצר - טכנולוגיה", slot2: "בניית אב-טיפוס - מעבדה 6", slot3: "ספר פרויקט - מעבדה 2" },
+            { group: "שדות 2 - אלון", slot1: "שיווק המוצר - טכנולוגיה", slot2: "בניית אב-טיפוס - מעבדה 6", slot3: "ספר פרויקט - מעבדה 2" }
+        ];
+
+        function initializeApp() {
+            const select = document.getElementById('groupSelect');
+            const schedulesDiv = document.getElementById('schedules');
+            
+            // מילוי הרשימה הנפתחת
+            scheduleData.forEach((data, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = data.group;
+                select.appendChild(option);
+            });
+            
+            // יצירת כל הלוחות
+            scheduleData.forEach((data, index) => {
+                const schedulePage = createSchedulePage(data, index);
+                schedulesDiv.appendChild(schedulePage);
+            });
+            
+            // מאזין לשינוי בחירה
+            select.addEventListener('change', function() {
+                showSchedule(this.value);
+            });
+        }
+        
+        function createSchedulePage(data, index) {
+            const page = document.createElement('div');
+            page.className = 'schedule-page';
+            page.id = `schedule-${index}`;
+            
+            page.innerHTML = `
+                <div class="page-header">
+                    <h2>📚 לוח זמנים יומי</h2>
+                    <div class="group-name">${data.group}</div>
+                </div>
+                
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>שעות</th>
+                            <th>פעילויות</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="time-slot">10:00 - 11:30</td>
+                            <td class="activity">${data.slot1}</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">12:00 - 13:30</td>
+                            <td class="activity">${data.slot2}</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">14:00 - 15:30</td>
+                            <td class="activity">${data.slot3}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 40px; text-align: center; color: #666; font-size: 14px;">
+<p> לא מוצאים את המעבדה? חפשו את כפות הרגליים ברצפה, הן יעזרו לכם למצוא היעד 👣</p>
+                </div>
+            `;
+            
+            return page;
+        }
+        
+        function showSchedule(index) {
+            // הסתרת כל הלוחות
+            document.querySelectorAll('.schedule-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // הצגת הלוח הנבחר
+            if (index !== '') {
+                document.getElementById(`schedule-${index}`).classList.add('active');
+            }
+        }
+        
+        function printCurrent() {
+            const select = document.getElementById('groupSelect');
+            if (select.value === '') {
+                alert('אנא בחר קבוצה קודם');
+                return;
+            }
+            
+            const currentSchedule = document.getElementById(`schedule-${select.value}`);
+            if (currentSchedule) {
+                // הסתרת כל הלוחות
+                document.querySelectorAll('.schedule-page').forEach(page => {
+                    page.style.display = 'none';
+                });
+                
+                // הצגת הלוח הנוכחי בלבד
+                currentSchedule.style.display = 'block';
+                
+                window.print();
+                
+                // החזרת המצב הרגיל אחרי ההדפסה
+                setTimeout(() => {
+                    document.querySelectorAll('.schedule-page').forEach(page => {
+                        page.style.display = 'none';
+                    });
+                    currentSchedule.classList.add('active');
+                }, 500);
+            }
+        }
+        
+        function printAll() {
+            // הפיכת הגוף למצב הדפסה
+            document.body.classList.add('print-mode');
+            
+            // הצגת כל הלוחות
+            document.querySelectorAll('.schedule-page').forEach(page => {
+                page.style.display = 'block';
+            });
+            
+            window.print();
+            
+            // החזרת המצב הרגיל
+            setTimeout(() => {
+                document.body.classList.remove('print-mode');
+                document.querySelectorAll('.schedule-page').forEach(page => {
+                    page.style.display = 'none';
+                });
+                showSchedule(document.getElementById('groupSelect').value);
+            }, 500);
+        }
+        
+        // אתחול האפליקציה
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
+
+
