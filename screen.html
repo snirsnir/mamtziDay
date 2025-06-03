@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>טבלת קבוצות האקתון 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2px;
+            width: 319px;
+            height: 636px;
+            overflow: hidden;
+            font-size: 7px;
+        }
+
+        .table-container {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            border: 1px solid #333;
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 6px;
+            background: white;
+        }
+
+        th {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 3px 1px;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #34495e;
+            font-size: 7px;
+            height: 18px;
+        }
+
+        td {
+            padding: 2px;
+            border: 1px solid #bdc3c7;
+            text-align: center;
+            vertical-align: top;
+            font-size: 6px;
+            line-height: 0.85;
+            height: 50px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .symbol {
+            font-size: 20px;
+            font-weight: bold;
+            display: block;
+            margin: 15px auto;
+        }
+
+        .red { color: #e74c3c; }
+        .blue { color: #3498db; }
+        .yellow { color: #f39c12; }
+        .green { color: #27ae60; }
+        .purple { color: #9b59b6; }
+
+        .col-symbol { width: 10%; }
+        .col-teams { width: 45%; }
+        .col-activity { width: 15%; }
+        .col-lab { width: 12%; }
+        .col-instructors { width: 18%; }
+
+        .teams-list {
+            font-size: 9.2px;
+            line-height: 1.1;
+            text-align: right;
+            padding: 1px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+.team-item {
+    margin-bottom: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
+
+.activity-text {
+    font-weight: bold;
+    padding: 2px;
+    border-radius: 2px;
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+/* צבע לספר פרויקט */
+.activity-book {
+    color: #2563eb;
+    background: #dbeafe;
+    border: 1px solid #3b82f6;
+}
+
+/* צבע לאב-טיפוס */
+.activity-prototype {
+    color: #059669;
+    background: #d1fae5;
+    border: 1px solid #10b981;
+}
+
+/* צבע לשיווק */
+.activity-marketing {
+    color: #dc2626;
+    background: #fee2e2;
+    border: 1px solid #ef4444;
+}
+
+        .lab-text {
+            font-weight: bold;
+            color: #2d3748;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+
+        .instructors {
+            font-size: 10px;
+            color: #553c9a;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="table-container">
+        <table>
+
+            <tbody>
+                <!-- שורה 1: משולש אדום - מעבדה 1 -->
+                <tr>
+                    <td><span class="symbol red">▲</span></td>
+                    <td>
+                        <div class="teams-list">
+                            <div class="team-item">ארלוזורוב האלופים - אגם</div>
+                            <div class="team-item">ארלוזורוב ו׳3 - איתן</div>
+                            <div class="team-item">קבוצה א נבון - אורי</div>
+                            <div class="team-item">קבוצה ב נבון - שקד</div>
+                        </div>
+                    </td>
+                    <td><div class="activity-text activity-book">ספר פ</div></td>
+                    <td><div class="lab-text">מעבדה 1</div></td>
+                    <td><div class="instructors">מרי, סיון י</div></td>
+                </tr>
+
+                <!-- שורה 2: משולש כחול - מעבדה 2 -->
+                <tr>
+                    <td><span class="symbol blue">▲</span></td>
+                    <td>
+                        <div class="teams-list">
+                            <div class="team-item">בירב - נועם</div>
+                            <div class="team-item">בירב ו - מוריה</div>
+                            <div class="team-item">נפתלי - פלג</div>
+                            <div class="team-item">הייטקיסטים - שון</div>
+                        </div>
+                    </td>
+                    <td><div class="activity-text activity-book">ספר פ</div></td>
+                    <td><div class="lab-text">מעבדה 2</div></td>
+                    <td><div class="instructors">איתמר, הילה</div></td>
+                </tr>
+
+                <!-- שורה 3: משולש צהוב - מעבדה 3 -->
+                <tr>
+                    <td><span class="symbol yellow">▲</span></td>
+                    <td>
+                        <div class="teams-list">
+                            <div class="team-item">D.N.A-E - ארז</div>
+                            <div class="team-item">מנצחים בדרך - שחר</div>
+                            <div class="team-item">המעופפות בדרך - שחר</div>
+                            <div class="team-item">הווינרים בדרך - גיא</div>
+                        </div>
+                    </td>
+                    <td><div class="activity-text activity-prototype">אב-טיפוס</div></td>
+                    <td><div class="lab-text">מעבדה 3</div></td>
+                    <td><div class="instructors">סיון ד, דורון</div></td>
+                </tr>
+
+                <!-- שורה 4: משולש ירוק - מעבדה 4 -->
+                <tr>
+                    <td><span class="symbol green">▲</span></td>
+                    <td>
+                        <div class="teams-list">
+                            <div class="team-item">האיינשטנים - אור</div>
+                            <div class="team-item">הגאונים מהנדיב - אבישג</div>
+                            <div class="team-item">החיטה פותרים - יותם</div>
+                            <div class="team-item">הניוטונים - אושר</div>
+                        </div>
+                    </td>
+                    <td><div class="activity-text activity-prototype">אב-טיפוס</div></td>
+                    <td><div class="lab-text">מעבדה 4</div></td>
+                    <td><div class="instructors">לירון, ג'אדה</div></td>
+                </tr>
+
+                <!-- שורה 5: משולש סגול - מעבדה 5 -->
+                <tr>
+                    <td><span class="symbol purple">▲</span></td>
+                    <td>
+                        <div class="teams-list">
+                            <div class="team-item">הדרדסונים - נועם</div>
+                            <div class="team-item">מדענים תמרי - מאיה</div>
+                            <div class="team-item">ממציאי המחר - אורי</div>
+                            <div class="team-item">ממציאות צעירות - ליאל</div>
+                        </div>
+                    </td>
+                    <td><div class="activity-text activity-prototype">אב-טיפוס</div></td>
+                    <td><div class="lab-text">מעבדה 5</div></td>
+                    <td><div class="instructors">משה, דוד</div></td>
+                </tr>
+
+                <!-- שורה 6: כוכב אדום - מעבדה 6 -->
+                <tr>
+                    <td><span class="symbol red">★</span></td>
+                    <td>
+                        <div class="teams-list">
+                            <div class="team-item">הבנות של חופית - לוטם</div>
+                            <div class="team-item">קבוצת ביוטי - אמי</div>
+                            <div class="team-item">הנסיכות - מאיה</div>
+                            <div class="team-item">קבוצה 1 ניצני - גיא</div>
+                        </div>
+                    </td>
+                    <td><div class="activity-text activity-prototype">אב-טיפוס</div></td>
+                    <td><div class="lab-text">מעבדה 6</div></td>
+                    <td><div class="instructors">מור לוצ'יה</div></td>
+                </tr>
+
+                <!-- שורה 7: כוכב כחול - מחשבים 1 -->
+                <tr>
+                    <td><span class="symbol blue">★</span></td>
+                    <td>
+                        <div class="teams-list">
+                            <div class="team-item">קבוצה 2 ניצני - יאיר</div>
+                            <div class="team-item">קבוצה 3 ניצני - לוטם</div>
+                            <div class="team-item">עמק יזרעאל - איתי</div>
+                            
+                        </div>
+                    </td>
+                    <td><div class="activity-text activity-marketing">שיווק</div></td>
+                    <td><div class="lab-text">מחשבים 1</div></td>
+                    <td><div class="instructors">יעלה, מעיין שו</div></td>
+                </tr>
+
+                <!-- שורה 8: כוכב צהוב - מחשבים 2 -->
+                <tr>
+                    <td><span class="symbol yellow">★</span></td>
+                    <td>
+                        <div class="teams-list">
+                            <div class="team-item">קדם ה׳1 - יהלי</div>
+                            <div class="team-item">קדם ה׳2 - יהונתן</div>
+                            <div class="team-item">שדות 1 - הילה</div>
+                            
+                        </div>
+                    </td>
+                    <td><div class="activity-text activity-marketing">שיווק</div></td>
+                    <td><div class="lab-text">מחשבים 2</div></td>
+                    <td><div class="instructors">איציק, מעיין שפ</div></td>
+                </tr>
+
+                <!-- שורה 9: כוכב ירוק - יחידה רפואית א' -->
+                <tr>
+                    <td><span class="symbol green">★</span></td>
+                    <td>
+                        <div class="teams-list">
+                            <div class="team-item">שדות 4 - עידו</div>
+                            <div class="team-item">שדות טכנודע - ענבר</div>
+                            <div class="team-item">שרת פתרונים - נהטי</div>
+                        </div>
+                    </td>
+                    <td><div class="activity-text activity-book">ספר פ</div></td>
+                    <td><div class="lab-text">י. רפואית א'</div></td>
+                    <td><div class="instructors">עפרי, זינב</div></td>
+                </tr>
+
+                <!-- שורה 10: כוכב סגול - יחידה רפואית ב' -->
+                <tr>
+                    <td><span class="symbol purple">★</span></td>
+                    <td>
+                        <div class="teams-list">
+                            <div class="team-item">שרת ממציאים - אלמה</div>
+                            <div class="team-item">תלמי רון 1 - נועם</div>
+                            <div class="team-item">תלמי רון 2 - מיה</div>
+                        </div>
+                    </td>
+                    <td><div class="activity-text activity-book">ספר פ</div></td>
+                    <td><div class="lab-text">י. רפואית ב'</div></td>
+                    <td><div class="instructors">יעל, עזריאל</div></td>
+                </tr>
+
+                <!-- שורה 11: עיגול אדום - אלקטרוניקה -->
+                <tr>
+                    <td><span class="symbol red">●</span></td>
+                    <td>
+                        <div class="teams-list">
+                            <div class="team-item">תלמי רון 3 - שחף</div>
+                            <div class="team-item">תלמי רון 4 - נעם</div>
+                            <div class="team-item">תלמי רון 5 - גלי</div>
+                        </div>
+                    </td>
+                    <td><div class="activity-text activity-marketing">שיווק</div></td>
+                    <td><div class="lab-text">אלקטרוניקה</div></td>
+                    <td><div class="instructors">רוני, שי</div></td>
+                </tr>
+
+                <!-- שורה 12: עיגול כחול - טכנולוגיה -->
+                <tr>
+                    <td><span class="symbol blue">●</span></td>
+                    <td>
+                        <div class="teams-list">
+                     <div class="team-item">תלמי רון 6 - איתן</div>
+                     <div class="team-item">שדות 2 - אלון</div>
+                     <div class="team-item">עמק יזרעאל 2 - מור</div>
+                        </div>
+                    </td>
+                    <td><div class="activity-text activity-marketing">שיווק</div></td>
+                    <td><div class="lab-text">טכנולוגיה</div></td>
+                    <td><div class="instructors">טליה, נתי</div></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
