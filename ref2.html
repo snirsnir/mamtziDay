@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מחוון ניקוד לשיפוט - האקתון הממציא.ה הצעיר.ה</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .form-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .form-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .form-content {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 35px;
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+        .form-group:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .form-label {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .required {
+            color: #e91e63;
+            margin-right: 5px;
+        }
+
+        .form-select, .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-select:focus, .form-input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Workshop Data Display */
+        .workshop-data {
+            display: none;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .workshop-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 2px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .workshop-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .workshop-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .workshop-name::before {
+            content: '🔬';
+            margin-left: 10px;
+        }
+
+        .ratings-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .rating-display-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .rating-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .rating-stars {
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .rating-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .comments-display {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .comments-display h4 {
+            color: #856404;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .comments-text {
+            color: #856404;
+            font-style: italic;
+        }
+
+        /* Rating Input Sections */
+        .rating-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .rating-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 12px;
+            min-width: 40px;
+        }
+
+        .rating-item:hover {
+            background: rgba(255, 107, 107, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .rating-number {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .rating-star {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .star-icon {
+            font-size: 24px;
+            color: #ddd;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .rating-item input[type="radio"] {
+            display: none;
+        }
+
+        .rating-item input[type="radio"]:checked + .rating-star .star-icon {
+            color: #ffd700;
+            transform: scale(1.2);
+            filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.4));
+            animation: starGlow 0.5s ease-out;
+        }
+
+        @keyframes starGlow {
+            0% {
+                transform: scale(1);
+                filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            }
+            50% {
+                transform: scale(1.3);
+                filter: drop-shadow(0 6px 12px rgba(255, 215, 0, 0.6));
+            }
+            100% {
+                transform: scale(1.2);
+                filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.4));
+            }
+        }
+
+        .rating-item input[type="radio"]:checked ~ .rating-number {
+            color: #ffd700;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Judging Criteria */
+        .judging-section {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+        }
+
+        .criteria-header {
+            background: #ff6b6b;
+            color: white;
+            font-weight: 700;
+        }
+
+        .criteria-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .criteria-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .criteria-weight {
+            text-align: center;
+            font-weight: 600;
+            color: #ff6b6b;
+        }
+
+        .criteria-input {
+            text-align: center;
+        }
+
+        /* Submit Button */
+        .submit-container {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Final Score Display */
+        .final-score {
+            display: none;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 2px solid #28a745;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .final-score h3 {
+            color: #155724;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .score-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #28a745;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #ff6b6b;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .form-content {
+                padding: 30px 20px;
+            }
+            
+            .criteria-grid,
+            .criteria-row {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .ratings-display {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h1 class="form-title">מחוון ניקוד לשיפוט</h1>
+            <p class="form-subtitle">האקתון הממציא.ה הצעיר.ה</p>
+        </div>
+        
+        <div class="form-content">
+            <form id="judgingForm">
+                <!-- Group Selection -->
+                <div class="form-group">
+                    <label class="form-label" for="groupSelect">
+                        <span class="required">*</span>בחר קבוצה לשיפוט
+                    </label>
+                    <select class="form-select" id="groupSelect" name="group" required>
+                        <option value="">בחירת קבוצה</option>
+                        <option value="ארלוזורוב האלופים - אגם">ארלוזורוב האלופים - אגם</option>
+                        <option value="ארלוזורוב ו׳3 - איתן">ארלוזורוב ו׳3 - איתן</option>
+                        <option value="קבוצה א נבון - אורי">קבוצה א נבון - אורי</option>
+                        <option value="קבוצה ב נבון - שקד">קבוצה ב נבון - שקד</option>
+                        <option value="בירב - נועם">בירב - נועם</option>
+                        <option value="בירב ו - מוריה">בירב ו - מוריה</option>
+                        <option value="נפתלי - פלג">נפתלי - פלג</option>
+                        <option value="הייטקיסטים - שון">הייטקיסטים - שון</option>
+                        <option value="D.N.A-E - ארז">D.N.A-E - ארז</option>
+                        <option value="מנצחים בדרך - שחר">מנצחים בדרך - שחר</option>
+                        <option value="המעופפות בדרך - שחר">המעופפות בדרך - שחר</option>
+                        <option value="הווינרים בדרך - גיא">הווינרים בדרך - גיא</option>
+                        <option value="האיינשטנים - אור">האיינשטנים - אור</option>
+                        <option value="הגאונים מהנדיב - אבישג">הגאונים מהנדיב - אבישג</option>
+                        <option value="החיטה פותרים - יותם">החיטה פותרים - יותם</option>
+                        <option value="הניוטונים - אושר">הניוטונים - אושר</option>
+                        <option value="הדרדסונים - נועם">הדרדסונים - נועם</option>
+                        <option value="מדענים תמרי - מאיה">מדענים תמרי - מאיה</option>
+                        <option value="ממציאי המחר - אורי">ממציאי המחר - אורי</option>
+                        <option value="ממציאות צעירות - ליאל">ממציאות צעירות - ליאל</option>
+                        <option value="הבנות של חופית - לוטם">הבנות של חופית - לוטם</option>
+                        <option value="קבוצת ביוטי - אמי">קבוצת ביוטי - אמי</option>
+                        <option value="הנסיכות - מאיה">הנסיכות - מאיה</option>
+                        <option value="קבוצה 1 ניצני - גיא">קבוצה 1 ניצני - גיא</option>
+                        <option value="קבוצה 2 ניצני - יאיר">קבוצה 2 ניצני - יאיר</option>
+                        <option value="קבוצה 3 ניצני - לוטם">קבוצה 3 ניצני - לוטם</option>
+                        <option value="עמק יזרעאל - איתי">עמק יזרעאל - איתי</option>
+                        <option value="קדם ה׳1 - יהלי">קדם ה׳1 - יהלי</option>
+                        <option value="קדם ה׳2 - יהונתן">קדם ה׳2 - יהונתן</option>
+                        <option value="שדות 1 - הילה">שדות 1 - הילה</option>
+                        <option value="שדות 4 - עידו">שדות 4 - עידו</option>
+                        <option value="שדות טכנודע - ענבר">שדות טכנודע - ענבר</option>
+                        <option value="שרת פתרונים - נהטי">שרת פתרונים - נהטי</option>
+                        <option value="שרת ממציאים - אלמה">שרת ממציאים - אלמה</option>
+                        <option value="תלמי רון 1 - נועם">תלמי רון 1 - נועם</option>
+                        <option value="תלמי רון 2 - מיה">תלמי רון 2 - מיה</option>
+                        <option value="תלמי רון 3 - שחף">תלמי רון 3 - שחף</option>
+                        <option value="תלמי רון 4 - נעם">תלמי רון 4 - נעם</option>
+                        <option value="תלמי רון 5 - גלי">תלמי רון 5 - גלי</option>
+                        <option value="תלמי רון 6 - איתן">תלמי רון 6 - איתן</option>
+                        <option value="עמק יזרעאל 2 - מור">עמק יזרעאל 2 - מור</option>
+                        <option value="שדות 2 - אלון">שדות 2 - אלון</option>
+                    </select>
+                </div>
+
+                <!-- Workshop Data Display -->
+                <div class="workshop-data" id="workshopData">
+                    <h3 style="color: #ff6b6b; margin-bottom: 20px; text-align: center;">📊 נתוני הסדנאות של הקבוצה</h3>
+                    <div id="workshopResults"></div>
+                </div>
+
+                <!-- Judging Criteria -->
+                <div class="judging-section" id="judgingSection" style="display: none;">
+                    <h3 style="color: #ff6b6b; margin-bottom: 20px; text-align: center;">🏆 קריטריונים לשיפוט</h3>
+                    
+                    <div class="criteria-grid criteria-header">
+                        <div>קריטריון</div>
+                        <div>משקל</div>
+                        <div>ציון (0-10)</div>
+                    </div>
+
+                    <div class="criteria-row">
+                        <div class="criteria-name">אב-טיפוס: חדשנות ויצירתיות</div>
+                        <div class="criteria-weight">30%</div>
+                        <div class="criteria-input">
+                            <div class="rating-container">
+                                <label class="rating-item">
+                                    <input type="radio" name="innovation" value="0" required>
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">0</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="innovation" value="1">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">1</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="innovation" value="2">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">2</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="innovation" value="3">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">3</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="innovation" value="4">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">4</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="innovation" value="5">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">5</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="innovation" value="6">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">6</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="innovation" value="7">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">7</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="innovation" value="8">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">8</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="innovation" value="9">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">9</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="innovation" value="10">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">10</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="criteria-row">
+                        <div class="criteria-name">ספר פרויקט - המצאפדיה</div>
+                        <div class="criteria-weight">25%</div>
+                        <div class="criteria-input">
+                            <div class="rating-container">
+                                <label class="rating-item">
+                                    <input type="radio" name="project_book" value="0" required>
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">0</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="project_book" value="1">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">1</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="project_book" value="2">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">2</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="project_book" value="3">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">3</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="project_book" value="4">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">4</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="project_book" value="5">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">5</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="project_book" value="6">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">6</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="project_book" value="7">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">7</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="project_book" value="8">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">8</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="project_book" value="9">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">9</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="project_book" value="10">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">10</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="criteria-row">
+                        <div class="criteria-name">שיווק ופרסום ההמצאה</div>
+                        <div class="criteria-weight">25%</div>
+                        <div class="criteria-input">
+                            <div class="rating-container">
+                                <label class="rating-item">
+                                    <input type="radio" name="marketing" value="0" required>
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">0</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="marketing" value="1">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">1</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="marketing" value="2">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">2</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="marketing" value="3">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">3</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="marketing" value="4">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">4</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="marketing" value="5">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">5</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="marketing" value="6">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">6</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="marketing" value="7">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">7</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="marketing" value="8">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">8</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="marketing" value="9">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">9</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="marketing" value="10">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">10</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="criteria-row">
+                        <div class="criteria-name">עבודת צוות</div>
+                        <div class="criteria-weight">10%</div>
+                        <div class="criteria-input">
+                            <div class="rating-container">
+                                <label class="rating-item">
+                                    <input type="radio" name="teamwork" value="0" required>
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">0</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="teamwork" value="1">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">1</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="teamwork" value="2">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">2</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="teamwork" value="3">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">3</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="teamwork" value="4">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">4</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="teamwork" value="5">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">5</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="teamwork" value="6">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">6</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="teamwork" value="7">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">7</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="teamwork" value="8">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">8</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="teamwork" value="9">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">9</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="teamwork" value="10">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">10</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="criteria-row">
+                        <div class="criteria-name">הצגה ופרזנטציה</div>
+                        <div class="criteria-weight">10%</div>
+                        <div class="criteria-input">
+                            <div class="rating-container">
+                                <label class="rating-item">
+                                    <input type="radio" name="presentation" value="0" required>
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">0</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="presentation" value="1">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">1</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="presentation" value="2">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">2</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="presentation" value="3">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">3</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="presentation" value="4">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">4</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="presentation" value="5">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">5</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="presentation" value="6">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">6</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="presentation" value="7">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">7</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="presentation" value="8">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">8</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="presentation" value="9">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">9</div>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="presentation" value="10">
+                                    <div class="rating-star"><span class="star-icon">★</span></div>
+                                    <div class="rating-number">10</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>שולח נתונים ומחשב ציון סופי...</p>
+                </div>
+
+                <div class="success-message" id="successMessage">
+                    ✅ הציון נשלח בהצלחה! הציון הסופי חושב ונשמר.
+                </div>
+
+                <div class="submit-container">
+                    <button type="submit" class="submit-btn" id="submitBtn" style="display: none;">
+                        🏆 שלח וחשב ציון סופי
+                    </button>
+                </div>
+
+                <!-- Final Score Display -->
+                <div class="final-score" id="finalScore">
+                    <h3>🏆 הציון הסופי של הקבוצה</h3>
+                    <div class="score-breakdown">
+                        <div class="score-item">
+                            <div class="score-label">ציון שיפוט (80%)</div>
+                            <div class="score-value" id="judgingScore">-</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-label">ציון מעבדות (20%)</div>
+                            <div class="score-value" id="labScore">-</div>
+                        </div>
+                        <div class="score-item" style="background: linear-gradient(135deg, #ffd700, #ffed4e); border: 2px solid #f39c12;">
+                            <div class="score-label">ציון סופי משוקלל</div>
+                            <div class="score-value" style="color: #d35400; font-size: 1.8rem;" id="finalScoreValue">-</div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getDatabase, ref, get, set, push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+        
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCe24QH6BXEWtF2zJWcP8WhV8qKj-3l-00",
+            authDomain: "gaash-2ea82.firebaseapp.com",
+            databaseURL: "https://gaash-2ea82-default-rtdb.firebaseio.com/",
+            projectId: "gaash-2ea82",
+            storageBucket: "gaash-2ea82.firebasestorage.app",
+            messagingSenderId: "1054252503536",
+            appId: "1:1054252503536:web:4b7c546bd737de696e4d35"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // DOM elements
+        const groupSelect = document.getElementById('groupSelect');
+        const workshopData = document.getElementById('workshopData');
+        const workshopResults = document.getElementById('workshopResults');
+        const judgingSection = document.getElementById('judgingSection');
+        const submitBtn = document.getElementById('submitBtn');
+        const form = document.getElementById('judgingForm');
+        const loading = document.getElementById('loading');
+        const successMessage = document.getElementById('successMessage');
+        const finalScore = document.getElementById('finalScore');
+
+        let currentGroupData = {};
+
+        // Generate stars display
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            let stars = '';
+            for (let i = 0; i < fullStars; i++) {
+                stars += '⭐';
+            }
+            for (let i = fullStars; i < 10; i++) {
+                stars += '☆';
+            }
+            return stars;
+        }
+
+        // Load group data when group is selected
+        groupSelect.addEventListener('change', async () => {
+            const selectedGroup = groupSelect.value;
+            
+            if (!selectedGroup) {
+                workshopData.style.display = 'none';
+                judgingSection.style.display = 'none';
+                submitBtn.style.display = 'none';
+                finalScore.style.display = 'none';
+                return;
+            }
+
+            try {
+                // Get group data from Firebase
+                const groupRef = ref(database, `groupName/${selectedGroup}`);
+                const snapshot = await get(groupRef);
+                
+                if (snapshot.exists()) {
+                    currentGroupData = snapshot.val();
+                    displayWorkshopData(currentGroupData);
+                    workshopData.style.display = 'block';
+                    judgingSection.style.display = 'block';
+                    submitBtn.style.display = 'block';
+                } else {
+                    workshopResults.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">אין נתונים זמינים לקבוצה זו</p>';
+                    workshopData.style.display = 'block';
+                    judgingSection.style.display = 'block';
+                    submitBtn.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error loading group data:', error);
+                workshopResults.innerHTML = '<p style="text-align: center; color: #e74c3c; padding: 20px;">שגיאה בטעינת נתוני הקבוצה</p>';
+            }
+        });
+
+        // Display workshop data
+        function displayWorkshopData(data) {
+            let html = '';
+            let totalLabScore = 0;
+            let workshopCount = 0;
+
+            Object.keys(data).forEach(workshopName => {
+                if (workshopName === 'finalGrade') return; // Skip final grade data
+                
+                const workshop = data[workshopName];
+                const ratings = workshop.ratings || {};
+                
+                // Calculate average for this workshop
+                const ratingValues = Object.values(ratings).filter(val => typeof val === 'number');
+                const avgRating = ratingValues.length > 0 ? ratingValues.reduce((a, b) => a + b, 0) / ratingValues.length : 0;
+                
+                totalLabScore += avgRating;
+                workshopCount++;
+
+                html += `
+                    <div class="workshop-item">
+                        <div class="workshop-name">${workshopName}</div>
+                        <div class="ratings-display">
+                            <div class="rating-display-item">
+                                <div class="rating-label">מילוי המשימה</div>
+                                <div class="rating-stars">${generateStars(ratings.task_completion || 0)}</div>
+                                <div class="rating-value">${ratings.task_completion || 0}/10</div>
+                            </div>
+                            <div class="rating-display-item">
+                                <div class="rating-label">עבודת צוות</div>
+                                <div class="rating-stars">${generateStars(ratings.teamwork || 0)}</div>
+                                <div class="rating-value">${ratings.teamwork || 0}/10</div>
+                            </div>
+                            <div class="rating-display-item">
+                                <div class="rating-label">חשיבה יצירתית</div>
+                                <div class="rating-stars">${generateStars(ratings.creativity || 0)}</div>
+                                <div class="rating-value">${ratings.creativity || 0}/10</div>
+                            </div>
+                            <div class="rating-display-item">
+                                <div class="rating-label">עבודה עצמאית</div>
+                                <div class="rating-stars">${generateStars(ratings.independence || 0)}</div>
+                                <div class="rating-value">${ratings.independence || 0}/10</div>
+                            </div>
+                        </div>
+                        ${workshop.comments ? `
+                            <div class="comments-display">
+                                <h4>💬 הערות מהמעבדה:</h4>
+                                <div class="comments-text">${workshop.comments}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            // Calculate average lab score
+            const avgLabScore = workshopCount > 0 ? totalLabScore / workshopCount : 0;
+            currentGroupData.avgLabScore = avgLabScore;
+
+            if (!html) {
+                html = '<p style="text-align: center; color: #666; padding: 20px;">אין נתוני מעבדות לקבוצה זו</p>';
+            }
+
+            workshopResults.innerHTML = html;
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Validate all required fields
+            const requiredFields = ['innovation', 'project_book', 'marketing', 'teamwork', 'presentation'];
+            let isValid = true;
+
+            for (const field of requiredFields) {
+                const checked = document.querySelector(`input[name="${field}"]:checked`);
+                if (!checked) {
+                    alert(`נא לדרג את הקריטריון: ${field}`);
+                    isValid = false;
+                    break;
+                }
+            }
+
+            if (!isValid) return;
+
+            // Show loading
+            loading.style.display = 'block';
+            submitBtn.disabled = true;
+
+            try {
+                // Get form data
+                const formData = new FormData(form);
+                const selectedGroup = groupSelect.value;
+
+                // Calculate judging scores
+                const innovation = parseInt(formData.get('innovation'));
+                const projectBook = parseInt(formData.get('project_book'));
+                const marketing = parseInt(formData.get('marketing'));
+                const teamwork = parseInt(formData.get('teamwork'));
+                const presentation = parseInt(formData.get('presentation'));
+
+                // Calculate weighted judging score (out of 10)
+                const judgingScore = (
+                    (innovation * 0.30) +
+                    (projectBook * 0.25) +
+                    (marketing * 0.25) +
+                    (teamwork * 0.10) +
+                    (presentation * 0.10)
+                );
+
+                // Get lab score (convert to 0-10 scale if needed)
+                const labScore = currentGroupData.avgLabScore || 0;
+
+                // Calculate final weighted score
+                // Judging: 80%, Labs: 20%
+                const finalScoreValue = (judgingScore * 0.8) + (labScore * 0.2);
+
+                // Prepare final grade data
+                const finalGradeData = {
+                    judgingScores: {
+                        innovation: innovation,
+                        project_book: projectBook,
+                        marketing: marketing,
+                        teamwork: teamwork,
+                        presentation: presentation
+                    },
+                    calculations: {
+                        judgingScore: Math.round(judgingScore * 100) / 100,
+                        labScore: Math.round(labScore * 100) / 100,
+                        finalScore: Math.round(finalScoreValue * 100) / 100
+                    },
+                    weights: {
+                        judging: 80,
+                        labs: 20
+                    },
+                    timestamp: new Date().toISOString(),
+                    date: new Date().toLocaleDateString('he-IL')
+                };
+
+                // Save to Firebase
+                const finalGradeRef = ref(database, `groupName/${selectedGroup}/finalGrade`);
+                await set(finalGradeRef, finalGradeData);
+
+                // Hide loading and show success
+                loading.style.display = 'none';
+                successMessage.style.display = 'block';
+
+                // Display final scores
+                document.getElementById('judgingScore').textContent = Math.round(judgingScore * 100) / 100;
+                document.getElementById('labScore').textContent = Math.round(labScore * 100) / 100;
+                document.getElementById('finalScoreValue').textContent = Math.round(finalScoreValue * 100) / 100;
+                finalScore.style.display = 'block';
+
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                    submitBtn.disabled = false;
+                }, 5000);
+
+            } catch (error) {
+                console.error('Error saving final grade:', error);
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+                alert('שגיאה בשליחת הנתונים. נסה שוב.');
+            }
+        });
+
+        // Add star hover effects
+        document.querySelectorAll('.rating-item').forEach(item => {
+            const input = item.querySelector('input[type="radio"]');
+            const star = item.querySelector('.star-icon');
+            
+            item.addEventListener('mouseenter', () => {
+                if (!input.checked) {
+                    star.style.color = '#ffeb3b';
+                    star.style.transform = 'scale(1.1)';
+                }
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                if (!input.checked) {
+                    star.style.color = '#ddd';
+                    star.style.transform = 'scale(1)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
