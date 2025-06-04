@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>כל עמדות הקבוצות - האקתון הממציא הצעיר 2025</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            direction: rtl;
+        }
+
+        .page {
+            page-break-after: always;
+            width: 100%;
+            height: 420mm; /* A3 width when portrait */
+            position: relative;
+            background: linear-gradient(135deg, #f8faff 0%, #e8f2ff 100%);
+        }
+
+        .page:last-child {
+            page-break-after: avoid;
+        }
+
+        .fold-line {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 2px;
+            background: repeating-linear-gradient(
+                to right,
+                #ff0000 0,
+                #ff0000 5mm,
+                transparent 5mm,
+                transparent 10mm
+            );
+            z-index: 10;
+            transform: translateY(-50%);
+        }
+
+        .fold-line::before {
+            content: "קו קיפול";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ff0000;
+            color: white;
+            padding: 2px 8px;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 3px;
+        }
+
+        .station-half {
+            width: 100%;
+            height: 50%;
+            position: absolute;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15mm;
+        }
+
+.station-half.top { 
+    top: 0; 
+    transform: rotate(180deg);
+}
+        
+        .station-half.bottom { 
+            bottom: 0; 
+        }
+
+        .team-station {
+            width: 100%;
+            height: 100%;
+            border: 4px solid #2563eb;
+            border-radius: 20px;
+            padding: 15mm;
+            background: white;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .team-station::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .station-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .event-header {
+            text-align: center;
+            margin-bottom: 8mm;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 6mm;
+        }
+
+        .event-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 2mm;
+            line-height: 1.2;
+        }
+
+        .event-subtitle {
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+        }
+
+        .team-name-section {
+            margin-bottom: 6mm;
+        }
+
+        .team-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2563eb;
+            margin-bottom: 2mm;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .team-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e40af;
+            line-height: 1.2;
+            min-height: 30px;
+            word-wrap: break-word;
+            padding: 4mm;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 8px;
+            border: 2px dashed #2563eb;
+        }
+
+        .students-section {
+            flex: 1;
+            margin-bottom: 6mm;
+        }
+
+        .students-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 3mm;
+        }
+
+        .students-list {
+            display: flex;
+            flex-direction: column;
+            gap: 3mm;
+        }
+
+        .student-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1f2937;
+            padding: 3mm;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 6px;
+            border: 2px solid rgba(37, 99, 235, 0.3);
+            line-height: 1.3;
+        }
+
+        .school-section {
+            border-top: 3px solid rgba(37, 99, 235, 0.3);
+            padding-top: 4mm;
+        }
+
+        .school-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 2mm;
+        }
+
+        .school-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2563eb;
+            line-height: 1.2;
+        }
+
+        .event-logo {
+            position: absolute;
+            top: 4mm;
+            left: 4mm;
+            width: 18mm;
+            height: 18mm;
+            background: #2563eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            z-index: 3;
+        }
+
+        .logo-right {
+            position: absolute;
+            top: 4mm;
+            right: 6mm;
+            width: 50mm;
+            height: 35mm;
+            z-index: 3;
+        }
+
+        .logo-left {
+            position: absolute;
+            top: 4mm;
+            left: 6mm;
+            width: 40mm;
+            height: 35mm;
+            z-index: 3;
+        }
+
+        .logo-right img,
+        .logo-left img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        @media print {
+            @page {
+                size: A3 portrait;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // נתוני הקבוצות המאושרות
+        const approvedTeams = [
+            { teamName: "אור לטף", students: ["ינאי לביא בצרי", "אריאל חן", "עמרי פישר", "איתי שטיבי"], schoolName: "אור לטף" },
+            { teamName: "ו׳1 ארלוזורוב האלופים", students: ["אגם סימן טוב", "יאיר בני", "איתי דהן", "מאור לוי"], schoolName: "ארלוזורוב" },
+            { teamName: "ו׳3 ארלוזורוב", students: ["איתן שגב", "שני שטנגל", "מאור גבאי", "שחר ברדוגו"], schoolName: "ארלוזורוב" },
+            { teamName: "קבוצה א נבון", students: ["אורי קינן", "אלון לוין", "אור בדש", "איתי שגיב"], schoolName: "בית חינוך יצחק נבון" },
+            { teamName: "קבוצה ב יצחק נבון", students: ["שקד יקיר", "גאיה קישילב", "אגם רותם", "רומי בלינטשטיין", "עילי בן שיטרית"], schoolName: "בית חינוך יצחק נבון" },
+            { teamName: "בירב", students: ["נועם צרור", "אליאב מלכה", "אודל בוחניק", "רום אללו"], schoolName: "בירב" },
+            { teamName: "בירב ו", students: ["מוריה", "נועה", "הראל יתאח", "אוראל שועאי"], schoolName: "בירב" },
+            { teamName: "נפתלי", students: ["פלג טימסית", "תמר לנץ", "ליאור גרובר", "נעם ליפו"], schoolName: "בראשית+הנדיב" },
+            { teamName: "הייטקיסטים", students: ["שון יוסופוב", "אדל פרטוק", "יאיר רקח", "מעוז דסטה"], schoolName: "גוונים" },
+            { teamName: "D.N.A-E", students: ["ארז דסטה", "אריאל קיומוב", "אנסטסיה קציף", "דיאנה קיסליצין"], schoolName: "גוונים" },
+            { teamName: "קבוצה 1 מנצחים בדרך", students: ["שחר אבי טל", "אנה נחום", "יובל גרשוב", "עידו לוין"], schoolName: "דרך ע\"ש רונה רמון" },
+            { teamName: "קבוצה 2 המעופפות בדרך", students: ["שחר אוחיון", "אוריין תייר", "נופר כהן", "חושן בראונשטיין"], schoolName: "דרך ע\"ש רונה רמון" },
+            { teamName: "קבוצה 3 הווינרים בדרך", students: ["גיא יופה", "גיא שפירא ציפורי", "איתי קפלן", "יוגב ענתבי", "אורי נגרין"], schoolName: "דרך ע\"ש רונה רמון" },
+            { teamName: "האיינשטנים", students: ["אור חיים לייבוביץ", "הוד שטרן", "אוריה זיו", "אדל יוסף"], schoolName: "הנדיב" },
+            { teamName: "הגאונים מהנדיב", students: ["אבישג לדני", "איילה קופל", "נויה פארן", "דרור מקובר"], schoolName: "הנדיב" },
+            { teamName: "החיטה פותרים בעיה", students: ["יותם שמעון", "לביא ליפשיץ", "גיל צורי", "שילה פידלמן"], schoolName: "החיטה" },
+            { teamName: "הניוטונים מישורון", students: ["אושר אליהו ביטון", "הדר כהן", "זוהר אסתר חן", "הדר אהרן"], schoolName: "ישורון" },
+            { teamName: "הדרדסונים של הדור הבא", students: ["נועם ימיני", "אליה אנקווא", "עדיאל גבאי", "ליאם פרץ"], schoolName: "ישורון" },
+            { teamName: "המדענים של תמרי ה1", students: ["מאיה יז'וב", "לאון נפתלייב", "יבסניה קלימוביץ", "טאיה גולדשטיין"], schoolName: "נחמיה תמרי" },
+            { teamName: "ממציאי המחר", students: ["אורי אלקובי", "אמה חיימוב", "לינוי שמאילוב", "עמית גרשמן"], schoolName: "נחמיה תמרי" },
+            { teamName: "ממציאות צעירות", students: ["ליאל בגים", "דניאל מיכאלי", "אדל שלמה", "אדלינה חנוכוב"], schoolName: "נחמיה תמרי" },
+            { teamName: "הבנות של חופית", students: ["לוטם חוסטילוב", "סיון בן חורין", "בר עבו", "אלינוי אליגוייב"], schoolName: "נחמיה תמרי" },
+            { teamName: "קבוצת ביוטי", students: ["אמי סבייב", "לורן וזיף", "אגם בקשייב", "מאי אברמוב"], schoolName: "נחמיה תמרי" },
+            { teamName: "הנסיכות", students: ["מאיה שמחה אוחיון", "אופיר ארביב", "אדווה כהן", "יהלי נתנוב"], schoolName: "נחמיה תמרי" },
+            { teamName: "קבוצה 1", students: ["גיא פאר", "עילי אסיף", "איתן אוסדון", "הראל בונוביצקי"], schoolName: "ניצני השרון" },
+            { teamName: "קבוצה 2", students: ["יאיר חקשורי", "אליעם אנקווה", "עידו ששי", "עומר דולגין"], schoolName: "ניצני השרון" },
+            { teamName: "קבוצה 3", students: ["לוטם שוורצמן", "אוריה אטיאס", "שחר בן יוסף"], schoolName: "ניצני השרון" },
+            { teamName: "עמק יזרעאל", students: ["איתי חץ", "מתן גרינולד", "ליהי אופק", "יערה קלנר"], schoolName: "עמק יזרעאל" },
+            { teamName: "עמק יזרעאל 2", students: ["מור זפרן", "עמרי פינקלשטיין", "גיא יחיאלי", "אריאל כנות"], schoolName: "עמק יזרעאל" },
+            { teamName: "כיתה ה בית ספר קדם", students: ["יהלי הספל", "ראם ברוידא", "בארי לוי", "מיכאל בן ארי"], schoolName: "קדם" },
+            { teamName: "כיתה ה קדם", students: ["יהונתן ביהילה", "עידו בורבה", "יהב בן", "עמית אוחנה"], schoolName: "קדם" },
+            { teamName: "קמפוס", students: ["צונסטקובסקי אידו", "עמרי נועה", "שירה שטרן", "סטררליץ עופרי", "ויצמן מיכאל"], schoolName: "קמפוס יצחק נבון" },
+            { teamName: "קבוצה 1 שדות", students: ["הילה האובן", "אלעד תורגמן", "שקד קוגוקרו", "נוגה אלמוג"], schoolName: "שדות" },
+            { teamName: "קבוצה 2 שדות", students: ["אלון רובינסון", "ענבר שטרית", "אייל לבנה", "זיו גזית"], schoolName: "שדות" },
+            { teamName: "קבוצה 4 שדות", students: ["עידו מושקוביץ", "מאור שפירא", "תומר לביא", "אלון עמר"], schoolName: "שדות" },
+            { teamName: "שדות טכנודע", students: ["ענבר לביד", "אורי יקירה", "דניאל רן", "יובל פינסקי"], schoolName: "שדות" },
+            { teamName: "שרת- פתרון אתגרים", students: ["נהטי אליהו", "נועה גרינברג", "נועם זיו", "נדב רבקין"], schoolName: "שרת" },
+            { teamName: "שרת - ממציאים פתרונות", students: ["אלמה בראון", "אליה טמין", "סמיון קורגרוב", "מיכאל סעדיה"], schoolName: "שרת" },
+            { teamName: "מצוינות 1", students: ["יערה כהנא", "מאיה טלמון", "נוגה בורשטיין", "מאיה גאווי"], schoolName: "טכנודע" },
+            { teamName: "מצוינות 2", students: ["רעי אסף לוי", "יאיר חפץ", "עמית חי", "יואב אפלשטיין"], schoolName: "טכנודע" },
+            { teamName: "מצוינות 4", students: ["בקי פרידמן", "הדס חממי", "נועה חממי", "רון סאסי", "מיכאלה מוגרבי"], schoolName: "טכנודע" },
+            { teamName: "כוכבי הלכת", students: ["מיכל חסון", "תמר ברקן", "שקד", "אדם פלג"], schoolName: "טכנודע" },
+            { teamName: "תלמי רון 1", students: ["נועם איינאו", "שגיא דניאל כהן", "איתמר סולר", "שלו ארביב"], schoolName: "תלמי רון" },
+            { teamName: "תלמי רון 2", students: ["מיה חיונידי", "ליה טפסאי", "רגינה מורוז", "ירדן כהן"], schoolName: "תלמי רון" },
+            { teamName: "תלמי רון 3", students: ["שחף אמסלם", "שחר סולומון", "כפיר דב אלמז", "איתי עוזרי"], schoolName: "תלמי רון" },
+            { teamName: "תלמי רון 4", students: ["נעם מליאנקר", "אורי עייש", "יואב אלון פישר", "אייל שרון"], schoolName: "תלמי רון" },
+            { teamName: "תלמי רון 5", students: ["גלי מצרי", "מיה רוזנטול", "מילאנה קיסליוב", "אדם וישניצקי"], schoolName: "תלמי רון" },
+            { teamName: "תלמי רון 6", students: ["איתן בן סימון", "רותם ויינשטיין", "איתי ששון", "יונתן דניאלוב"], schoolName: "תלמי רון" }
+        ];
+
+        // פונקציה ליצירת תוכן עמדה
+        function createStationContent(team) {
+            return `
+                <div class="event-header">
+                    <div class="event-title">האקתון הממציא הצעיר 2025</div>
+                    <div class="event-subtitle">ע"ש הנווט סרן ירון יונתח ז"ל</div>
+                </div>
+                
+                <div class="team-name-section">
+                    <div class="team-label">קבוצה</div>
+                    <div class="team-name">${team.teamName}</div>
+                </div>
+                
+                <div class="students-section">
+                    <div class="students-label">שמות התלמידים</div>
+                    <div class="students-list">
+                        ${team.students.map(student => 
+                            `<div class="student-name">${student.replace(/\s*-\s*כיתה\s*[דהו]'?/, '')}</div>`
+                        ).join('')}
+                    </div>
+                </div>
+                
+                <div class="school-section">
+                    <div class="school-label">מבית ספר</div>
+                    <div class="school-name">${team.schoolName}</div>
+                </div>
+            `;
+        }
+
+        // יצירת כל העמדות
+        function generateAllPages() {
+            const body = document.body;
+            
+            approvedTeams.forEach((team, index) => {
+                const page = document.createElement('div');
+                page.className = 'page';
+                
+                const content = createStationContent(team);
+                
+                page.innerHTML = `
+                    <div class="fold-line"></div>
+                    
+                    <!-- חלק עליון -->
+                    <div class="station-half top">
+                        <div class="team-station">
+                            <div class="logo-right">
+                                <img src="logol.png" alt="Lockheed Martin">
+                            </div>
+                            <div class="logo-left">
+                                <img src="logot.png" alt="טכנודע">
+                            </div>
+                            <div class="station-content">
+                                ${content}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- חלק תחתון -->
+                    <div class="station-half bottom">
+                        <div class="team-station">
+                            <div class="logo-right">
+                                <img src="logol.png" alt="Lockheed Martin">
+                            </div>
+                            <div class="logo-left">
+                                <img src="logot.png" alt="טכנודע">
+                            </div>
+                            <div class="station-content">
+                                ${content}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                body.appendChild(page);
+            });
+        }
+
+        // יצירת העמדות בטעינת הדף
+        document.addEventListener('DOMContentLoaded', generateAllPages);
+    </script>
+</body>
+</html>
