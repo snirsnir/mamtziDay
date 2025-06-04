@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מערכת ניהול נוכחות - מעקב קבוצות</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            direction: rtl;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .stats-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .overall-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .gaps-container {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .gaps-header {
+            text-align: center;
+            color: #856404;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .gaps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 15px;
+        }
+
+        .gap-item {
+            background: white;
+            border: 1px solid #f0c14b;
+            border-radius: 10px;
+            padding: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .gap-item:hover {
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .gap-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .gap-title {
+            font-weight: bold;
+            color: #856404;
+            font-size: 1.1rem;
+        }
+
+        .gap-count {
+            background: #856404;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .gap-groups {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .gap-group-name {
+            background: #e9ecef;
+            color: #495057;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .time-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
+        }
+
+        .time-slot-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border-right: 5px solid #667eea;
+        }
+
+        .time-slot-header {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .groups-grid {
+            display: grid;
+            gap: 15px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .group-item {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .group-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .group-info {
+            flex: 1;
+        }
+
+        .group-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 6px;
+            font-size: 1.1rem;
+        }
+
+        .group-details {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .attendance-summary {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .count-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .present-badge {
+            background: #28a745;
+            color: white;
+        }
+
+        .absent-badge {
+            background: #dc3545;
+            color: white;
+        }
+
+        .no-data-badge {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .absent-students {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .absent-label {
+            font-weight: bold;
+            color: #dc3545;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .absent-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .absent-student {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid #f5c6cb;
+        }
+
+        .auto-refresh {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #ccc;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #28a745;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(30px);
+        }
+
+        .refresh-btn {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .last-updated {
+            text-align: center;
+            color: #6c757d;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin: 20px 0;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .time-slots-grid, .gaps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .overall-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .group-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .attendance-summary {
+                align-self: stretch;
+            }
+
+            .absent-student, .gap-group-name {
+                font-size: 0.8rem;
+                padding: 3px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>מערכת ניהול נוכחות</h1>
+            <p>מעקב דינאמי אחר נוכחות קבוצות</p>
+        </div>
+
+        <div class="auto-refresh">
+            <span>רענון אוטומטי כל 10 שניות</span>
+            <div class="toggle-switch active" id="autoRefreshToggle">
+                <div class="toggle-slider"></div>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="חפש קבוצה לפי שם...">
+        </div>
+
+        <div class="stats-container">
+            <div class="overall-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalPresent">0</div>
+                    <div class="stat-label">סה״כ נוכחים</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalAbsent">0</div>
+                    <div class="stat-label">סה״כ נעדרים</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="activeGroups">0</div>
+                    <div class="stat-label">קבוצות פעילות</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="attendanceRate">0%</div>
+                    <div class="stat-label">אחוז נוכחות</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="timeslotGaps">0</div>
+                    <div class="stat-label">פערים בין רצועות</div>
+                </div>
+            </div>
+
+            <!-- Gaps Analysis Section -->
+            <div class="gaps-container" id="gapsContainer" style="display: none;">
+                <div class="gaps-header">📊 פירוט פערים בין רצועות זמן</div>
+                <div class="gaps-grid" id="gapsGrid"></div>
+            </div>
+
+            <div class="time-slots-grid" id="timeSlotsGrid">
+                <div class="loading">טוען נתוני נוכחות...</div>
+            </div>
+
+            <button class="refresh-btn" onclick="loadAttendanceData()">רענן נתונים</button>
+            <div class="last-updated" id="lastUpdated"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+        
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCe24QH6BXEWtF2zJWcP8WhV8qKj-3l-00",
+            authDomain: "gaash-2ea82.firebaseapp.com",
+            databaseURL: "https://gaash-2ea82-default-rtdb.firebaseio.com/",
+            projectId: "gaash-2ea82",
+            storageBucket: "gaash-2ea82.firebasestorage.app",
+            messagingSenderId: "1054252503536",
+            appId: "1:1054252503536:web:4b7c546bd737de696e4d35"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        const timeSlots = [
+            { key: "10:00-11:30", label: "רצועה 1: 10:00 - 11:30" },
+            { key: "12:00-13:30", label: "רצועה 2: 12:00 - 13:30" },
+            { key: "14:00-15:30", label: "רצועה 3: 14:00 - 15:30" }
+        ];
+
+        let attendanceData = {};
+        let autoRefreshInterval = null;
+        let isAutoRefreshActive = true;
+        let searchTerm = '';
+
+        // Make functions globally accessible
+        window.loadAttendanceData = loadAttendanceData;
+
+        // Auto refresh toggle
+        document.getElementById('autoRefreshToggle').addEventListener('click', function() {
+            isAutoRefreshActive = !isAutoRefreshActive;
+            this.classList.toggle('active');
+            
+            if (isAutoRefreshActive) {
+                startAutoRefresh();
+            } else {
+                stopAutoRefresh();
+            }
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            searchTerm = this.value.toLowerCase();
+            updateDisplay();
+        });
+
+        function startAutoRefresh() {
+            if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+            
+            autoRefreshInterval = setInterval(() => {
+                loadAttendanceData(false);
+            }, 10000);
+        }
+
+        function stopAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+        }
+
+        function loadAttendanceData(showLoading = true) {
+            if (showLoading) {
+                document.getElementById('timeSlotsGrid').innerHTML = '<div class="loading">טוען נתוני נוכחות...</div>';
+            }
+
+            const attendanceRef = ref(database, 'נוכחות');
+            onValue(attendanceRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    attendanceData = snapshot.val();
+                } else {
+                    attendanceData = {};
+                }
+                updateDisplay();
+                updateLastUpdatedTime();
+            }, (error) => {
+                console.error('Error loading attendance data:', error);
+                document.getElementById('timeSlotsGrid').innerHTML = '<div class="loading">שגיאה בטעינת הנתונים</div>';
+            });
+        }
+
+        function updateDisplay() {
+            const stats = calculateOverallStats();
+            const gaps = calculateTimeslotGaps();
+            updateOverallStats(stats, gaps);
+            updateGapsDisplay(gaps);
+            updateTimeSlotsDisplay();
+        }
+
+        function calculateOverallStats() {
+            let totalPresent = 0;
+            let totalAbsent = 0;
+            let activeGroups = new Set();
+
+            Object.keys(attendanceData).forEach(groupName => {
+                const groupData = attendanceData[groupName];
+                let hasData = false;
+                
+                Object.keys(groupData).forEach(timeSlot => {
+                    const timeData = groupData[timeSlot];
+                    Object.keys(timeData).forEach(lab => {
+                        const labData = timeData[lab];
+                        Object.keys(labData).forEach(studentName => {
+                            const status = labData[studentName];
+                            hasData = true;
+                            if (status === 'present') {
+                                totalPresent++;
+                            } else if (status === 'absent') {
+                                totalAbsent++;
+                            }
+                        });
+                    });
+                });
+                
+                if (hasData) {
+                    activeGroups.add(groupName);
+                }
+            });
+
+            const totalStudents = totalPresent + totalAbsent;
+            const attendanceRate = totalStudents > 0 ? Math.round((totalPresent / totalStudents) * 100) : 0;
+
+            return {
+                totalPresent,
+                totalAbsent,
+                activeGroups: activeGroups.size,
+                attendanceRate
+            };
+        }
+
+        function calculateTimeslotGaps() {
+            const gaps = {
+                totalGaps: 0,
+                gapDetails: []
+            };
+
+            // Compare each pair of consecutive time slots
+            for (let i = 0; i < timeSlots.length - 1; i++) {
+                const currentSlot = timeSlots[i];
+                const nextSlot = timeSlots[i + 1];
+                
+                const currentData = getGroupAttendanceData(currentSlot.key);
+                const nextData = getGroupAttendanceData(nextSlot.key);
+                
+                const groupsWithGaps = [];
+                
+                // Only check groups that have data in BOTH time slots
+                Object.keys(currentData).forEach(groupName => {
+                    if (nextData[groupName]) {
+                        // Both time slots have data for this group
+                        const currentAbsent = currentData[groupName].absent;
+                        const nextAbsent = nextData[groupName].absent;
+                        const gap = Math.abs(nextAbsent - currentAbsent);
+                        
+                        if (gap > 0) {
+                            groupsWithGaps.push({
+                                groupName,
+                                currentAbsent,
+                                nextAbsent,
+                                gap
+                            });
+                            gaps.totalGaps += gap;
+                        }
+                    }
+                });
+                
+                if (groupsWithGaps.length > 0) {
+                    gaps.gapDetails.push({
+                        fromSlot: currentSlot.label,
+                        toSlot: nextSlot.label,
+                        groups: groupsWithGaps
+                    });
+                }
+            }
+            
+            return gaps;
+        }
+
+        function getGroupAttendanceData(timeSlot) {
+            const groupData = {};
+            
+            Object.keys(attendanceData).forEach(groupName => {
+                const groupInfo = attendanceData[groupName];
+                
+                if (groupInfo[timeSlot]) {
+                    const timeData = groupInfo[timeSlot];
+                    let totalPresent = 0;
+                    let totalAbsent = 0;
+                    let hasActualData = false;
+                    
+                    Object.keys(timeData).forEach(lab => {
+                        const labData = timeData[lab];
+                        Object.keys(labData).forEach(studentName => {
+                            const status = labData[studentName];
+                            hasActualData = true;
+                            if (status === 'present') {
+                                totalPresent++;
+                            } else if (status === 'absent') {
+                                totalAbsent++;
+                            }
+                        });
+                    });
+                    
+                    // Only include groups that have actual attendance data
+                    if (hasActualData) {
+                        groupData[groupName] = {
+                            present: totalPresent,
+                            absent: totalAbsent,
+                            hasData: true
+                        };
+                    }
+                }
+            });
+            
+            return groupData;
+        }
+
+        function updateOverallStats(stats, gaps) {
+            document.getElementById('totalPresent').textContent = stats.totalPresent;
+            document.getElementById('totalAbsent').textContent = stats.totalAbsent;
+            document.getElementById('activeGroups').textContent = stats.activeGroups;
+            document.getElementById('attendanceRate').textContent = stats.attendanceRate + '%';
+            document.getElementById('timeslotGaps').textContent = gaps.totalGaps;
+        }
+
+        function updateGapsDisplay(gaps) {
+            const gapsContainer = document.getElementById('gapsContainer');
+            const gapsGrid = document.getElementById('gapsGrid');
+            
+            if (gaps.totalGaps > 0) {
+                gapsContainer.style.display = 'block';
+                
+                let html = '';
+                gaps.gapDetails.forEach(gapDetail => {
+                    const totalGapsInDetail = gapDetail.groups.reduce((sum, g) => sum + g.gap, 0);
+                    
+                    html += `
+                        <div class="gap-item">
+                            <div class="gap-header">
+                                <div class="gap-title">${gapDetail.fromSlot} → ${gapDetail.toSlot}</div>
+                                <div class="gap-count">${totalGapsInDetail} פערים</div>
+                            </div>
+                            <div class="gap-groups">
+                                ${gapDetail.groups.map(group => 
+                                    `<span class="gap-group-name">${group.groupName} (${group.currentAbsent}→${group.nextAbsent})</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                gapsGrid.innerHTML = html;
+            } else {
+                gapsContainer.style.display = 'none';
+            }
+        }
+
+        function updateTimeSlotsDisplay() {
+            let html = '';
+
+            timeSlots.forEach(timeSlot => {
+                const groupsData = getGroupsForTimeSlot(timeSlot.key);
+                
+                html += `
+                    <div class="time-slot-card">
+                        <div class="time-slot-header">${timeSlot.label}</div>
+                        <div class="groups-grid">
+                `;
+
+                if (groupsData.length === 0) {
+                    html += '<div class="loading">אין נתוני נוכחות לרצועה זו</div>';
+                } else {
+                    groupsData.forEach(group => {
+                        // Apply search filter
+                        if (searchTerm && !group.name.toLowerCase().includes(searchTerm)) {
+                            return;
+                        }
+
+                        html += `
+                            <div class="group-item">
+                                <div class="group-header">
+                                    <div class="group-info">
+                                        <div class="group-name">${group.name}</div>
+                                        <div class="group-details">${group.lab} • ${group.present + group.absent} תלמידים</div>
+                                    </div>
+                                    <div class="attendance-summary">
+                                        ${group.present > 0 ? `<span class="count-badge present-badge">נוכח: ${group.present}</span>` : ''}
+                                        ${group.absent > 0 ? `<span class="count-badge absent-badge">נעדר: ${group.absent}</span>` : ''}
+                                        ${group.present === 0 && group.absent === 0 ? `<span class="count-badge no-data-badge">אין נתונים</span>` : ''}
+                                    </div>
+                                </div>
+                                ${group.absent > 0 && group.absentStudents && group.absentStudents.length > 0 ? `
+                                    <div class="absent-students">
+                                        <div class="absent-label">נעדרים (${group.absentStudents.length}):</div>
+                                        <div class="absent-list">
+                                            ${group.absentStudents.map(student => `<span class="absent-student">${student}</span>`).join('')}
+                                        </div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    });
+                }
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('timeSlotsGrid').innerHTML = html;
+        }
+
+        function getGroupsForTimeSlot(timeSlot) {
+            const groups = [];
+            
+            Object.keys(attendanceData).forEach(groupName => {
+                const groupData = attendanceData[groupName];
+                
+                if (groupData[timeSlot]) {
+                    const timeData = groupData[timeSlot];
+                    
+                    Object.keys(timeData).forEach(lab => {
+                        const labData = timeData[lab];
+                        let present = 0;
+                        let absent = 0;
+                        let absentStudents = [];
+                        
+                        Object.keys(labData).forEach(studentName => {
+                            const status = labData[studentName];
+                            if (status === 'present') {
+                                present++;
+                            } else if (status === 'absent') {
+                                absent++;
+                                absentStudents.push(studentName);
+                            }
+                        });
+                        
+                        groups.push({
+                            name: groupName,
+                            lab: lab,
+                            present: present,
+                            absent: absent,
+                            absentStudents: absentStudents
+                        });
+                    });
+                }
+            });
+            
+            groups.sort((a, b) => a.name.localeCompare(b.name, 'he'));
+            return groups;
+        }
+
+        function updateLastUpdatedTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('he-IL');
+            const dateString = now.toLocaleDateString('he-IL');
+            document.getElementById('lastUpdated').textContent = `עודכן לאחרונה: ${dateString} ${timeString}`;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAttendanceData();
+            startAutoRefresh();
+        });
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function() {
+            stopAutoRefresh();
+        });
+    </script>
+</body>
+</html>
