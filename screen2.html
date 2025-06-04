@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>האקתון הממציא.ה הצעיר.ה 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            direction: rtl;
+            background: #ff6b6b;
+            animation: colorChange 25s infinite;
+            width: 319px;
+            height: 636px;
+            overflow: hidden;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes colorChange {
+            0% { background: #ff6b6b; }
+            12.5% { background: #ff6b6b; }
+            25% { background: #4ecdc4; }
+            37.5% { background: #45b7d1; }
+            50% { background: #96ceb4; }
+            62.5% { background: #feca57; }
+            75% { background: #ff9ff3; }
+            87.5% { background: #54a0ff; }
+            100% { background: #5f27cd; }
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            padding-bottom: 80px;
+            position: relative;
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 20px;
+            backdrop-filter: blur(25px);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: titleShine 4s infinite;
+        }
+
+        @keyframes titleShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .main-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGradient 3s ease-in-out infinite;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes textGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .year {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.3);
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+            position: relative;
+            z-index: 2;
+        }
+
+        .content-grid {
+            flex: 1;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 20px;
+        }
+
+        .welcome-section {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 18px;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .welcome-text {
+            color: white;
+            font-size: 15px;
+            line-height: 1.6;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7), 0 0 10px rgba(255, 255, 255, 0.2);
+            font-weight: 500;
+            animation: textPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes textPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .icons-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .innovation-icon {
+            font-size: 32px;
+            animation: iconFloat 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        .innovation-icon:nth-child(1) { animation-delay: 0s; }
+        .innovation-icon:nth-child(2) { animation-delay: 0.5s; }
+        .innovation-icon:nth-child(3) { animation-delay: 1s; }
+        .innovation-icon:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-15px) scale(1.1); }
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: white;
+            margin-top: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .logos-container {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo-wrapper {
+            width: 50px;
+            height: 50px;
+ 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+   
+
+        }
+
+        .logo-wrapper img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            filter: brightness(1.3) saturate(1.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="title-section">
+            <h1 class="main-title">האקתון הממציא.ה הצעיר.ה</h1>
+            <div class="year">2025</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="welcome-section">
+                <div class="welcome-text">
+                    ברוכים הבאים לאירוע החדשנות הגדול של השנה!<br>
+                    כאן נפגשים חלומות עם מציאות
+                </div>
+            </div>
+
+            <div class="icons-section">
+                <span class="innovation-icon">🚀</span>
+                <span class="innovation-icon">💡</span>
+                <span class="innovation-icon">🔬</span>
+                <span class="innovation-icon">⚡</span>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number">48</div>
+                    <div class="stat-label">קבוצות משתתפות</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">מעבדות</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">מסלולי פעילות</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">אפשרויות יצירה</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="logos-container">
+        <div class="logo-wrapper">
+            <img src="logol.png" alt="לוגו שמאל" onerror="this.style.display='none'">
+        </div>
+        <div class="logo-wrapper">
+            <img src="logot.png" alt="לוגו ימין" onerror="this.style.display='none'">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // אפקטים דינמיים לכרטיסי סטטיסטיקה
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach((card, index) => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.background = 'rgba(255, 255, 255, 0.4)';
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.6)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.background = 'rgba(255, 255, 255, 0.25)';
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                });
+
+                // אנימציה מתחילה עם דיליי
+                setTimeout(() => {
+                    card.style.animation = `cardEntrance 0.8s ease-out forwards`;
+                }, index * 200);
+            });
+
+            // אפקט נוסף לכותרת
+            const title = document.querySelector('.main-title');
+            let colorIndex = 0;
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3'];
+            
+            setInterval(() => {
+                title.style.filter = `drop-shadow(0 0 20px ${colors[colorIndex]})`;
+                colorIndex = (colorIndex + 1) % colors.length;
+            }, 1500);
+        });
+
+        // CSS נוסף לאנימציית כניסה
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes cardEntrance {
+                0% { 
+                    opacity: 0; 
+                    transform: translateY(20px) scale(0.8); 
+                }
+                100% { 
+                    opacity: 1; 
+                    transform: translateY(0) scale(1); 
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
