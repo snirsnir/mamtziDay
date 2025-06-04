@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>האקתון הממציא.ה הצעיר.ה 2025 - סדנאות</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(135deg, #e74848 0%, #ff0342 50%, #ff1dce 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated background */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .floating-shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .shape1 { width: 80px; height: 80px; top: 10%; left: 10%; animation-delay: 0s; }
+        .shape2 { width: 120px; height: 120px; top: 60%; left: 80%; animation-delay: 2s; }
+        .shape3 { width: 60px; height: 60px; top: 30%; left: 70%; animation-delay: 4s; }
+        .shape4 { width: 100px; height: 100px; top: 80%; left: 20%; animation-delay: 1s; }
+        .shape5 { width: 40px; height: 40px; top: 20%; left: 50%; animation-delay: 3s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
+        }
+        
+        /* Logos container */
+        .logos-container {
+            position: absolute;
+            top: -40px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 20;
+        }
+        
+        .logo {
+            width: 320px;
+            height: 320px;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+        }
+        
+        .logo:hover {
+            transform: scale(1.1) rotate(2deg);
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
+        }
+        
+        .logo.right {
+            order: 1;
+        }
+        
+        .logo.left {
+            order: 2;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            padding-top: 180px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Main title */
+        .main-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .main-title h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #ffd93d);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease-in-out infinite;
+            text-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        /* Workshop section */
+        .workshop-section {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+        
+        .workshop-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 40px;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+        
+        .workshop-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            border-radius: 2px;
+        }
+        
+        /* Labs container */
+        .labs-container {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        
+        .lab-card {
+            background: rgba(255, 255, 255, 0.15);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 50px 40px;
+            min-width: 280px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+        
+        .lab-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .lab-card:hover::before {
+            left: 100%;
+        }
+        
+        .lab-card:hover {
+            transform: translateY(-20px) scale(1.05);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+        
+        .lab-number {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .lab-title {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .lab-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+        
+        /* Connection line between labs */
+        .connection-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            border-radius: 2px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scaleX(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scaleX(1.2); }
+        }
+        
+        /* Interactive elements */
+        .lab-card::after {
+            content: '🔬';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+        
+        .lab-card:hover::after {
+            opacity: 1;
+            transform: rotate(15deg) scale(1.2);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .logos-container {
+                padding: 0 20px;
+            }
+            
+            .logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .container {
+                padding-top: 140px;
+            }
+            
+            .main-title h1 {
+                font-size: 3.5rem;
+            }
+            
+            .workshop-title {
+                font-size: 2.5rem;
+            }
+            
+            .labs-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .lab-card {
+                min-width: 260px;
+                padding: 40px 30px;
+            }
+            
+            .lab-number {
+                font-size: 3rem;
+            }
+            
+            .lab-title {
+                font-size: 1.8rem;
+            }
+            
+            .connection-line {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .container {
+                padding-top: 120px;
+            }
+            
+            .main-title h1 {
+                font-size: 2.8rem;
+            }
+            
+            .workshop-title {
+                font-size: 2rem;
+            }
+            
+            .lab-card {
+                min-width: 240px;
+                padding: 35px 25px;
+            }
+        }
+        
+        /* Additional glow effects */
+        .glow-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background animation -->
+    <div class="background-animation">
+        <div class="floating-shape shape1"></div>
+        <div class="floating-shape shape2"></div>
+        <div class="floating-shape shape3"></div>
+        <div class="floating-shape shape4"></div>
+        <div class="floating-shape shape5"></div>
+    </div>
+    
+    <!-- Glow overlay -->
+    <div class="glow-overlay"></div>
+    
+    <!-- Logos container -->
+    <div class="logos-container">
+        <img src="logol.png" alt="Logo Left" class="logo left">
+        <img src="logot.png" alt="Logo Right" class="logo right">
+    </div>
+    
+    <div class="container">
+        <!-- Main title -->
+        <div class="main-title">
+            <h1>האקתון הממציא.ה הצעיר.ה 2025</h1>
+        </div>
+        
+        <!-- Workshop section -->
+        <div class="workshop-section">
+            <h2 class="workshop-title">סדנאות ספר פרויקט (המצאפדיה)</h2>
+        </div>
+        
+        <!-- Labs container -->
+        <div class="labs-container">
+            <!-- Lab 5 -->
+            <div class="lab-card" onclick="selectLab(5)">
+                <div class="lab-number">1</div>
+                <h3 class="lab-title">מעבדה 1</h3>
+            </div>
+            
+            <!-- Connection line -->
+            <div class="connection-line"></div>
+            
+            <!-- Lab 6 -->
+            <div class="lab-card" onclick="selectLab(6)">
+                <div class="lab-number">2</div>
+                <h3 class="lab-title">מעבדה 2</h3>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive mouse tracking
+        document.addEventListener('mousemove', function(e) {
+            const glowOverlay = document.querySelector('.glow-overlay');
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            glowOverlay.style.setProperty('--x', x + '%');
+            glowOverlay.style.setProperty('--y', y + '%');
+        });
+        
+        // Lab selection function
+        function selectLab(labNumber) {
+            // Add selection animation
+            const allCards = document.querySelectorAll('.lab-card');
+            allCards.forEach(card => {
+                card.style.transform = 'scale(0.95)';
+                card.style.opacity = '0.7';
+            });
+            
+            const selectedCard = event.currentTarget;
+            selectedCard.style.transform = 'scale(1.1)';
+            selectedCard.style.opacity = '1';
+            
+            setTimeout(() => {
+                alert(`נבחרה מעבדה ${labNumber}!`);
+                
+                // Reset all cards
+                allCards.forEach(card => {
+                    card.style.transform = '';
+                    card.style.opacity = '';
+                });
+            }, 300);
+        }
+        
+        // Entrance animation
+        window.addEventListener('load', function() {
+            const elements = document.querySelectorAll('.main-title, .workshop-section, .lab-card');
+            elements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(50px)';
+                element.style.transition = 'all 0.8s ease';
+                
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '5') {
+                selectLab(5);
+            } else if (e.key === '6') {
+                selectLab(6);
+            }
+        });
+    </script>
+</body>
+</html>
