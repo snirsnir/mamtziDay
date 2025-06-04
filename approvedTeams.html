@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>קבוצות מאושרות - האקתון הממציא הצעיר 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f6f8ff 0%, #e9ecff 100%);
+            direction: rtl;
+            padding: 20px;
+            color: #2d3748;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            color: #1a365d;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-box {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .stats-box h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats-number {
+            font-size: 3em;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .table-header {
+            background: linear-gradient(45deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 20px;
+            font-size: 1.5em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white;
+            padding: 15px 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1em;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e3f2fd;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        .school-name {
+            font-weight: 600;
+            color: #1a365d;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .team-name {
+            font-weight: 500;
+            color: #2563eb;
+            text-align: center;
+            background: #f0f9ff;
+            border-radius: 6px;
+            padding: 6px;
+        }
+
+        .students-cell {
+            background: #f8f9ff;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .student-item {
+            background: rgba(37, 99, 235, 0.1);
+            margin: 3px 0;
+            padding: 6px 8px;
+            border-radius: 4px;
+            border-right: 3px solid #2563eb;
+            font-size: 0.9em;
+        }
+
+        .teacher-cell {
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+            font-weight: 500;
+            color: #047857;
+        }
+
+        .city-cell {
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+            font-weight: 500;
+            color: #92400e;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            border: 2px solid #d1d5db;
+            border-radius: 10px;
+            font-family: 'Fredoka', sans-serif;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            th, td {
+                padding: 8px 6px;
+            }
+
+            .student-item {
+                font-size: 0.8em;
+                padding: 4px 6px;
+            }
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #2563eb;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        .back-to-top svg {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>קבוצות מאושרות - האקתון הממציא הצעיר 2025</h1>
+        </header>
+
+        <div class="stats-box">
+            <h2>סיכום קבוצות מאושרות</h2>
+            <div class="stats-number" id="totalTeams">0</div>
+            <p>קבוצות אישרו השתתפות באירוע</p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="searchBox" class="search-box" placeholder="חיפוש לפי שם קבוצה, בית ספר, עיר או שמות תלמידים..." />
+        </div>
+
+        <div class="table-container">
+            <div class="table-header">רשימת הקבוצות המאושרות</div>
+            <table id="teamsTable">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">בית ספר</th>
+                        <th style="width: 20%;">שם הקבוצה</th>
+                        <th style="width: 35%;">תלמידים</th>
+                        <th style="width: 15%;">מורה מנחה</th>
+                        <th style="width: 10%;">עיר</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- התוכן יוכנס כאן באמצעות JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="noResults" class="no-results" style="display: none;">
+            לא נמצאו תוצאות לחיפוש. נסו שוב עם מילות חיפוש אחרות.
+        </div>
+    </div>
+
+    <div class="back-to-top" id="backToTop">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </div>
+
+    <script>
+        // נתונים של כל הקבוצות
+        const teamsData = [
+            {
+                schoolName: "אור לטף",
+                teams: [
+                    {
+                        teamName: "אור לטף",
+                        students: [
+                            "ינאי לביא בצרי",
+                            "אריאל חן",
+                            "עמרי פישר",
+                            "איתי שטיבי"
+                        ],
+                        city: "חדרה",
+                        teacher: "ליאת שטרנפלד"
+                    }
+                ]
+            },
+            {
+                schoolName: "ארלוזורוב",
+                teams: [
+                    {
+                        teamName: "ו׳1 ארלוזורוב האלופים",
+                        students: [
+                            "אגם סימן טוב - כיתה ו'",
+                            "יאיר בני - כיתה ו'",
+                            "איתי דהן - כיתה ו'",
+                            "מאור לוי - כיתה ו'"
+                        ],
+                        city: "חדרה",
+                        teacher: "ליבנת גוילי"
+                    },
+                    {
+                        teamName: "ו׳3 ארלוזורוב",
+                        students: [
+                            "איתן שגב - כיתה ו'",
+                            "שני שטנגל - כיתה ו'",
+                            "מאור גבאי - כיתה ו'",
+                            "שחר ברדוגו - כיתה ו'"
+                        ],
+                        city: "חדרה",
+                        teacher: "ליבנת גוילי"
+                    },
+                    {
+                        teamName: "ו׳2 ארלוזורוב",
+                        students: [
+                            "עילאי יהב - כיתה ו'",
+                            "אלה לביא - כיתה ו'",
+                            "אביגיל שביט - כיתה ו'",
+                            "יקיר דונביץ - כיתה ו'"
+                        ],
+                        city: "חדרה",
+                        teacher: "ליבנת גוילי"
+                    }
+                ]
+            },
+            {
+                schoolName: "בית חינוך יצחק נבון",
+                teams: [
+                    {
+                        teamName: "קבוצה א נבון",
+                        students: [
+                            "אורי קינן'",
+                            "אלון לוין'",
+                            "אור בדש'",
+                            "איתי שגיב'"
+                        ],
+                        city: "יקנעם עילית",
+                        teacher: "נטע וייס יונה"
+                    },
+                    {
+                        teamName: "קבוצה ב יצחק נבון",
+                        students: [
+                            "שקד יקיר'",
+                            "גאיה קישילב'",
+                            "אגם רותם'",
+                            "רומי בלינטשטיין'",
+                            "עילי בן שיטרית'"
+                        ],
+                        city: "יקנעם עילית",
+                        teacher: "נטע וייס יונה"
+                    }
+                ]
+            },
+            {
+                schoolName: "בירב",
+                teams: [
+                    {
+                        teamName: "בירב",
+                        students: [
+                            "נועם צרור - כיתה ה'",
+                            "אליאב מלכה - כיתה ה'",
+                            "אודל בוחניק - כיתה ה'",
+                            "רום אללו - כיתה ה'"
+                        ],
+                        city: "צפת",
+                        teacher: "חגית אזרזר"
+                    },
+                    {
+                        teamName: "בירב ד",
+                        students: [
+                            "אריאל זיסמן - כיתה ד'",
+                            "הראל מלול - כיתה ד'",
+                            "עילאי ביטון - כיתה ד'",
+                            "הדר - כיתה ד'"
+                        ],
+                        city: "צפת",
+                        teacher: "חגית אזרזר"
+                    },
+                    {
+                        teamName: "בירב ו",
+                        students: [
+                            "מוריה - כיתה ו'",
+                            "נועה - כיתה ו'",
+                            "הראל יתאח - כיתה ו'",
+                            "אוראל שועאי - כיתה ו'"
+                        ],
+                        city: "צפת",
+                        teacher: "חגית אזרזר"
+                    }
+                ]
+            },
+            {
+                schoolName: "בראשית+הנדיב",
+                teams: [
+                    {
+                        teamName: "נפתלי",
+                        students: [
+                            "פלג טימסית - כיתה ו'",
+                            "תמר לנץ - כיתה ו'",
+                            "ליאור גרובר - כיתה ו'",
+                            "נעם ליפו - כיתה ו'"
+                        ],
+                        city: "בנימינה",
+                        teacher: "עמית"
+                    }
+                ]
+            },
+            {
+                schoolName: "גוונים",
+                teams: [
+                    {
+                        teamName: "הייטקיסטים",
+                        students: [
+                            "שון יוסופוב - כיתה ו'",
+                            "אדל פרטוק - כיתה ו'",
+                            "יאיר רקח - כיתה ו'",
+                            "מעוז דסטה - כיתה ו'"
+                        ],
+                        city: "עפולה",
+                        teacher: "גני פרידמן"
+                    },
+                    {
+                        teamName: "D.N.A-E",
+                        students: [
+                            "ארז דסטה - כיתה ה'",
+                            "אריאל קיומוב - כיתה ה'",
+                            "אנסטסיה קציף - כיתה ה'",
+                            "דיאנה קיסליצין - כיתה ה'"
+                        ],
+                        city: "עפולה",
+                        teacher: "גני פרידמן"
+                    }
+                ]
+            },
+            {
+                schoolName: "דרך ע\"ש רונה רמון",
+                teams: [
+                    {
+                        teamName: "קבוצה 1 מנצחים בדרך",
+                        students: [
+                            "שחר אבי טל - כיתה ה'",
+                            "אנה נחום - כיתה ה'",
+                            "יובל גרשוב - כיתה ה'",
+                            "עידו לוין - כיתה ד'"
+                        ],
+                        city: "כפר יונה",
+                        teacher: "לילך פרץ"
+                    },
+                    {
+                        teamName: "קבוצה 2 המעופפות בדרך",
+                        students: [
+                            "שחר אוחיון - כיתה ה'",
+                            "אוריין תייר - כיתה ה'",
+                            "נופר כהן - כיתה ה'",
+                            "חושן בראונשטיין - כיתה ו'"
+                        ],
+                        city: "כפר יונה",
+                        teacher: "לילך פרץ"
+                    },
+                    {
+                        teamName: "קבוצה 3 הווינרים בדרך",
+                        students: [
+                            "גיא יופה - כיתה ה'",
+                            "גיא שפירא ציפורי - כיתה ה'",
+                            "איתי קפלן - כיתה ה'",
+                            "יוגב ענתבי - כיתה ה'",
+                            "אורי נגרין - כיתה ה'"
+                        ],
+                        city: "כפר יונה",
+                        teacher: "לילך פרץ"
+                    }
+                ]
+            },
+            {
+                schoolName: "הנדיב",
+                teams: [
+                    {
+                        teamName: "האיינשטנים",
+                        students: [
+                            "אור חיים לייבוביץ - כיתה ה'",
+                            "הוד שטרן - כיתה ה'",
+                            "אוריה זיו - כיתה ה'",
+                            "אדל יוסף - כיתה ה'"
+                        ],
+                        city: "בנימינה",
+                        teacher: "נילי צוררו פיכטמן"
+                    },
+                    {
+                        teamName: "הגאונים מהנדיב",
+                        students: [
+                            "אבישג לדני - כיתה ה'",
+                            "איילה קופל - כיתה ה'",
+                            "נויה פארן - כיתה ד'",
+                            "דרור מקובר - כיתה ה'"
+                        ],
+                        city: "בנימינה",
+                        teacher: "נילי צוררו פיכטמן"
+                    }
+                ]
+            },
+            {
+                schoolName: "החיטה",
+                teams: [
+                    {
+                        teamName: "החיטה פותרים בעיה",
+                        students: [
+                            "יותם שמעון - כיתה ו'",
+                            "לביא ליפשיץ - כיתה ו'",
+                            "גיל צורי - כיתה ו'",
+                            "שילה פידלמן - כיתה ו'"
+                        ],
+                        city: "זכרון יעקב",
+                        teacher: "איריס פיכטמן צוררו"
+                    }
+                ]
+            },
+            {
+                schoolName: "ישורון",
+                teams: [
+                    {
+                        teamName: "הניוטונים מישורון",
+                        students: [
+                            "אושר אליהו ביטון - כיתה ו'",
+                            "הדר כהן - כיתה ה'",
+                            "זוהר אסתר חן - כיתה ה'",
+                            "הדר אהרן - כיתה ו'"
+                        ],
+                        city: "פרדס חנה",
+                        teacher: "נילי צוררו"
+                    },
+                    {
+                        teamName: "הדרדסונים של הדור הבא",
+                        students: [
+                            "נועם ימיני - כיתה ה'",
+                            "אליה אנקווא - כיתה ה'",
+                            "עדיאל גבאי - כיתה ו'",
+                            "ליאם פרץ - כיתה ה'"
+                        ],
+                        city: "פרדס חנה",
+                        teacher: "נילי צוררו"
+                    }
+                ]
+            },
+            {
+                schoolName: "נחמיה תמרי",
+                teams: [
+                    {
+                        teamName: "המדענים של תמרי ה1",
+                        students: [
+                            "מאיה יז'וב - כיתה ה'",
+                            "לאון נפתלייב - כיתה ה'",
+                            "יבסניה קלימוביץ - כיתה ה'",
+                            "טאיה גולדשטיין - כיתה ה'"
+                        ],
+                        city: "אור עקיבא",
+                        teacher: "חופית אברהם בוחבוט"
+                    },
+                    {
+                        teamName: "ממציאי המחר",
+                        students: [
+                            "אורי אלקובי - כיתה ה'",
+                            "אמה חיימוב - כיתה ה'",
+                            "לינוי שמאילוב - כיתה ה'",
+                            "עמית גרשמן - כיתה ה'"
+                        ],
+                        city: "אור עקיבא",
+                        teacher: "חופית אברהם בוחבוט"
+                    },
+                    {
+                        teamName: "ממציאות צעירות",
+                        students: [
+                            "ליאל בגים - כיתה ה'",
+                            "דניאל מיכאלי - כיתה ה'",
+                            "אדל שלמה - כיתה ה'",
+                            "אדלינה חנוכוב - כיתה ה'"
+                        ],
+                        city: "אור עקיבא",
+                        teacher: "חופית אברהם בוחבוט"
+                    },
+                    {
+                        teamName: "הבנות של חופית",
+                        students: [
+                            "לוטם חוסטילוב - כיתה ה'",
+                            "סיון בן חורין - כיתה ה'",
+                            "בר עבו - כיתה ה'",
+                            "אלינוי אליגוייב - כיתה ה'"
+                        ],
+                        city: "אור עקיבא",
+                        teacher: "חופית אברהם בוחבוט"
+                    },
+                    {
+                        teamName: "קבוצת ביוטי",
+                        students: [
+                            "אמי סבייב - כיתה ה'",
+                            "לורן וזיף - כיתה ה'",
+                            "אגם בקשייב - כיתה ה'",
+                            "מאי אברמוב - כיתה ה'"
+                        ],
+                        city: "אור עקיבא",
+                        teacher: "חופית אברהם בוחבוט"
+                    },
+                    {
+                        teamName: "הנסיכות",
+                        students: [
+                            "מאיה שמחה אוחיון - כיתה ה'",
+                            "אופיר ארביב - כיתה ה'",
+                            "אדווה כהן - כיתה ה'",
+                            "יהלי נתנוב - כיתה ה'"
+                        ],
+                        city: "אור עקיבא",
+                        teacher: "חופית אברהם בוחבוט"
+                    }
+                ]
+            },
+            {
+                schoolName: "ניצני השרון",
+                teams: [
+                    {
+                        teamName: "קבוצה 1",
+                        students: [
+                            "גיא פאר - כיתה ד'",
+                            "עילי אסיף - כיתה ד'",
+                            "איתן אוסדון - כיתה ד'",
+                            "הראל בונוביצקי - כיתה ד'"
+                        ],
+                        city: "קדימה צורן",
+                        teacher: "לילך פרץ"
+                    },
+                    {
+                        teamName: "קבוצה 2",
+                        students: [
+                            "יאיר חקשורי - כיתה ד'",
+                            "אליעם אנקווה - כיתה ד'",
+                            "עידו ששי - כיתה ד'",
+                            "עומר דולגין - כיתה ה'"
+                        ],
+                        city: "קדימה צורן",
+                        teacher: "לילך פרץ"
+                    },
+                    {
+                        teamName: "קבוצה 3",
+                        students: [
+                            "לוטם שוורצמן - כיתה ד'",
+                            "אוריה אטיאס - כיתה ה'",
+                            "שחר בן יוסף - כיתה ה'"
+                        ],
+                        city: "קדימה צורן",
+                        teacher: "לילך פרץ"
+                    }
+                ]
+            },
+            {
+                schoolName: "עמק יזרעאל",
+                teams: [
+                    {
+                        teamName: "עמק יזרעאל",
+                        students: [
+                            "איתי חץ - כיתה ו'",
+                            "מתן גרינולד - כיתה ו'",
+                            "ליהי אופק - כיתה ו'",
+                            "יערה קלנר - כיתה ד'"
+                        ],
+                        city: "גניגר",
+                        teacher: "רגינה לוין"
+                    },
+                    {
+                        teamName: "עמק יזרעאל 2",
+                        students: [
+                            "מור זפרן - כיתה ה'",
+                            "עמרי פינקלשטיין - כיתה ה'",
+                            "גיא יחיאלי - כיתה ו'",
+                            "אריאל כנות - כיתה ו'"
+                        ],
+                        city: "גניגר",
+                        teacher: "רגינה לוין"
+                    }
+                ]
+            },
+            {
+                schoolName: "קדם",
+                teams: [
+                    {
+                        teamName: "כיתה ה בית ספר קדם",
+                        students: [
+                            "יהלי הספל - כיתה ה'",
+                            "ראם ברוידא - כיתה ה'",
+                            "בארי לוי - כיתה ה'",
+                            "מיכאל בן ארי - כיתה ה'"
+                        ],
+                        city: "בארותיים",
+                        teacher: "מירי גז"
+                    },
+                    {
+                        teamName: "כיתה ה קדם",
+                        students: [
+                            "יהונתן ביהילה - כיתה ה'",
+                            "עידו בורבה - כיתה ה'",
+                            "יהב בן - כיתה ה'",
+                            "עמית אוחנה - כיתה ה'"
+                        ],
+                        city: "בארותיים",
+                        teacher: "מירי גז"
+                    }
+                ]
+            },
+            {
+                schoolName: "קמפוס יצחק נבון",
+                teams: [
+                    {
+                        teamName: "קמפוס",
+                        students: [
+                            "צונסטקובסקי אידו'",
+                            "עמרי נועה'",
+                            "שירה שטרן'",
+                            "סטררליץ עופרי'",
+                            "ויצמן מיכאל'"
+                        ],
+                        city: "נתניה",
+                        teacher: "אתי חזיזה"
+                    }
+                ]
+            },
+            {
+                schoolName: "שדות",
+                teams: [
+                    {
+                        teamName: "קבוצה 1 שדות",
+                        students: [
+                            "הילה האובן - כיתה ה'",
+                            "אלעד תורגמן - כיתה ה'",
+                            "שקד קוגוקרו - כיתה ה'",
+                            "נוגה אלמוג - כיתה ה'"
+                        ],
+                        city: "פרדס חנה כרכור",
+                        teacher: "אתאר חמארשה"
+                    },
+                    {
+                        teamName: "קבוצה 2 שדות",
+                        students: [
+                            "אלון רובינסון - כיתה ה'",
+                            "ענבר שטרית - כיתה ה'",
+                            "אייל לבנה - כיתה ה'",
+                            "זיו גזית - כיתה ה'"
+                        ],
+                        city: "פרדס חנה כרכור",
+                        teacher: "אתאר חמארשה"
+                    },
+                    {
+                        teamName: "קבוצה 4 שדות",
+                        students: [
+                            "עידו מושקוביץ - כיתה ה'",
+                            "מאור שפירא - כיתה ה'",
+                            "תומר לביא - כיתה ה'",
+                            "אלון עמר - כיתה ה'"
+                        ],
+                        city: "פרדס חנה כרכור",
+                        teacher: "אתאר חמארשה"
+                    },
+                    {
+                        teamName: "שדות טכנודע",
+                        students: [
+                            "ענבר לביד - כיתה ה'",
+                            "אורי יקירה - כיתה ה'",
+                            "דניאל רן - כיתה ה'",
+                            "יובל פינסקי - כיתה ה'"
+                        ],
+                        city: "פרדס חנה כרכור",
+                        teacher: "אתאר חמארשה"
+                    }
+                ]
+            },
+            {
+                schoolName: "שרת",
+                teams: [
+                    {
+                        teamName: "שרת- פתרון אתגרים",
+                        students: [
+                            "נהטי אליהו - כיתה ו'",
+                            "נועה גרינברג - כיתה ו'",
+                            "נועם זיו - כיתה ו'",
+                            "נדב רבקין - כיתה ו'"
+                        ],
+                        city: "פרדס חנה",
+                        teacher: "איריס פיכטמן צוררו"
+                    },
+                    {
+                        teamName: "שרת - ממציאים פתרונות",
+                        students: [
+                            "אלמה בראון - כיתה ה'",
+                            "אליה טמין - כיתה ה'",
+                            "סמיון קורגרוב - כיתה ה'",
+                            "מיכאל סעדיה - כיתה ה'"
+                        ],
+                        city: "פרדס חנה",
+                        teacher: "איריס פיכטמן צוררו"
+                    }
+                ]
+            },
+            {
+                schoolName: "טכנודע",
+                teams: [
+                    {
+                        teamName: "מצוינות 1",
+                        students: [
+                            "יערה כהנא - כיתה ו'",
+                            "מאיה טלמון - כיתה ו'",
+                            "נוגה בורשטיין - כיתה ו'",
+                            "מאיה גאווי - כיתה ו'"
+                        ],
+                        city: "חדרה",
+                        teacher: "משה"
+                    },
+                    {
+                        teamName: "מצוינות 2",
+                        students: [
+                            "רעי אסף לוי - כיתה ו'",
+                            "יאיר חפץ - כיתה ו'",
+                            "עמית חי - כיתה ו'",
+                            "יואב אפלשטיין - כיתה ו'"
+                        ],
+                        city: "חדרה",
+                        teacher: "משה"
+                    },
+                    {
+                        teamName: "מצוינות 4",
+                        students: [
+                            "בקי פרידמן - כיתה ו'",
+                            "הדס חממי - כיתה ו'",
+                            "נועה חממי - כיתה ו'",
+                            "רון סאסי - כיתה ו'",
+                            "מיכאלה מוגרבי - כיתה ו'"
+                        ],
+                        city: "חדרה",
+                        teacher: "משה"
+                    },
+                    {
+                        teamName: "כוכבי הלכת",
+                        students: [
+                            "מיכל חסון",
+                            "תמר ברקן",
+                            "שקד",
+                            "אדם פלג"
+                        ],
+                        city: "חדרה",
+                        teacher: "משה"
+                    }
+                ]
+            },
+            {
+                schoolName: "תלמי רון",
+                teams: [
+                    {
+                        teamName: "תלמי רון 3",
+                        students: [
+                            "שחף אמסלם - כיתה ה'",
+                            "שחר סולומון - כיתה ה'",
+                            "כפיר דב אלמז - כיתה ה'",
+                            "איתי עוזרי - כיתה ה'"
+                        ],
+                        city: "חריש",
+                        teacher: "שירה"
+                    },
+                    {
+                        teamName: "תלמי רון 4",
+                        students: [
+                            "נעם מליאנקר - כיתה ה'",
+                            "אורי עייש - כיתה ו'",
+                            "יואב אלון פישר - כיתה ו'",
+                            "אייל שרון - כיתה ו'"
+                        ],
+                        city: "חריש",
+                        teacher: "שירה פישמן"
+                    },
+                    {
+                        teamName: "תלמי רון 5",
+                        students: [
+                            "גלי מצרי - כיתה ה'",
+                            "מיה רוזנטול - כיתה ו'",
+                            "מילאנה קיסליוב - כיתה ו'",
+                            "אדם וישניצקי - כיתה ו'"
+                        ],
+                        city: "חריש",
+                        teacher: "שירה פישמן"
+                    }
+                ]
+            }
+        ];
+
+        // רשימת הקבוצות המאושרות
+        const preApprovedTeams = [
+            "אור לטף_אור לטף",
+            "ארלוזורוב_ו׳1 ארלוזורוב האלופים",
+            "ארלוזורוב_ו׳3 ארלוזורוב",
+            "בית חינוך יצחק נבון_קבוצה א נבון",
+            "בית חינוך יצחק נבון_קבוצה ב יצחק נבון",
+            "בירב_בירב",
+            "בירב_בירב ו",
+            "בראשית+הנדיב_נפתלי",
+            "גוונים_הייטקיסטים",
+            "גוונים_D.N.A-E",
+            "דרך ע\"ש רונה רמון_קבוצה 1 מנצחים בדרך",
+            "דרך ע\"ש רונה רמון_קבוצה 2 המעופפות בדרך",
+            "דרך ע\"ש רונה רמון_קבוצה 3 הווינרים בדרך",
+            "הנדיב_האיינשטנים",
+            "הנדיב_הגאונים מהנדיב",
+            "החיטה_החיטה פותרים בעיה",
+            "ישורון_הניוטונים מישורון",
+            "ישורון_הדרדסונים של הדור הבא",
+            "נחמיה תמרי_המדענים של תמרי ה1",
+            "נחמיה תמרי_ממציאי המחר",
+            "נחמיה תמרי_ממציאות צעירות",
+            "נחמיה תמרי_הבנות של חופית",
+            "נחמיה תמרי_קבוצת ביוטי",
+            "נחמיה תמרי_הנסיכות",
+            "ניצני השרון_קבוצה 1",
+            "ניצני השרון_קבוצה 2",
+            "ניצני השרון_קבוצה 3",
+            "עמק יזרעאל_עמק יזרעאל",
+            "עמק יזרעאל_עמק יזרעאל 2",
+            "קדם_כיתה ה בית ספר קדם",
+            "קדם_כיתה ה קדם",
+            "קמפוס יצחק נבון_קמפוס",
+            "שדות_קבוצה 1 שדות",
+            "שדות_קבוצה 2 שדות",
+            "שדות_קבוצה 4 שדות",
+            "שדות_שדות טכנודע",
+            "שרת_שרת- פתרון אתגרים",
+            "שרת_שרת - ממציאים פתרונות",
+            "טכנודע_מצוינות 1",
+            "טכנודע_מצוינות 2",
+            "טכנודע_מצוינות 4",
+            "טכנודע_כוכבי הלכת",
+            "תלמי רון_תלמי רון 3",
+            "תלמי רון_תלמי רון 4",
+            "תלמי רון_תלמי רון 5"
+        ];
+
+        // פונקציה ליצירת רשימת הקבוצות המאושרות
+        function getApprovedTeams() {
+            const approvedTeams = [];
+            
+            teamsData.forEach(school => {
+                school.teams.forEach(team => {
+                    const teamId = `${school.schoolName}_${team.teamName}`;
+                    if (preApprovedTeams.includes(teamId)) {
+                        approvedTeams.push({
+                            schoolName: school.schoolName,
+                            teamName: team.teamName,
+                            students: team.students,
+                            city: team.city,
+                            teacher: team.teacher
+                        });
+                    }
+                });
+            });
+            
+            return approvedTeams;
+        }
+
+        // פונקציה ליצירת שורה בטבלה
+        function createTableRow(team) {
+            const studentsHtml = team.students.map(student => 
+                `<div class="student-item">${student}</div>`
+            ).join('');
+            
+            return `
+                <tr>
+                    <td class="school-name">${team.schoolName}</td>
+                    <td class="team-name">${team.teamName}</td>
+                    <td class="students-cell">${studentsHtml}</td>
+                    <td class="teacher-cell">${team.teacher}</td>
+                    <td class="city-cell">${team.city}</td>
+                </tr>
+            `;
+        }
+
+        // פונקציה להצגת הטבלה
+        function renderTable(teams) {
+            const tableBody = document.getElementById('tableBody');
+            const noResults = document.getElementById('noResults');
+            const totalTeamsElement = document.getElementById('totalTeams');
+            
+            totalTeamsElement.textContent = teams.length;
+            
+            if (teams.length === 0) {
+                tableBody.innerHTML = '';
+                noResults.style.display = 'block';
+                document.querySelector('.table-container').style.display = 'none';
+            } else {
+                const html = teams.map(team => createTableRow(team)).join('');
+                tableBody.innerHTML = html;
+                noResults.style.display = 'none';
+                document.querySelector('.table-container').style.display = 'block';
+            }
+        }
+
+        // פונקציית סינון לחיפוש
+        function filterTeams() {
+            const searchText = document.getElementById('searchBox').value.trim().toLowerCase();
+            const approvedTeams = getApprovedTeams();
+            
+            if (!searchText) {
+                renderTable(approvedTeams);
+                return;
+            }
+            
+            const filteredTeams = approvedTeams.filter(team => {
+                const nameMatch = team.teamName.toLowerCase().includes(searchText);
+                const schoolMatch = team.schoolName.toLowerCase().includes(searchText);
+                const cityMatch = team.city.toLowerCase().includes(searchText);
+                const teacherMatch = team.teacher.toLowerCase().includes(searchText);
+                const studentsMatch = team.students.some(student => 
+                    student.toLowerCase().includes(searchText)
+                );
+                
+                return nameMatch || schoolMatch || cityMatch || teacherMatch || studentsMatch;
+            });
+            
+            renderTable(filteredTeams);
+        }
+
+        // התאמת כפתור "חזרה למעלה"
+        function toggleBackToTopButton() {
+            const backToTopButton = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        }
+
+        // הגדרת מאזיני אירועים
+        document.addEventListener('DOMContentLoaded', function() {
+            // הצגת הטבלה הראשונית
+            const approvedTeams = getApprovedTeams();
+            renderTable(approvedTeams);
+            
+            // הוספת מאזין לאירוע חיפוש
+            document.getElementById('searchBox').addEventListener('input', filterTeams);
+            
+            // הוספת מאזין לאירוע גלילה
+            window.addEventListener('scroll', toggleBackToTopButton);
+            
+            // הוספת מאזין לאירוע לחיצה על כפתור "חזרה למעלה"
+            document.getElementById('backToTop').addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
