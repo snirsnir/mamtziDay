@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מחולל תעודות האקתון הממציא הצעיר 2025</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-title {
+            text-align: center;
+            color: #8B5CF6;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #4A5568;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Heebo', sans-serif;
+            transition: all 0.3s ease;
+            background: #F8FAFC;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 8px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #4A5568;
+            padding: 12px 20px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: #F8FAFC;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .radio-label:hover {
+            border-color: #8B5CF6;
+            background: #F3F4F6;
+        }
+
+        .radio-label input[type="radio"] {
+            display: none;
+        }
+
+        .radio-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #CBD5E0;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .radio-label input[type="radio"]:checked + .radio-custom {
+            border-color: #8B5CF6;
+            background: #8B5CF6;
+        }
+
+        .radio-label input[type="radio"]:checked + .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .radio-label input[type="radio"]:checked ~ span:last-child,
+        .radio-label:has(input[type="radio"]:checked) {
+            color: #8B5CF6;
+            border-color: #8B5CF6;
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Heebo', sans-serif;
+            min-width: 150px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: #F1F5F9;
+            color: #64748B;
+            border: 2px solid #E2E8F0;
+        }
+
+        .btn-secondary:hover {
+            background: #E2E8F0;
+            color: #475569;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .certificate-preview {
+            display: none;
+            margin-top: 40px;
+        }
+
+        .certificate {
+            width: 210mm;
+            height: 297mm;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #f8f9fa;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            page-break-after: always;
+            break-after: page;
+        }
+
+        .student-name {
+            position: absolute;
+            top: 25.5%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 48px;
+            font-weight: 800;
+            color: #2C1810;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            z-index: 10;
+            width: 80%;
+            line-height: 1.2;
+        }
+
+        .school-name {
+            position: absolute;
+            top: 36%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 32px;
+            font-weight: 600;
+            color: #4A3728;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
+            z-index: 10;
+            width: 70%;
+            line-height: 1.3;
+        }
+
+        .certificate-actions {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        /* הגדרות הדפסה */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            html, body {
+                width: 210mm;
+                height: 297mm;
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                overflow: hidden;
+            }
+
+            .header,
+            .form-container,
+            .certificate-actions,
+            .success-message {
+                display: none !important;
+            }
+
+            .certificate-preview {
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 210mm !important;
+                height: 297mm !important;
+            }
+
+            .certificate {
+                width: 210mm !important;
+                height: 297mm !important;
+                max-width: 210mm !important;
+                max-height: 297mm !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                page-break-after: avoid;
+                break-after: avoid;
+                transform: none !important;
+            }
+
+            .student-name {
+                font-size: 45px !important;
+            }
+
+            .school-name {
+                font-size: 30px !important;
+            }
+
+            /* מיקום מיוחד לתעודת מורה בהדפסה */
+            .certificate[data-type="teacher"] .student-name {
+                top: 29.5% !important;
+            }
+
+            .certificate[data-type="teacher"] .school-name {
+                top: 41% !important;
+            }
+
+            /* מיקום לתעודת תלמיד בהדפסה */
+            .certificate[data-type="student"] .student-name {
+                top: 25.5% !important;
+            }
+
+            .certificate[data-type="student"] .school-name {
+                top: 36% !important;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 0mm;
+                padding: 0mm;
+            }
+        }
+
+        /* עיצוב רספונסיבי */
+        .form-group input:focus {
+            outline: none;
+            border-color: #8B5CF6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        @media screen and (max-width: 768px) {
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .container {
+                padding: 10px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .certificate {
+                width: 90vw;
+                height: calc(90vw * 1.414);
+                max-width: 210mm;
+                max-height: 297mm;
+            }
+            
+            .student-name {
+                font-size: 36px;
+            }
+            
+            .school-name {
+                font-size: 24px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* אנימציות */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .certificate-preview {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .form-container {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏆 מחולל תעודות האקתון הממציא הצעיר 2025</h1>
+            <p>צור תעודה אישית לכל משתתף בקלות</p>
+        </div>
+
+        <div class="form-container">
+            <h2 class="form-title">📝 פרטי התעודה</h2>
+            
+            <form id="certificateForm">
+                <div class="form-group">
+                    <label>סוג התעודה:</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="certificateType" value="student" checked>
+                            <span class="radio-custom"></span>
+                            🎓 תעודת תלמיד
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="certificateType" value="teacher">
+                            <span class="radio-custom"></span>
+                            👨‍🏫 תעודת מורה
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="personName" id="personNameLabel">שם התלמיד/ה:</label>
+                    <input type="text" id="personName" name="personName" placeholder="הכנס/י את שם התלמיד המלא" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="schoolName">שם בית הספר:</label>
+                    <input type="text" id="schoolName" name="schoolName" placeholder="הכנס/י את שם בית הספר" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        ✨ צור תעודה
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                        🗑️ נקה טופס
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="certificate-preview" id="certificatePreview">
+            <div class="success-message">
+                ✅ התעודה נוצרה בהצלחה! ניתן להדפיס עכשיו
+            </div>
+            
+            <div class="certificate" id="certificate">
+                <div class="student-name" id="certificatePersonName"></div>
+                <div class="school-name" id="certificateSchoolName"></div>
+            </div>
+
+            <div class="certificate-actions">
+                <button class="btn btn-primary" onclick="printCertificate()">
+                    🖨️ הדפס תעודה
+                </button>
+                <button class="btn btn-secondary" onclick="createNew()">
+                    📝 צור תעודה חדשה
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('certificateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            generateCertificate();
+        });
+
+        // עדכון התווית והמיקום בהתאם לסוג התעודה
+        document.querySelectorAll('input[name="certificateType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                updateFormLabels();
+                updateCertificatePositions();
+            });
+        });
+
+        function updateFormLabels() {
+            const isTeacher = document.querySelector('input[name="certificateType"]:checked').value === 'teacher';
+            const nameLabel = document.getElementById('personNameLabel');
+            const nameInput = document.getElementById('personName');
+            
+            if (isTeacher) {
+                nameLabel.textContent = 'שם המורה:';
+                nameInput.placeholder = 'הכנס/י את שם המורה המלא';
+            } else {
+                nameLabel.textContent = 'שם התלמיד/ה:';
+                nameInput.placeholder = 'הכנס/י את שם התלמיד המלא';
+            }
+        }
+
+        function updateCertificatePositions() {
+            const isTeacher = document.querySelector('input[name="certificateType"]:checked').value === 'teacher';
+            const certificate = document.getElementById('certificate');
+            const studentName = document.getElementById('certificatePersonName');
+            const schoolName = document.getElementById('certificateSchoolName');
+            
+            if (isTeacher) {
+                // עיצוב תעודת מורה
+                certificate.style.backgroundImage = "url('teacher.jpg')";
+                studentName.style.top = '29.5%';
+                schoolName.style.top = '41%';
+            } else {
+                // עיצוב תעודת תלמיד
+                certificate.style.backgroundImage = "url('bg.png')";
+                studentName.style.top = '25.5%';
+                schoolName.style.top = '36%';
+            }
+        }
+
+        function generateCertificate() {
+            const personName = document.getElementById('personName').value.trim();
+            const schoolName = document.getElementById('schoolName').value.trim();
+            const isTeacher = document.querySelector('input[name="certificateType"]:checked').value === 'teacher';
+
+            if (!personName || !schoolName) {
+                alert('אנא מלא את כל השדות');
+                return;
+            }
+
+            // עדכון התעודה
+            document.getElementById('certificatePersonName').textContent = personName;
+            document.getElementById('certificateSchoolName').textContent = schoolName;
+            
+            // עדכון עיצוב התעודה
+            updateCertificatePositions();
+
+            // הצגת התעודה
+            document.getElementById('certificatePreview').style.display = 'block';
+            
+            // עדכון הודעת הצלחה
+            const successMessage = document.querySelector('.success-message');
+            successMessage.textContent = `✅ תעודת ${isTeacher ? 'המורה' : 'התלמיד'} נוצרה בהצלחה! ניתן להדפיס עכשיו`;
+            
+            // גלילה חלקה לתעודה
+            document.getElementById('certificatePreview').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        function printCertificate() {
+            window.print();
+        }
+
+        function clearForm() {
+            document.getElementById('certificateForm').reset();
+            document.getElementById('certificatePreview').style.display = 'none';
+        }
+
+        function createNew() {
+            clearForm();
+            document.getElementById('personName').focus();
+            
+            // גלילה חזרה לטופס
+            document.querySelector('.form-container').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // פוקוס אוטומטי על השדה הראשון
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('personName').focus();
+            updateFormLabels(); // וודא שהתוויות נכונות בטעינה
+        });
+
+        // שמירה אוטומטית בזיכרון המקומי (ללא localStorage)
+        let formData = {
+            personName: '',
+            schoolName: '',
+            certificateType: 'student'
+        };
+
+        // שמירת נתונים בזמן הקלדה
+        document.getElementById('personName').addEventListener('input', function(e) {
+            formData.personName = e.target.value;
+        });
+
+        document.getElementById('schoolName').addEventListener('input', function(e) {
+            formData.schoolName = e.target.value;
+        });
+
+        // קיצורי מקלדת
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + Enter ליצירת תעודה
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                if (document.getElementById('certificatePreview').style.display === 'none' || 
+                    !document.getElementById('certificatePreview').style.display) {
+                    generateCertificate();
+                }
+            }
+            
+            // Ctrl/Cmd + P להדפסה
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                if (document.getElementById('certificatePreview').style.display === 'block') {
+                    e.preventDefault();
+                    printCertificate();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
