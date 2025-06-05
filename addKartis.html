@@ -231,6 +231,10 @@
             page-break-inside: avoid;
             break-inside: avoid;
             margin: 0 auto;
+            min-width: 9cm;
+            min-height: 6cm;
+            max-width: 9cm;
+            max-height: 6cm;
         }
 
         .geometric-pattern {
@@ -444,7 +448,7 @@
 
             .name-tags-preview {
                 grid-template-columns: repeat(2, 9cm);
-                gap: 3mm;
+                gap: 5mm;
                 justify-content: center;
                 margin: 0;
             }
@@ -453,6 +457,12 @@
                 margin: 0;
                 box-shadow: none;
                 border: 1px solid #ddd;
+                width: 9cm !important;
+                height: 6cm !important;
+                min-width: 9cm !important;
+                min-height: 6cm !important;
+                max-width: 9cm !important;
+                max-height: 6cm !important;
             }
 
             @page {
@@ -491,6 +501,13 @@
             .name-tags-preview {
                 grid-template-columns: 1fr;
                 justify-items: center;
+            }
+
+            .name-tag {
+                width: 90vw;
+                height: calc(90vw * 0.667);
+                max-width: 9cm;
+                max-height: 6cm;
             }
         }
 
@@ -707,8 +724,8 @@
                         </div>
                     </div>
                     <div class="footer-logos">
-                        <div class="logo" style="background: #8B5CF6; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: bold; font-size: 12px;">לוגו</div>
-                        <div class="logo" style="background: #059669; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: bold; font-size: 12px;">לוגו</div>
+                        <img src="logot.png" alt="טכנודע" class="logo">
+                        <img src="logol.png" alt="Lockheed Martin" class="logo">
                     </div>
                 `;
                 
