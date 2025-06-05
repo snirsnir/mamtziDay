@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מחולל כרטיסיות שם - האקתון הממציא הצעיר 2025</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-title {
+            text-align: center;
+            color: #8B5CF6;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #4A5568;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Heebo', sans-serif;
+            transition: all 0.3s ease;
+            background: #F8FAFC;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #8B5CF6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .color-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .color-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 12px 15px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: #F8FAFC;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .color-option:hover {
+            border-color: #8B5CF6;
+            background: #F3F4F6;
+        }
+
+        .color-option input[type="radio"] {
+            display: none;
+        }
+
+        .color-preview {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .color-option input[type="radio"]:checked ~ .color-option-content {
+            color: #8B5CF6;
+        }
+
+        .color-option:has(input[type="radio"]:checked) {
+            border-color: #8B5CF6;
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Heebo', sans-serif;
+            min-width: 150px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: #F1F5F9;
+            color: #64748B;
+            border: 2px solid #E2E8F0;
+        }
+
+        .btn-secondary:hover {
+            background: #E2E8F0;
+            color: #475569;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .preview-container {
+            display: none;
+            margin-top: 40px;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .name-tags-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(9cm, 1fr));
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .name-tag {
+            width: 9cm;
+            height: 6cm;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            page-break-inside: avoid;
+            break-inside: avoid;
+            margin: 0 auto;
+        }
+
+        .geometric-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(255, 255, 255, 0.5) 3px,
+                    rgba(255, 255, 255, 0.5) 4px
+                ),
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(255, 255, 255, 0.3) 3px,
+                    rgba(255, 255, 255, 0.3) 4px
+                );
+        }
+
+        .header-section {
+            text-align: center;
+            padding: 8px 15px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .event-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .organizer {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: calc(100% - 50px);
+            padding: 6px 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .name-section {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .name-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            margin-bottom: 2px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .name-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            padding: 3px 10px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            border: 2px dashed rgba(255, 255, 255, 0.7);
+            min-height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .school-section {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 4px;
+        }
+
+        .school-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            margin-bottom: 2px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .school-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            padding: 2px 8px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            text-shadow: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .team-section {
+            text-align: center;
+            width: 100%;
+        }
+
+        .team-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            margin-bottom: 1px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .team-value {
+            font-size: 10px;
+            font-weight: 500;
+            color: #444;
+            padding: 2px 6px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            text-shadow: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .footer-logos {
+            position: absolute;
+            top: 45px;
+            left: 5px;
+            right: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .logo {
+            height: 65px;
+            max-width: 100px;
+            object-fit: contain;
+            opacity: 0.9;
+            filter: brightness(1.1) drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+        }
+
+        /* צבעי בתי ספר */
+        .school-0 { background: linear-gradient(135deg, #ff6b6b, #ff8e8e); }
+        .school-1 { background: linear-gradient(135deg, #4ecdc4, #7dd3d8); }
+        .school-2 { background: linear-gradient(135deg, #45b7d1, #74c5dc); }
+        .school-3 { background: linear-gradient(135deg, #96ceb4, #b8dcc5); }
+        .school-4 { background: linear-gradient(135deg, #feca57, #fed976); }
+        .school-5 { background: linear-gradient(135deg, #ff9ff3, #fbb6ff); }
+        .school-6 { background: linear-gradient(135deg, #54a0ff, #7fb3ff); }
+        .school-7 { background: linear-gradient(135deg, #5f27cd, #7c4ddb); }
+        .school-8 { background: linear-gradient(135deg, #00d2d3, #26dedf); }
+        .school-9 { background: linear-gradient(135deg, #ff9f43, #ffb366); }
+        .school-10 { background: linear-gradient(135deg, #ee5a6f, #f07788); }
+        .school-11 { background: linear-gradient(135deg, #0abde3, #2ed5f7); }
+        .school-12 { background: linear-gradient(135deg, #10ac84, #2ed5a5); }
+        .school-13 { background: linear-gradient(135deg, #fd79a8, #fe9bc2); }
+        .school-14 { background: linear-gradient(135deg, #fdcb6e, #fed788); }
+        .school-15 { background: linear-gradient(135deg, #6c5ce7, #8b7ced); }
+        .school-16 { background: linear-gradient(135deg, #a29bfe, #b8b5ff); }
+        .school-17 { background: linear-gradient(135deg, #fd79a8, #fe9bc2); }
+        .school-18 { background: linear-gradient(135deg, #00b894, #26d0b0); }
+        .school-19 { background: linear-gradient(135deg, #e17055, #e88e77); }
+        .school-20 { background: linear-gradient(135deg, #81ecec, #a7f0f0); }
+        .school-21 { background: linear-gradient(135deg, #fab1a0, #fdc4b6); }
+        .school-22 { background: linear-gradient(135deg, #74b9ff, #92c5ff); }
+        .school-23 { background: linear-gradient(135deg, #55a3ff, #7bb8ff); }
+        .school-24 { background: linear-gradient(135deg, #fd79a8, #fe9bc2); }
+        .school-25 { background: linear-gradient(135deg, #fdcb6e, #fed788); }
+
+        .preview-actions {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* הגדרות הדפסה */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .header,
+            .form-container,
+            .preview-actions,
+            .success-message {
+                display: none;
+            }
+
+            .preview-container {
+                display: block !important;
+                margin: 0;
+            }
+
+            .name-tags-preview {
+                grid-template-columns: repeat(2, 9cm);
+                gap: 3mm;
+                justify-content: center;
+                margin: 0;
+            }
+
+            .name-tag {
+                margin: 0;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+        }
+
+        /* עיצוב רספונסיבי */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .color-selector {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 10px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .name-tags-preview {
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
+        }
+
+        /* אנימציות */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .preview-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .form-container {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏷️ מחולל כרטיסיות שם</h1>
+            <p>האקתון הממציא הצעיר 2025 • ע"ש הנווט סרן ירון יונתח ז"ל</p>
+        </div>
+
+        <div class="form-container">
+            <h2 class="form-title">📝 יצירת כרטיסייה חדשה</h2>
+            
+            <form id="nameTagForm">
+                <div class="form-group">
+                    <label for="personName">שם המשתתף/ת:</label>
+                    <input type="text" id="personName" name="personName" placeholder="הכנס/י את השם המלא" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="schoolName">שם בית הספר:</label>
+                    <input type="text" id="schoolName" name="schoolName" placeholder="הכנס/י את שם בית הספר" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="teamName">שם הקבוצה:</label>
+                    <input type="text" id="teamName" name="teamName" placeholder="הכנס/י את שם הקבוצה" required>
+                </div>
+
+                <div class="form-group">
+                    <label>בחר/י צבע לכרטיסייה:</label>
+                    <div class="color-selector" id="colorSelector">
+                        <!-- הצבעים ייווצרו דינמית -->
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        ✨ צור כרטיסייה
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                        🗑️ נקה טופס
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="preview-container" id="previewContainer">
+            <div class="success-message" id="successMessage">
+                ✅ הכרטיסייה נוצרה בהצלחה! ניתן להדפיס עכשיו
+            </div>
+            
+            <div class="name-tags-preview" id="nameTagsPreview">
+                <!-- הכרטיסיות יופיעו כאן -->
+            </div>
+
+            <div class="preview-actions">
+                <button class="btn btn-success" onclick="printNameTags()">
+                    🖨️ הדפס כרטיסיות
+                </button>
+                <button class="btn btn-primary" onclick="addAnother()">
+                    ➕ הוסף כרטיסייה נוספת
+                </button>
+                <button class="btn btn-secondary" onclick="createNew()">
+                    📝 התחל מחדש
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // רשימת הצבעים עם שמות בעברית
+        const colors = [
+            { name: 'אדום כתום', value: 0, gradient: 'linear-gradient(135deg, #ff6b6b, #ff8e8e)' },
+            { name: 'טורקיז', value: 1, gradient: 'linear-gradient(135deg, #4ecdc4, #7dd3d8)' },
+            { name: 'כחול בהיר', value: 2, gradient: 'linear-gradient(135deg, #45b7d1, #74c5dc)' },
+            { name: 'ירוק מנטה', value: 3, gradient: 'linear-gradient(135deg, #96ceb4, #b8dcc5)' },
+            { name: 'צהוב זהב', value: 4, gradient: 'linear-gradient(135deg, #feca57, #fed976)' },
+            { name: 'ורוד בהיר', value: 5, gradient: 'linear-gradient(135deg, #ff9ff3, #fbb6ff)' },
+            { name: 'כחול רויאל', value: 6, gradient: 'linear-gradient(135deg, #54a0ff, #7fb3ff)' },
+            { name: 'סגול כהה', value: 7, gradient: 'linear-gradient(135deg, #5f27cd, #7c4ddb)' },
+            { name: 'ציאן', value: 8, gradient: 'linear-gradient(135deg, #00d2d3, #26dedf)' },
+            { name: 'כתום', value: 9, gradient: 'linear-gradient(135deg, #ff9f43, #ffb366)' },
+            { name: 'ורוד אדמדם', value: 10, gradient: 'linear-gradient(135deg, #ee5a6f, #f07788)' },
+            { name: 'כחול בריכה', value: 11, gradient: 'linear-gradient(135deg, #0abde3, #2ed5f7)' },
+            { name: 'ירוק יער', value: 12, gradient: 'linear-gradient(135deg, #10ac84, #2ed5a5)' },
+            { name: 'ורוד פוקסיה', value: 13, gradient: 'linear-gradient(135deg, #fd79a8, #fe9bc2)' },
+            { name: 'צהוב חמניות', value: 14, gradient: 'linear-gradient(135deg, #fdcb6e, #fed788)' },
+            { name: 'סגול בינוני', value: 15, gradient: 'linear-gradient(135deg, #6c5ce7, #8b7ced)' },
+            { name: 'לבנדר', value: 16, gradient: 'linear-gradient(135deg, #a29bfe, #b8b5ff)' },
+            { name: 'ירוק ים', value: 18, gradient: 'linear-gradient(135deg, #00b894, #26d0b0)' },
+            { name: 'כתום אדמה', value: 19, gradient: 'linear-gradient(135deg, #e17055, #e88e77)' },
+            { name: 'תכלת בהיר', value: 20, gradient: 'linear-gradient(135deg, #81ecec, #a7f0f0)' },
+            { name: 'אפרסק', value: 21, gradient: 'linear-gradient(135deg, #fab1a0, #fdc4b6)' },
+            { name: 'כחול שמיים', value: 22, gradient: 'linear-gradient(135deg, #74b9ff, #92c5ff)' },
+            { name: 'כחול עמוק', value: 23, gradient: 'linear-gradient(135deg, #55a3ff, #7bb8ff)' }
+        ];
+
+        let createdTags = [];
+
+        // אתחול הטופס
+        function initForm() {
+            createColorSelector();
+            document.getElementById('nameTagForm').addEventListener('submit', handleSubmit);
+            document.getElementById('personName').focus();
+        }
+
+        // יצירת בורר הצבעים
+        function createColorSelector() {
+            const colorSelector = document.getElementById('colorSelector');
+            
+            colors.forEach((color, index) => {
+                const colorOption = document.createElement('label');
+                colorOption.className = 'color-option';
+                colorOption.innerHTML = `
+                    <input type="radio" name="colorChoice" value="${color.value}" ${index === 0 ? 'checked' : ''}>
+                    <div class="color-preview" style="background: ${color.gradient}"></div>
+                    <div class="color-option-content">${color.name}</div>
+                `;
+                colorSelector.appendChild(colorOption);
+            });
+        }
+
+        // טיפול בשליחת הטופס
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            const personName = document.getElementById('personName').value.trim();
+            const schoolName = document.getElementById('schoolName').value.trim();
+            const teamName = document.getElementById('teamName').value.trim();
+            const selectedColor = document.querySelector('input[name="colorChoice"]:checked').value;
+
+            if (!personName || !schoolName || !teamName) {
+                alert('אנא מלא את כל השדות');
+                return;
+            }
+
+            const tagData = {
+                name: personName,
+                school: schoolName,
+                team: teamName,
+                color: selectedColor
+            };
+
+            addNameTag(tagData);
+        }
+
+        // הוספת כרטיסייה חדשה
+        function addNameTag(tagData) {
+            createdTags.push(tagData);
+            updatePreview();
+            
+            // הצגת התצוגה המקדימה
+            document.getElementById('previewContainer').style.display = 'block';
+            
+            // עדכון הודעת הצלחה
+            const count = createdTags.length;
+            const successMessage = document.getElementById('successMessage');
+            successMessage.textContent = `✅ ${count === 1 ? 'כרטיסייה נוצרה' : `${count} כרטיסיות נוצרו`} בהצלחה! ניתן להדפיס עכשיו`;
+            
+            // גלילה לתצוגה המקדימה
+            document.getElementById('previewContainer').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // עדכון התצוגה המקדימה
+        function updatePreview() {
+            const previewContainer = document.getElementById('nameTagsPreview');
+            previewContainer.innerHTML = '';
+
+            createdTags.forEach((tag, index) => {
+                const nameTag = document.createElement('div');
+                nameTag.className = `name-tag school-${tag.color}`;
+                nameTag.innerHTML = `
+                    <div class="geometric-pattern"></div>
+                    <div class="header-section">
+                        <div class="event-title">האקתון הממציא הצעיר 2025</div>
+                        <div class="organizer">ע"ש הנווט סרן ירון יונתח ז"ל</div>
+                    </div>
+                    <div class="content">
+                        <div class="name-section">
+                            <div class="name-label">שם:</div>
+                            <div class="name-value">${tag.name}</div>
+                        </div>
+                        <div class="school-section">
+                            <div class="school-label">מבית הספר:</div>
+                            <div class="school-value">${tag.school}</div>
+                        </div>
+                        <div class="team-section">
+                            <div class="team-label">שם הקבוצה:</div>
+                            <div class="team-value">${tag.team}</div>
+                        </div>
+                    </div>
+                    <div class="footer-logos">
+                        <div class="logo" style="background: #8B5CF6; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: bold; font-size: 12px;">לוגו</div>
+                        <div class="logo" style="background: #059669; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: bold; font-size: 12px;">לוגו</div>
+                    </div>
+                `;
+                
+                previewContainer.appendChild(nameTag);
+            });
+        }
+
+        // הדפסת הכרטיסיות
+        function printNameTags() {
+            window.print();}
+
+        // הוספת כרטיסייה נוספת
+        function addAnother() {
+            // ניקוי רק השדות, לא הצבעים
+            document.getElementById('personName').value = '';
+            document.getElementById('schoolName').value = '';
+            document.getElementById('teamName').value = '';
+            
+            // פוקוס על השדה הראשון
+            document.getElementById('personName').focus();
+            
+            // גלילה חזרה לטופס
+            document.querySelector('.form-container').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // ניקוי הטופס
+        function clearForm() {
+            document.getElementById('nameTagForm').reset();
+            document.getElementById('previewContainer').style.display = 'none';
+            createdTags = [];
+            
+            // בחירת הצבע הראשון כברירת מחדל
+            const firstColorOption = document.querySelector('input[name="colorChoice"]');
+            if (firstColorOption) {
+                firstColorOption.checked = true;
+            }
+            
+            document.getElementById('personName').focus();
+        }
+
+        // התחלה מחדש
+        function createNew() {
+            clearForm();
+        }
+
+        // קיצורי מקלדת
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + Enter ליצירת כרטיסייה
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                const form = document.getElementById('nameTagForm');
+                if (form.checkValidity()) {
+                    handleSubmit(e);
+                }
+            }
+            
+            // Ctrl/Cmd + P להדפסה
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                if (createdTags.length > 0) {
+                    e.preventDefault();
+                    printNameTags();
+                }
+            }
+
+            // Ctrl/Cmd + N להוספת כרטיסייה נוספת
+            if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+                if (createdTags.length > 0) {
+                    e.preventDefault();
+                    addAnother();
+                }
+            }
+        });
+
+        // אתחול האפליקציה
+        document.addEventListener('DOMContentLoaded', function() {
+            initForm();
+        });
+
+        // פונקציות עזר נוספות
+        function getColorGradient(colorValue) {
+            const color = colors.find(c => c.value == colorValue);
+            return color ? color.gradient : colors[0].gradient;
+        }
+
+        function getColorName(colorValue) {
+            const color = colors.find(c => c.value == colorValue);
+            return color ? color.name : colors[0].name;
+        }
+
+        // שמירה אוטומטית בזיכרון (ללא localStorage)
+        let tempData = {
+            personName: '',
+            schoolName: '',
+            teamName: '',
+            selectedColor: '0'
+        };
+
+        // עדכון נתונים בזמן הקלדה
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = ['personName', 'schoolName', 'teamName'];
+            
+            inputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.addEventListener('input', function(e) {
+                        tempData[inputId] = e.target.value;
+                    });
+                }
+            });
+        });
+
+        // פונקציה לייצוא נתונים (אופציונלי)
+        function exportTags() {
+            if (createdTags.length === 0) {
+                alert('אין כרטיסיות ליצוא');
+                return;
+            }
+
+            const dataStr = JSON.stringify(createdTags, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'name_tags_' + new Date().toISOString().split('T')[0] + '.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            URL.revokeObjectURL(url);
+        }
+
+        // פונקציה לייבוא נתונים (אופציונלי)
+        function importTags(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedTags = JSON.parse(e.target.result);
+                    if (Array.isArray(importedTags)) {
+                        createdTags = importedTags;
+                        updatePreview();
+                        document.getElementById('previewContainer').style.display = 'block';
+                        
+                        const count = createdTags.length;
+                        const successMessage = document.getElementById('successMessage');
+                        successMessage.textContent = `✅ ${count} כרטיסיות יובאו בהצלחה!`;
+                    }
+                } catch (error) {
+                    alert('שגיאה בקריאת הקובץ: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // הוספת אפשרות מחיקת כרטיסייה בודדת (אופציונלי)
+        function removeTag(index) {
+            if (confirm('האם אתה בטוח שברצונך למחוק כרטיסייה זו?')) {
+                createdTags.splice(index, 1);
+                
+                if (createdTags.length === 0) {
+                    document.getElementById('previewContainer').style.display = 'none';
+                } else {
+                    updatePreview();
+                    
+                    const count = createdTags.length;
+                    const successMessage = document.getElementById('successMessage');
+                    successMessage.textContent = `✅ ${count} כרטיסיות נוצרו בהצלחה! ניתן להדפיס עכשיו`;
+                }
+            }
+        }
+
+        // הוספת כפתור מחיקה לכל כרטיסייה (במצב לא להדפסה)
+        function updatePreviewWithDeleteButtons() {
+            const previewContainer = document.getElementById('nameTagsPreview');
+            previewContainer.innerHTML = '';
+
+            createdTags.forEach((tag, index) => {
+                const tagWrapper = document.createElement('div');
+                tagWrapper.style.position = 'relative';
+                
+                const nameTag = document.createElement('div');
+                nameTag.className = `name-tag school-${tag.color}`;
+                nameTag.innerHTML = `
+                    <div class="geometric-pattern"></div>
+                    <div class="header-section">
+                        <div class="event-title">האקתון הממציא הצעיר 2025</div>
+                        <div class="organizer">ע"ש הנווט סרן ירון יונתח ז"ל</div>
+                    </div>
+                    <div class="content">
+                        <div class="name-section">
+                            <div class="name-label">שם:</div>
+                            <div class="name-value">${tag.name}</div>
+                        </div>
+                        <div class="school-section">
+                            <div class="school-label">מבית הספר:</div>
+                            <div class="school-value">${tag.school}</div>
+                        </div>
+                        <div class="team-section">
+                            <div class="team-label">שם הקבוצה:</div>
+                            <div class="team-value">${tag.team}</div>
+                        </div>
+                    </div>
+                    <div class="footer-logos">
+                        <img src="logot.png" alt="טכנודע" class="logo">
+                        <img src="logol.png" alt="Lockheed Martin" class="logo">
+                    </div>
+                `;
+
+                // כפתור מחיקה (רק במסך, לא בהדפסה)
+                const deleteButton = document.createElement('button');
+                deleteButton.innerHTML = '❌';
+                deleteButton.style.cssText = `
+                    position: absolute;
+                    top: -10px;
+                    right: -10px;
+                    background: #ff4757;
+                    color: white;
+                    border: none;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                `;
+                deleteButton.onclick = () => removeTag(index);
+                deleteButton.style.display = 'block';
+                
+                // הסתרה בהדפסה
+                const style = document.createElement('style');
+                style.textContent = `
+                    @media print {
+                        .delete-btn { display: none !important; }
+                    }
+                `;
+                deleteButton.className = 'delete-btn';
+                document.head.appendChild(style);
+
+                tagWrapper.appendChild(nameTag);
+                tagWrapper.appendChild(deleteButton);
+                previewContainer.appendChild(tagWrapper);
+            });
+        }
+
+        // עדכון פונקציית updatePreview להשתמש בגרסה עם כפתורי מחיקה
+        function updatePreview() {
+            updatePreviewWithDeleteButtons();
+        }
+    </script>
+</body>
+</html>
