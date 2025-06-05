@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תעודות זכייה - האקתון הממציא הצעיר 2025</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .print-info {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .print-info h1 {
+            color: #8B5CF6;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .print-info p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .print-btn {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .certificates-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .certificate {
+            width: 21cm;
+            height: 29.7cm;
+            background-image: url('winnerTeuda.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            page-break-after: always;
+            break-after: page;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .certificate:last-child {
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        .student-name {
+            position: absolute;
+            top: 28%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 48px;
+            font-weight: 800;
+            color: #2C1810;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            z-index: 10;
+            width: 80%;
+            line-height: 1.2;
+        }
+
+        .invention-name {
+            position: absolute;
+            top: 45.5%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 36px;
+            font-weight: 700;
+            color: #4A3728;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
+            z-index: 10;
+            width: 70%;
+            line-height: 1.3;
+        }
+
+        .school-name {
+            position: absolute;
+            top: 37.5%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            font-weight: 600;
+            color: #4A3728;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
+            z-index: 10;
+            width: 70%;
+            line-height: 1.3;
+        }
+
+        .place {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 42px;
+            font-weight: 800;
+            color: #8B5CF6;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            z-index: 10;
+            width: 70%;
+            line-height: 1.3;
+        }
+
+        .place.first {
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .place.second {
+            color: #C0C0C0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .place.third {
+            color: #CD7F32;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* הגדרות הדפסה */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .print-info,
+            .controls {
+                display: none;
+            }
+
+            .certificates-container {
+                gap: 0;
+            }
+
+            .certificate {
+                box-shadow: none;
+                border-radius: 0;
+                margin: 0;
+            }
+
+            @page {
+                size: A4;
+                margin: 0;
+            }
+        }
+
+        /* עיצוב רספונסיבי */
+        @media screen and (max-width: 768px) {
+            .certificate {
+                width: 90vw;
+                height: calc(90vw * 1.414);
+            }
+            
+            .student-name {
+                font-size: 36px;
+            }
+            
+            .invention-name {
+                font-size: 28px;
+            }
+            
+            .school-name {
+                font-size: 20px;
+            }
+
+            .place {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-info">
+        <h1>תעודות זכייה - האקתון הממציא הצעיר 2025</h1>
+        <p>תעודות זכייה אישיות • גודל A4 • זוכים במקומות 1-6</p>
+    </div>
+
+    <div class="controls">
+        <button class="print-btn" onclick="window.print()">
+            🖨️ הדפס תעודות
+        </button>
+        <button class="print-btn" onclick="generateAllCertificates()">
+            🏆 צור את כל תעודות הזכייה
+        </button>
+    </div>
+
+    <div class="certificates-container" id="certificatesContainer">
+        <!-- כל התעודות ייווצרו כאן אוטומטית -->
+    </div>
+
+    <script>
+        // נתוני הזוכים לפי מקומות
+        const winners = [
+            // מקום ראשון - 4 תעודות
+            {
+                place: 1,
+                placeText: "מקום ראשון 🥇",
+                placeClass: "first",
+                invention: "הכביש החכם",
+                school: "בית ספר הנדיב בנימינה",
+                students: [
+                    "אוריה זיו",
+                    "אור חיים לייבוביץ",
+                    "אדל יוסף",
+                    "הוד שטרן"
+                ]
+            },
+            // מקום שני - 6 תעודות
+            {
+                place: 2,
+                placeText: "מקום שני 🥈",
+                placeClass: "second",
+                invention: "parknap",
+                school: "בית ספר שדות כרכור",
+                students: [
+                    "נוגה אלמוג",
+                    "יובל פינסקי",
+                    "אלעד תורגמן",
+                    "הילה האובן",
+                    "אלון רובינסון",
+                    "שקד קוגוקרו"
+                ]
+            },
+            // מקום שלישי - 5 תעודות
+            {
+                place: 3,
+                placeText: "מקום שלישי 🥉",
+                placeClass: "third",
+                invention: "מגנט ספייס",
+                school: "בית חינוך יצחק נבון יקנעם",
+                students: [
+                    "גאיה קישליב",
+                    "אגם רותם",
+                    "רומי בלינטשטיין",
+                    "שקד יקיר",
+                    "עילי בן שטרית"
+                ]
+            },
+            // מקום רביעי - 4 תעודות
+            {
+                place: 4,
+                placeText: "מקום רביעי",
+                placeClass: "fourth",
+                invention: "אנטי-כול",
+                school: "גיניגר",
+                students: [
+                    "מתן גרינולד",
+                    "שי יוחנן",
+                    "ליהי אופק",
+                    "יערה קלנר"
+                ]
+            },
+            // מקום חמישי - 4 תעודות
+            {
+                place: 5,
+                placeText: "מקום חמישי",
+                placeClass: "fifth",
+                invention: "זרומ-זור",
+                school: "גוונים עפולה",
+                students: [
+                    "שון יוסופוב",
+                    "אדל פרטוק",
+                    "יאיר רקח",
+                    "מעוז דסטה"
+                ]
+            },
+            // מקום שישי - 4 תעודות
+            {
+                place: 6,
+                placeText: "מקום שישי",
+                placeClass: "sixth",
+                invention: "מיגונית אוטומטית",
+                school: "תלמי רון חריש",
+                students: [
+                    "יואב פישר",
+                    "אורי עייש",
+                    "נעם מליאנקר",
+                    "אייל שרון"
+                ]
+            }
+        ];
+
+        function generateAllCertificates() {
+            const container = document.getElementById('certificatesContainer');
+            container.innerHTML = ''; // נקה תעודות קיימות
+            
+            let totalCertificates = 0;
+            
+            winners.forEach(group => {
+                group.students.forEach(studentName => {
+                    const certificate = document.createElement('div');
+                    certificate.className = 'certificate';
+                    
+                    certificate.innerHTML = `
+                        <div class="student-name">${studentName}</div>
+                        <div class="invention-name">"${group.invention}"</div>
+                        <div class="school-name">${group.school}</div>
+                        <div class="place ${group.placeClass}">${group.placeText}</div>
+                    `;
+                    
+                    container.appendChild(certificate);
+                    totalCertificates++;
+                });
+            });
+            
+            // עדכון מידע בכותרת
+            document.querySelector('.print-info p').textContent = `${totalCertificates} תעודות זכייה אישיות • גודל A4 • זוכים במקומות 1-6`;
+        }
+
+        // יצירת כל התעודות מיד בטעינת הדף
+        document.addEventListener('DOMContentLoaded', generateAllCertificates);
+    </script>
+</body>
+</html>
